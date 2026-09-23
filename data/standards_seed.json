@@ -1,0 +1,341 @@
+{
+  "sources": [
+    {
+      "source_id": "BIS-14220-SUMMARY-2024",
+      "name": "BIS Summary of IS 14220:2018",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.services.bis.gov.in/tmp/tbl5_2024-11-11_1182.pdf",
+      "source_type": "official_bis",
+      "retrieved_at": "2026-09-22",
+      "notes": "BIS summary describing Openwell Submersible Pumpsets and agriculture/irrigation use."
+    },
+    {
+      "source_id": "BIS-PUMP-BOOKLET",
+      "name": "BIS Government Procurement pump standards booklet",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf",
+      "source_type": "official_bis",
+      "retrieved_at": "2026-09-22",
+      "notes": "BIS material describing IS 8034:2018, IS 9079:2018, and IS 14536:2018."
+    },
+    {
+      "source_id": "BIS-8034-GUIDELINE-2018",
+      "name": "Implementation guideline for revised IS 8034:2018",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf",
+      "source_type": "official_bis",
+      "retrieved_at": "2026-09-22",
+      "notes": "Documents revision from IS 8034:2002 to IS 8034:2018. Records IS 9283, IS 14536, IS 11346 as normative references. Old edition withdrawal documented after 2019-04-04."
+    },
+    {
+      "source_id": "BIS-MED20-2026",
+      "name": "BIS MED 20 committee material (2026)",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "source_type": "official_bis",
+      "retrieved_at": "2026-09-22",
+      "notes": "2026 BIS MED 20 committee programme of work lists IS 8034:2018, IS 14220:2018, IS 9079:2018, IS 14536:2018, IS 9283, IS 11346, IS 10572 all under Committee MED 20."
+    },
+    {
+      "source_id": "BIS-QCO-PUMPS-2023-SEARCH",
+      "name": "Pumps QCO 2023 — search-result summary",
+      "publisher": "Department for Promotion of Industry and Internal Trade (DPIIT)",
+      "url": "https://www.bis.gov.in/",
+      "source_type": "secondary_search_result",
+      "retrieved_at": "2026-09-22",
+      "notes": "Search results confirm a Pumps (Quality Control) Order 2023 was proposed by DPIIT covering IS 8034:2018 and IS 14220:2018, mandating ISI Mark. Enforcement date was cited as 'to be announced'. No official gazette number or effective date was confirmed in accessible sources. This record is a secondary summary only — not a primary gazette citation."
+    }
+  ],
+  "evidence": [
+    {
+      "evidence_id": "E-14220-SCOPE",
+      "source_id": "BIS-14220-SUMMARY-2024",
+      "source_name": "BIS Summary of IS 14220:2018",
+      "url": "https://www.services.bis.gov.in/tmp/tbl5_2024-11-11_1182.pdf",
+      "page": 1,
+      "text": "BIS describes IS 14220:2018 as Openwell Submersible Pumpsets and discusses agriculture and irrigation applications.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-SCOPE",
+      "source_id": "BIS-PUMP-BOOKLET",
+      "source_name": "BIS Government Procurement pump standards booklet",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf",
+      "page": 1,
+      "text": "BIS describes IS 8034:2018 as Submersible Pumpsets used for clear, cold water in agriculture and water supply, commonly in boreholes/borewells/tubewells.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-9079-SCOPE",
+      "source_id": "BIS-PUMP-BOOKLET",
+      "source_name": "BIS Government Procurement pump standards booklet",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf",
+      "page": 1,
+      "text": "BIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-LIFECYCLE",
+      "source_id": "BIS-8034-GUIDELINE-2018",
+      "source_name": "Implementation guideline for revised IS 8034:2018",
+      "url": "https://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf",
+      "page": 1,
+      "text": "IS 8034:2002 was revised as IS 8034:2018 and the old standard would stand withdrawn after 04-04-2019.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-NORMREF-9283",
+      "source_id": "BIS-8034-GUIDELINE-2018",
+      "source_name": "Implementation guideline for revised IS 8034:2018",
+      "url": "https://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf",
+      "page": 1,
+      "text": "IS 8034:2018 guideline records IS 9283 (line-operated a.c. motors for submersible pumpsets) as a normative reference for the motor component of submersible pumpsets.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-NORMREF-14536",
+      "source_id": "BIS-8034-GUIDELINE-2018",
+      "source_name": "Implementation guideline for revised IS 8034:2018",
+      "url": "https://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf",
+      "page": 1,
+      "text": "IS 8034:2018 guideline records IS 14536 (Code of practice for selection, installation, operation and maintenance of submersible pumpset) as a normative reference.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-NORMREF-11346",
+      "source_id": "BIS-8034-GUIDELINE-2018",
+      "source_name": "Implementation guideline for revised IS 8034:2018",
+      "url": "https://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf",
+      "page": 1,
+      "text": "IS 8034:2018 guideline records IS 11346 (Tests for agricultural and water supply pumps — Code of acceptance) as the hydraulic performance test method reference.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-14220-REVISION-2026",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "2026 BIS committee material lists revision work for IS 14220:2018.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-8034-REVISION-2026",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "2026 BIS committee material lists revision work for IS 8034:2018.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-9079-REVISION-2026",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "2026 BIS committee material lists revision work for IS 9079:2018.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-14536-LISTING-2026",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "BIS committee material lists IS 14536:2018 as Selection, installation, operation and maintenance of submersible pumpset - Code of practice (First Revision).",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-9283-LISTING-2026",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "BIS MED 20 committee material lists IS 9283 (Line operated a.c. motors for submersible pumpsets — Specification) as a standard under the submersible pumpset committee. Current revision noted as IS 9283:2024 on BIS portal.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-11346-LISTING-MED20",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps — Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-10572-LISTING-MED20",
+      "source_id": "BIS-MED20-2026",
+      "source_name": "BIS MED 20 committee material (2026)",
+      "url": "https://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "page": 1,
+      "text": "BIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.",
+      "verified": true
+    },
+    {
+      "evidence_id": "E-QCO-PUMPS-2023",
+      "source_id": "BIS-QCO-PUMPS-2023-SEARCH",
+      "source_name": "Pumps QCO 2023 — search-result summary",
+      "url": "https://www.bis.gov.in/",
+      "page": null,
+      "text": "Secondary search results confirm Pumps (Quality Control) Order 2023 proposed by DPIIT covers IS 8034:2018 (Submersible Pumpsets) and IS 14220:2018 (Openwell Submersible Pumpsets), requiring ISI Mark under BIS Scheme-I. Enforcement date cited as 'to be announced'. No official gazette number or effective date confirmed.",
+      "verified": false
+    }
+  ],
+  "relationships": [
+    {
+      "from_standard": "IS 8034:2018",
+      "to_standard": "IS 9283:2024",
+      "relationship_type": "normative_reference",
+      "evidence_ids": ["E-8034-NORMREF-9283"],
+      "verified": true
+    },
+    {
+      "from_standard": "IS 8034:2018",
+      "to_standard": "IS 14536:2018",
+      "relationship_type": "normative_reference",
+      "evidence_ids": ["E-8034-NORMREF-14536"],
+      "verified": true
+    },
+    {
+      "from_standard": "IS 8034:2018",
+      "to_standard": "IS 11346:2002",
+      "relationship_type": "test_method",
+      "evidence_ids": ["E-8034-NORMREF-11346"],
+      "verified": true
+    },
+    {
+      "from_standard": "IS 14220:2018",
+      "to_standard": "IS 14536:2018",
+      "relationship_type": "related_practice",
+      "evidence_ids": ["E-14536-LISTING-2026"],
+      "verified": true
+    },
+    {
+      "from_standard": "IS 9079:2018",
+      "to_standard": "IS 11346:2002",
+      "relationship_type": "test_method",
+      "evidence_ids": ["E-11346-LISTING-MED20"],
+      "verified": true
+    }
+  ],
+  "standards": [
+    {
+      "standard_id": "IS 14220:2018",
+      "title": "Openwell Submersible Pumpsets",
+      "scope": "Openwell submersible pumpsets for clear, cold water, including agriculture and irrigation applications described in BIS summary material.",
+      "category": "pumps",
+      "standard_role": "PRIMARY_PRODUCT_STANDARD",
+      "versions": ["2018"],
+      "lifecycle_events": [
+        {
+          "event": "revision_under_print",
+          "date": "2026-06-02",
+          "evidence_ids": ["E-14220-REVISION-2026"]
+        }
+      ],
+      "keywords": ["openwell", "submersible", "pumpset", "agriculture", "irrigation", "water supply"],
+      "product_terms": ["openwell"],
+      "application_terms": ["agriculture", "irrigation", "water supply"],
+      "exclusion_terms": ["borewell", "borehole", "tubewell", "monoset"],
+      "evidence_ids": ["E-14220-SCOPE"]
+    },
+    {
+      "standard_id": "IS 8034:2018",
+      "title": "Submersible Pumpsets",
+      "scope": "Submersible pumpsets for clear, cold water, commonly used in boreholes/borewells/tubewells for agriculture and water supply.",
+      "category": "pumps",
+      "standard_role": "PRIMARY_PRODUCT_STANDARD",
+      "versions": ["2018"],
+      "lifecycle_events": [
+        {
+          "event": "revision_under_print",
+          "date": "2026-06-02",
+          "evidence_ids": ["E-8034-REVISION-2026"]
+        }
+      ],
+      "keywords": ["submersible", "pumpset", "borewell", "borehole", "tubewell", "agriculture", "water supply"],
+      "product_terms": ["submersible pumpset", "submersible pumpsets"],
+      "application_terms": ["borewell", "borehole", "tubewell", "agriculture", "water supply"],
+      "exclusion_terms": ["openwell", "monoset"],
+      "evidence_ids": ["E-8034-SCOPE", "E-8034-LIFECYCLE"]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "title": "Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply",
+      "scope": "Monoset pumps for clear, cold water for agricultural and water supply purposes.",
+      "category": "pumps",
+      "standard_role": "PRIMARY_PRODUCT_STANDARD",
+      "versions": ["2018"],
+      "lifecycle_events": [
+        {
+          "event": "revision_under_print",
+          "date": "2026-06-02",
+          "evidence_ids": ["E-9079-REVISION-2026"]
+        }
+      ],
+      "keywords": ["monoset", "pump", "clear water", "cold water", "agriculture", "water supply"],
+      "product_terms": ["monoset", "monoset pump"],
+      "application_terms": ["agriculture", "water supply", "clear water", "cold water"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-9079-SCOPE"]
+    },
+    {
+      "standard_id": "IS 14536:2018",
+      "title": "Selection, Installation, Operation and Maintenance of Submersible Pumpset — Code of Practice",
+      "scope": "Code of practice for selection, installation, operation and maintenance of submersible pumpset, as listed in BIS committee material.",
+      "category": "pumps",
+      "standard_role": "CODE_OF_PRACTICE",
+      "versions": ["2018"],
+      "lifecycle_events": [],
+      "keywords": ["submersible", "pumpset", "selection", "installation", "operation", "maintenance"],
+      "product_terms": [],
+      "application_terms": ["selection", "installation", "operation", "maintenance"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-14536-LISTING-2026"]
+    },
+    {
+      "standard_id": "IS 9283:2024",
+      "title": "Line Operated A.C. Motors for Submersible Pumpsets — Specification",
+      "scope": "Specification for line-operated a.c. motors designed for use in submersible pumpsets. Normative reference of IS 8034:2018.",
+      "category": "pumps",
+      "standard_role": "RELATED_STANDARD",
+      "versions": ["2024"],
+      "lifecycle_events": [],
+      "keywords": ["motor", "submersible", "pumpset", "a.c. motor", "line operated"],
+      "product_terms": ["submersible pumpset motor", "motor for submersible"],
+      "application_terms": ["submersible", "borewell", "borehole", "tubewell"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-9283-LISTING-2026"]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "title": "Tests for Agricultural and Water Supply Pumps — Code of Acceptance",
+      "scope": "Code of acceptance for hydraulic performance testing of pumps used in agricultural and water supply applications. Referenced by IS 8034:2018 and IS 9079:2018.",
+      "category": "pumps",
+      "standard_role": "TEST_METHOD",
+      "versions": ["2002"],
+      "lifecycle_events": [],
+      "keywords": ["test", "agricultural pump", "water supply pump", "hydraulic", "performance", "acceptance"],
+      "product_terms": [],
+      "application_terms": ["agricultural pump", "water supply pump", "hydraulic performance"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-11346-LISTING-MED20"]
+    },
+    {
+      "standard_id": "IS 10572:1983",
+      "title": "Methods of Sampling for Pumps",
+      "scope": "Methods of sampling and criteria for conformity for pumps, used in BIS certification under Committee MED 20.",
+      "category": "pumps",
+      "standard_role": "TEST_METHOD",
+      "versions": ["1983"],
+      "lifecycle_events": [],
+      "keywords": ["sampling", "pump", "conformity", "inspection"],
+      "product_terms": [],
+      "application_terms": ["sampling", "conformity", "inspection"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-10572-LISTING-MED20"]
+    }
+  ]
+}

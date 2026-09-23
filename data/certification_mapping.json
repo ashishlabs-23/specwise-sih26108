@@ -1,0 +1,27 @@
+{
+  "status": "prototype",
+  "notes": [
+    "No certification/QCO mapping is included unless supported by an official source.",
+    "An empty rules list does not prove that no certification or QCO requirement exists.",
+    "Records marked verified=false are secondary summaries only. They must not be treated as authoritative gazette citations.",
+    "The enforcement date for QCO entries below must be verified against the official DPIIT gazette before use in procurement."
+  ],
+  "rules": [
+    {
+      "standard_id": "IS 8034:2018",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED — verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": ["E-QCO-PUMPS-2023"],
+      "verified": false
+    },
+    {
+      "standard_id": "IS 14220:2018",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 14220:2018 (Openwell Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED — verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": ["E-QCO-PUMPS-2023"],
+      "verified": false
+    }
+  ]
+}

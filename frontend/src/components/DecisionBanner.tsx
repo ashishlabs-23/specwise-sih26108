@@ -1,0 +1,196 @@
+"use client";
+
+import React from "react";
+import {
+  CheckCircle2,
+  AlertTriangle,
+  HelpCircle,
+  ShieldAlert,
+  ArrowLeft,
+  Share2,
+  Download,
+  Info,
+  Play,
+  FileDown,
+} from "lucide-react";
+import { AnalysisResponse, StandardRecord } from "@/types/api";
+import { getDecisionTheme, formatDecisionLabel } from "@/lib/utils";
+
+interface DecisionBannerProps {
+  response: AnalysisResponse;
+  primaryStandard?: StandardRecord | null;
+  onNewSearch: () => void;
+  onDownloadReport: () => void;
+}
+
+export function DecisionBanner({
+  response,
+  primaryStandard,
+  onNewSearch,
+  onDownloadReport,
+}: DecisionBannerProps) {
+  const { decision, decision_reasons, applicability, candidates } = response;
+  const theme = getDecisionTheme(decision);
+
+  // Find strong primary standard ID
+  const strongApp = applicability.find((a) => a.result === "strong");
+  const primaryId = strongApp?.standard_id || candidates[0]?.standard_id || "No primary match";
+  const primaryTitle = primaryStandard?.title || candidates[0]?.title || "";
+
+  // Plain-language summary logic
+  const getSimpleTermsExplanation = () => {
+    if (decision === "RECOMMEND") {
+      if (primaryId.includes("14220")) {
+        return "This standard tells you what an openwell submersible pumpset should be like, so you can procure the right, energy-efficient, and reliable pump for agricultural irrigation.";
+      }
+      if (primaryId.includes("8034")) {
+        return "This standard sets safety, construction, and acceptance criteria for submersible pumpsets installed inside boreholes and borewells for agricultural or drinking water.";
+      }
+      if (primaryId.includes("9079")) {
+        return "This standard defines specifications for monoset pumps handling clear cold water for farm irrigation and municipal supply.";
+      }
+      return `This Indian Standard specifies the essential technical, material, performance, and safety criteria for procurement compliance.`;
+    }
+
+    if (decision === "REVIEW") {
+      return "Multiple standards may relate to your description or some specifications require technical review before issuing tender specifications.";
+    }
+
+    if (decision === "ABSTAIN") {
+      return "Your description is too broad (e.g. 'submersible pump'). Specify whether it is an openwell pump (IS 14220) or a borewell pump (IS 8034) for an accurate recommendation.";
+    }
+
+    return "The requested product does not fall under the current pump-sector demo corpus (MED 20). No supported BIS standard was found.";
+  };
+
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `SpecWise BIS Assessment: ${primaryId}`,
+        text: `BIS Standard Recommendation for: ${response.input_text}`,
+        url: window.location.href,
+      }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(window.location.href);
+      alert("Page link copied to clipboard!");
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Action Bar */}
+      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+        <button
+          type="button"
+          onClick={onNewSearch}
+          className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B57D0] transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>New Search</span>
+        </button>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={handleShare}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition-colors"
+          >
+            <Share2 className="w-3.5 h-3.5 text-slate-500" />
+            <span>Share</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onDownloadReport}
+            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm transition-colors"
+          >
+            <Download className="w-3.5 h-3.5 text-[#0B57D0]" />
+            <span>Download Report (Audit HTML)</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Main Decision Card */}
+      <div
+        className={`rounded-2xl border p-5 sm:p-7 shadow-sm transition-all ${theme.bg} ${theme.border}`}
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          {/* Left Column: Decision & Primary Standard */}
+          <div className="lg:col-span-5 flex items-start gap-4">
+            <div className="flex-shrink-0 mt-1">
+              {decision === "RECOMMEND" && (
+                <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md">
+                  <CheckCircle2 className="w-7 h-7" />
+                </div>
+              )}
+              {decision === "REVIEW" && (
+                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md">
+                  <AlertTriangle className="w-7 h-7" />
+                </div>
+              )}
+              {decision === "ABSTAIN" && (
+                <div className="w-12 h-12 rounded-full bg-slate-600 text-white flex items-center justify-center shadow-md">
+                  <HelpCircle className="w-7 h-7" />
+                </div>
+              )}
+              {decision === "OUT_OF_CORPUS" && (
+                <div className="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-md">
+                  <ShieldAlert className="w-7 h-7" />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <div className="flex items-center gap-2">
+                <span
+                  className={`text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded ${theme.lightBadge}`}
+                >
+                  {formatDecisionLabel(decision)}
+                </span>
+                <span className="text-xs text-slate-500">
+                  {decision === "RECOMMEND" ? "Definitive Match" : "Evaluation Result"}
+                </span>
+              </div>
+
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+                {decision === "RECOMMEND" ? primaryId : "Evaluation Complete"}
+              </h2>
+
+              <p className="text-xs sm:text-sm font-medium text-slate-700 mt-0.5 line-clamp-2">
+                {primaryTitle || (decision === "OUT_OF_CORPUS" ? "No matching standard in pump-sector demo corpus" : "Review candidate options")}
+              </p>
+            </div>
+          </div>
+
+          {/* Middle Column: Why this standard? */}
+          <div className="lg:col-span-4 lg:border-l lg:border-slate-300/60 lg:pl-6">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+              <Info className="w-3.5 h-3.5 text-[#0B57D0]" />
+              <span>Why this decision?</span>
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-700 mt-1.5 leading-relaxed">
+              {decision_reasons && decision_reasons.length > 0
+                ? decision_reasons[0]
+                : "Matched based on product keywords, application terms, and normative BIS scope evidence."}
+            </p>
+          </div>
+
+          {/* Right Column: In Simple Terms */}
+          <div className="lg:col-span-3 lg:border-l lg:border-slate-300/60 lg:pl-6 bg-white/50 p-3.5 rounded-xl border border-white/60">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
+              <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px]">
+                ✓
+              </span>
+              <span>In simple terms</span>
+            </h3>
+            <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+              {getSimpleTermsExplanation()}
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,77 @@
+{
+  "cases": [
+    {
+      "id": "openwell-primary-recommend",
+      "query": "openwell submersible pumpset for agricultural irrigation",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "openwell product term discriminates IS 14220:2018 as the sole strong primary standard."
+    },
+    {
+      "id": "borewell-submersible-recommend",
+      "query": "submersible pumpsets for a borewell supplying agricultural water",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "borewell application term + 'submersible pumpsets' product term discriminate IS 8034:2018."
+    },
+    {
+      "id": "monoset-primary-recommend",
+      "query": "monoset pump for clear cold water for agriculture",
+      "expected_contains": ["IS 9079:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "monoset product term uniquely identifies IS 9079:2018."
+    },
+    {
+      "id": "is-number-lookup",
+      "query": "procurement as per IS 14220 openwell submersible pumpset",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "Explicit IS 14220 reference in query must be retrieved via exact_id path."
+    },
+    {
+      "id": "related-standard-discovery",
+      "query": "submersible pumpsets for a borewell supplying agricultural water",
+      "expected_contains": ["IS 9283:2024", "IS 11346:2002", "IS 14536:2018"],
+      "expected_decision": null,
+      "notes": "IS 8034:2018 is the primary candidate. Graph expansion should surface its normative references: IS 9283 (motor), IS 11346 (test method), IS 14536 (CoP) at hop=1."
+    },
+    {
+      "id": "unsupported-out-of-corpus",
+      "query": "advanced underwater robotic mining vehicle",
+      "expected_contains": [],
+      "expected_decision": "OUT_OF_CORPUS",
+      "notes": "Completely outside the pump corpus; no candidates above relevance floor."
+    },
+    {
+      "id": "ambiguous-submersible-generic",
+      "query": "submersible pump for water supply",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": null,
+      "notes": "Generic submersible query. 'submersible pump' does not exactly match product_term 'submersible pumpset'. Honest outcomes: ABSTAIN or REVIEW. RECOMMEND is acceptable if scoring improves. OUT_OF_CORPUS is not acceptable."
+    },
+    {
+      "id": "lifecycle-revision-under-print",
+      "query": "openwell submersible pumpset for agricultural irrigation",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "revision_under_print lifecycle event must not prevent RECOMMEND (standard is still supported). Lifecycle state should be 'supported'."
+    },
+    {
+      "id": "is-number-lookup-8034",
+      "query": "specification compliance for IS 8034 submersible pumpsets",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "Explicit IS 8034 reference in query must be retrieved via exact_id path."
+    },
+    {
+      "id": "certification-qco-unverified-handling",
+      "query": "submersible pumpsets for a borewell supplying agricultural water with mandatory QCO ISI mark compliance",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": "RECOMMEND",
+      "expected_cert": {
+        "IS 8034:2018": "not_verified_in_prototype_corpus"
+      },
+      "notes": "QCO is proposed but unverified; certification policy must mark it not_verified_in_prototype_corpus without blocking valid standard recommendation."
+    }
+  ]
+}

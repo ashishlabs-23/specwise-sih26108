@@ -1,0 +1,11 @@
+services:
+  bis-engine:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      DATA_DIR: data
+      ENABLE_DENSE: "false"
+      ENABLE_RERANKER: "false"
+    volumes:
+      - ./data:/app/data:ro

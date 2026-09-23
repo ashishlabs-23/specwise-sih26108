@@ -1,0 +1,29 @@
+# Secrets and credentials (NEVER copy into docker image)
+credentials/
+*.key
+*.pem
+*.json.key
+firebase-service-account.json
+.env
+.env.*
+.env.local
+
+# Python artifacts and virtualenvs
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Frontend code and dependencies (deployed separately)
+frontend/
+node_modules/
+
+# Local outputs, reports, and git metadata
+reports/
+.git/
+.gitignore
+.github/
