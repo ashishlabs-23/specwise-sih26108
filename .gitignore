@@ -38,6 +38,8 @@ frontend/.next/
 frontend/out/
 frontend/.env
 frontend/.env.*
+frontend/test-results/
+test-results/
 .npm
 
 # ── OS artifacts ──────────────────────────────────────────────────────────────
