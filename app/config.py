@@ -28,7 +28,14 @@ class Settings:
     cors_origins: list[str] = field(
         default_factory=lambda: env_list(
             "CORS_ORIGINS",
-            ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8000", "http://127.0.0.1:8000"]
+            [
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "http://localhost:8000",
+                "http://127.0.0.1:8000",
+                "https://specwise-sih26108.web.app",
+                "https://specwise-sih26108.firebaseapp.com",
+            ]
         )
     )
     enable_dense: bool = env_bool("ENABLE_DENSE", False)
