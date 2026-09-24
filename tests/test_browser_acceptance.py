@@ -211,12 +211,12 @@ def test_08_evidence_source_modal(browser_context):
     view_sources_btn.click()
 
     # Verify modal is visible
-    expect(page.locator("text=All Verified Sources & Evidence Records")).to_be_visible()
+    expect(page.locator("text=All Verified Sources & Evidence")).to_be_visible()
     expect(page.locator("text=Verified Official BIS").first).to_be_visible()
 
     # Close modal
     page.locator("button:has-text('Close')").click()
-    expect(page.locator("text=All Verified Sources & Evidence Records")).not_to_be_visible()
+    expect(page.locator("text=All Verified Sources & Evidence")).not_to_be_visible()
     page.close()
 
 def test_09_related_standards_expansion(browser_context):
@@ -274,14 +274,14 @@ def test_11_report_modal_and_download(browser_context):
     report_btn.click()
 
     # Verify report modal opened
-    expect(page.locator("text=Official SpecWise Audit Report")).to_be_visible()
+    expect(page.locator("text=SpecWise Audit Report")).to_be_visible()
     expect(page.locator("button:has-text('Download HTML')")).to_be_visible()
     expect(page.locator("button:has-text('Print')")).to_be_visible()
 
     # Close modal using the top right close button in the report modal header
     close_btn = page.locator("div.fixed button:has(svg.lucide-x)").first
     close_btn.click()
-    expect(page.locator("text=Official SpecWise Audit Report")).not_to_be_visible()
+    expect(page.locator("text=SpecWise Audit Report")).not_to_be_visible()
     page.close()
 
 def test_12_new_search_reset(browser_context):
@@ -471,7 +471,7 @@ def test_16_firestore_live_contract_and_field_match(browser_context):
     # 8. Assert Report contains same backend decision and target standard (inside iframe)
     report_btn = page.locator("button:has-text('Download Report (Audit HTML)')")
     report_btn.click()
-    expect(page.locator("text=Official SpecWise Audit Report")).to_be_visible()
+    expect(page.locator("text=SpecWise Audit Report")).to_be_visible()
     
     report_frame = page.frame_locator("iframe")
     if target_id:
