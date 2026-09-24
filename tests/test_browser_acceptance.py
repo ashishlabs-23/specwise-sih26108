@@ -275,7 +275,7 @@ def test_11_report_modal_and_download(browser_context):
 
     # Verify report modal opened
     expect(page.locator("text=SpecWise Audit Report")).to_be_visible()
-    expect(page.locator("button:has-text('Download')")).to_be_visible()
+    expect(page.get_by_role("button", name="Download", exact=True)).to_be_visible()
     expect(page.locator("button:has-text('Print')")).to_be_visible()
 
     # Close modal using the top right close button in the report modal header
