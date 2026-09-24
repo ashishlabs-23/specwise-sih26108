@@ -38,6 +38,13 @@ export default function ResourcesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRole, setSelectedRole] = useState<string>("ALL");
   const [expandedStandardId, setExpandedStandardId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const PAGE_SIZE = 6;
+
+  // Reset page on filter or tab change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab, searchQuery, selectedRole]);
 
   useEffect(() => {
     async function loadCorpusData() {
@@ -153,6 +160,59 @@ export default function ResourcesPage() {
     return relationships
       .filter((r) => r.from_standard === stdId || r.to_standard === stdId)
       .map((r) => (r.from_standard === stdId ? r.to_standard : r.from_standard));
+  };
+
+  const paginate = <T,>(items: T[]) => {
+    const totalPages = Math.ceil(items.length / PAGE_SIZE) || 1;
+    const startIndex = (currentPage - 1) * PAGE_SIZE;
+    return {
+      items: items.slice(startIndex, startIndex + PAGE_SIZE),
+      totalPages,
+      totalCount: items.length,
+    };
+  };
+
+  const renderPagination = (totalPages: number, totalCount: number) => {
+    if (totalPages <= 1) return null;
+    return (
+      <div className="mt-8 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+        <span className="text-slate-500 font-medium">
+          Showing page <strong className="text-slate-800">{currentPage}</strong> of <strong className="text-slate-800">{totalPages}</strong> ({totalCount} total items)
+        </span>
+        <div className="flex items-center gap-1.5">
+          <button
+            type="button"
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700 font-semibold transition-colors cursor-pointer"
+          >
+            Previous
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
+            <button
+              key={pageNum}
+              type="button"
+              onClick={() => setCurrentPage(pageNum)}
+              className={`w-8 h-8 rounded-lg text-xs font-bold transition-colors cursor-pointer ${
+                currentPage === pageNum
+                  ? "bg-[#0A3871] text-white shadow-xs"
+                  : "bg-white border border-slate-200 text-slate-700 hover:bg-slate-100"
+              }`}
+            >
+              {pageNum}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700 font-semibold transition-colors cursor-pointer"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (

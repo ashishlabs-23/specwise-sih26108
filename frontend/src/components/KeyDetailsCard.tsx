@@ -47,59 +47,59 @@ export function KeyDetailsCard({
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition-all">
-      <div>
+    <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition-all w-full min-w-0">
+      <div className="min-w-0">
         {/* Card Header */}
         <div className="flex items-center gap-2 pb-4 border-b border-slate-100">
-          <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0B57D0] flex items-center justify-center">
+          <div className="w-8 h-8 rounded-lg bg-blue-50 text-[#0B57D0] flex items-center justify-center flex-shrink-0">
             <FileText className="w-4 h-4" />
           </div>
           <h3 className="text-base font-bold text-slate-900">Key Details</h3>
         </div>
 
         {/* Details Table */}
-        <dl className="mt-4 space-y-3.5 text-xs sm:text-sm">
-          <div className="flex items-start justify-between gap-2">
-            <dt className="text-slate-500 font-medium">Product</dt>
-            <dd className="text-slate-900 font-semibold text-right max-w-[60%]">
+        <dl className="mt-4 space-y-3.5 text-xs sm:text-sm min-w-0">
+          <div className="flex items-start justify-between gap-2 min-w-0">
+            <dt className="text-slate-500 font-medium flex-shrink-0">Product</dt>
+            <dd className="text-slate-900 font-semibold text-right max-w-[65%] break-words">
               {decision === "OUT_OF_CORPUS" ? "Outside Pump Sector" : getProduct()}
             </dd>
           </div>
 
-          <div className="flex items-start justify-between gap-2">
-            <dt className="text-slate-500 font-medium">Use / Application</dt>
-            <dd className="text-slate-900 font-semibold text-right max-w-[60%]">
+          <div className="flex items-start justify-between gap-2 min-w-0">
+            <dt className="text-slate-500 font-medium flex-shrink-0">Use / Application</dt>
+            <dd className="text-slate-900 font-semibold text-right max-w-[65%] break-words">
               {decision === "OUT_OF_CORPUS" ? "N/A" : getUse()}
             </dd>
           </div>
 
-          <div className="flex items-start justify-between gap-2">
-            <dt className="text-slate-500 font-medium">Standard No.</dt>
-            <dd className="text-[#0B57D0] font-mono font-bold text-right">
+          <div className="flex items-start justify-between gap-2 min-w-0">
+            <dt className="text-slate-500 font-medium flex-shrink-0">Standard No.</dt>
+            <dd className="text-[#0B57D0] font-mono font-bold text-right break-words">
               {stdId}
             </dd>
           </div>
 
-          <div className="flex items-start justify-between gap-2">
-            <dt className="text-slate-500 font-medium">Status</dt>
-            <dd className="text-right">
+          <div className="flex items-start justify-between gap-2 min-w-0">
+            <dt className="text-slate-500 font-medium flex-shrink-0">Status</dt>
+            <dd className="text-right min-w-0">
               <span
-                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] sm:text-xs font-semibold break-words text-left ${
                   lc?.state === "warning"
                     ? "bg-amber-100 text-amber-800 border border-amber-300"
                     : "bg-emerald-100 text-emerald-800 border border-emerald-200"
                 }`}
               >
-                <span className="w-1.5 h-1.5 rounded-full bg-current" />
-                <span>{statusLabel}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-current flex-shrink-0" />
+                <span className="break-words">{statusLabel}</span>
               </span>
             </dd>
           </div>
 
           {primaryStandard?.scope && (
-            <div className="pt-2 border-t border-slate-100">
+            <div className="pt-2 border-t border-slate-100 min-w-0">
               <dt className="text-slate-500 text-xs font-medium mb-1">Scope</dt>
-              <dd className="text-slate-600 text-xs leading-relaxed line-clamp-3">
+              <dd className="text-slate-600 text-xs leading-relaxed line-clamp-3 break-words">
                 {primaryStandard.scope}
               </dd>
             </div>

@@ -29,21 +29,21 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/70 p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <div className="flex items-start sm:items-center gap-3">
+      <div className="rounded-xl border border-blue-200 bg-gradient-to-r from-blue-50/90 to-indigo-50/70 p-4 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 w-full min-w-0">
+        <div className="flex items-start gap-3 min-w-0 flex-1">
           <div className="w-8 h-8 rounded-full bg-blue-100 text-[#0B57D0] flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-0 border border-blue-200">
             <Info className="w-4 h-4" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-extrabold uppercase tracking-wide text-[#0A3871]">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+              <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-[#0A3871]">
                 Certification / QCO Status
               </span>
-              <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-200">
+              <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0">
                 {isProposed ? "QCO Proposed / Unconfirmed" : "Regulatory Notice"}
               </span>
             </div>
-            <p className="text-xs text-slate-700 mt-0.5 max-w-3xl leading-relaxed">
+            <p className="text-xs text-slate-700 mt-1 max-w-3xl leading-relaxed break-words">
               {description}
             </p>
           </div>

@@ -7,10 +7,26 @@
   --font-cursive: "Brush Script MT", "Caveat", "Segoe Script", cursive;
 }
 
+html,
 body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  width: 100%;
   color: #0f172a;
   background-color: #f8fafc;
   font-family: var(--font-inter);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Ensure long words, codes, and URLs wrap gracefully on mobile devices */
+p, span, h1, h2, h3, h4, h5, h6, dt, dd, td, th {
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 @layer utilities {
@@ -18,3 +34,4 @@ body {
     text-wrap: balance;
   }
 }
+

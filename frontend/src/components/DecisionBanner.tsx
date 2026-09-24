@@ -77,9 +77,9 @@ export function DecisionBanner({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-full min-w-0">
       {/* Action Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 w-full min-w-0">
         <button
           type="button"
           onClick={onNewSearch}
@@ -89,11 +89,11 @@ export function DecisionBanner({
           <span>New Search</span>
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleShare}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition-colors cursor-pointer"
           >
             <Share2 className="w-3.5 h-3.5 text-slate-500" />
             <span>Share</span>
@@ -102,74 +102,75 @@ export function DecisionBanner({
           <button
             type="button"
             onClick={onDownloadReport}
-            className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-[#0B57D0]" />
-            <span>Download Report (Audit HTML)</span>
+            <span className="hidden sm:inline">Download Report (Audit HTML)</span>
+            <span className="sm:hidden">Audit Report</span>
           </button>
         </div>
       </div>
 
       {/* Main Decision Card */}
       <div
-        className={`rounded-2xl border p-5 sm:p-7 shadow-sm transition-all ${theme.bg} ${theme.border}`}
+        className={`rounded-2xl border p-4 sm:p-7 shadow-sm transition-all w-full min-w-0 ${theme.bg} ${theme.border}`}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start lg:items-center min-w-0">
           
           {/* Left Column: Decision & Primary Standard */}
-          <div className="lg:col-span-5 flex items-start gap-4">
+          <div className="lg:col-span-5 flex items-start gap-3.5 sm:gap-4 min-w-0">
             <div className="flex-shrink-0 mt-1">
               {decision === "RECOMMEND" && (
-                <div className="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md">
-                  <CheckCircle2 className="w-7 h-7" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-md">
+                  <CheckCircle2 className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
               )}
               {decision === "REVIEW" && (
-                <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md">
-                  <AlertTriangle className="w-7 h-7" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-amber-500 text-white flex items-center justify-center shadow-md">
+                  <AlertTriangle className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
               )}
               {decision === "ABSTAIN" && (
-                <div className="w-12 h-12 rounded-full bg-slate-600 text-white flex items-center justify-center shadow-md">
-                  <HelpCircle className="w-7 h-7" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-600 text-white flex items-center justify-center shadow-md">
+                  <HelpCircle className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
               )}
               {decision === "OUT_OF_CORPUS" && (
-                <div className="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-md">
-                  <ShieldAlert className="w-7 h-7" />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-md">
+                  <ShieldAlert className="w-6 h-6 sm:w-7 sm:h-7" />
                 </div>
               )}
             </div>
 
-            <div>
-              <div className="flex items-center gap-2">
+            <div className="min-w-0 flex-1">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
                 <span
-                  className={`text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded ${theme.lightBadge}`}
+                  className={`text-[10px] sm:text-xs uppercase font-extrabold tracking-wider px-2 py-0.5 rounded ${theme.lightBadge}`}
                 >
                   {formatDecisionLabel(decision)}
                 </span>
-                <span className="text-xs text-slate-500">
+                <span className="text-[11px] sm:text-xs text-slate-500">
                   {decision === "RECOMMEND" ? "Definitive Match" : "Evaluation Result"}
                 </span>
               </div>
 
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1">
+              <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1 break-words">
                 {decision === "RECOMMEND" ? primaryId : "Evaluation Complete"}
               </h2>
 
-              <p className="text-xs sm:text-sm font-medium text-slate-700 mt-0.5 line-clamp-2">
+              <p className="text-xs sm:text-sm font-medium text-slate-700 mt-0.5 line-clamp-2 break-words">
                 {primaryTitle || (decision === "OUT_OF_CORPUS" ? "No matching standard in pump-sector demo corpus" : "Review candidate options")}
               </p>
             </div>
           </div>
 
           {/* Middle Column: Why this standard? */}
-          <div className="lg:col-span-4 lg:border-l lg:border-slate-300/60 lg:pl-6">
+          <div className="lg:col-span-4 lg:border-l lg:border-slate-300/60 lg:pl-6 min-w-0">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-              <Info className="w-3.5 h-3.5 text-[#0B57D0]" />
+              <Info className="w-3.5 h-3.5 text-[#0B57D0] flex-shrink-0" />
               <span>Why this decision?</span>
             </h3>
-            <p className="text-xs sm:text-sm text-slate-700 mt-1.5 leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-700 mt-1.5 leading-relaxed break-words">
               {decision_reasons && decision_reasons.length > 0
                 ? decision_reasons[0]
                 : "Matched based on product keywords, application terms, and normative BIS scope evidence."}
@@ -177,14 +178,14 @@ export function DecisionBanner({
           </div>
 
           {/* Right Column: In Simple Terms */}
-          <div className="lg:col-span-3 lg:border-l lg:border-slate-300/60 lg:pl-6 bg-white/50 p-3.5 rounded-xl border border-white/60">
+          <div className="lg:col-span-3 lg:border-l lg:border-slate-300/60 lg:pl-6 bg-white/50 p-3.5 rounded-xl border border-white/60 min-w-0">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 flex items-center gap-1.5">
-              <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px]">
+              <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] flex-shrink-0">
                 ✓
               </span>
               <span>In simple terms</span>
             </h3>
-            <p className="text-xs text-slate-600 mt-1.5 leading-normal">
+            <p className="text-xs text-slate-600 mt-1.5 leading-normal break-words">
               {getSimpleTermsExplanation()}
             </p>
           </div>

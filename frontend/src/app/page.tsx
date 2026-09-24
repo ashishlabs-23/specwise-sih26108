@@ -15,8 +15,8 @@ import { AllSourcesModal } from "@/components/AllSourcesModal";
 import { AboutModal } from "@/components/AboutModal";
 import { Footer } from "@/components/Footer";
 import { AnalysisResponse, StandardRecord } from "@/types/api";
-import { analyzeProduct, fetchStandardDetails } from "@/lib/api";
-import { AlertCircle, Loader2, Sparkles, RefreshCw } from "lucide-react";
+import { analyzeProduct, fetchStandardDetails, startRenderKeepAlive } from "@/lib/api";
+import { AlertCircle, Loader2, Sparkles, RefreshCw, XCircle } from "lucide-react";
 
 export default function HomePage() {
   const [inputText, setInputText] = useState<string>(
@@ -26,6 +26,7 @@ export default function HomePage() {
   const [error, setError] = useState<string | null>(null);
   const [response, setResponse] = useState<AnalysisResponse | null>(null);
   const [primaryStandard, setPrimaryStandard] = useState<StandardRecord | null>(null);
+  const [recentQueries, setRecentQueries] = useState<string[]>([]);
 
   // Modals state
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -33,15 +34,66 @@ export default function HomePage() {
   const [isSourcesModalOpen, setIsSourcesModalOpen] = useState(false);
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
 
+  // Load recent queries from localStorage
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("specwise_recent_queries");
+      if (saved) {
+        setRecentQueries(JSON.parse(saved));
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const saveRecentQuery = (query: string) => {
+    try {
+      const updated = [query, ...recentQueries.filter((q) => q.toLowerCase() !== query.toLowerCase())].slice(0, 5);
+      setRecentQueries(updated);
+      localStorage.setItem("specwise_recent_queries", JSON.stringify(updated));
+    } catch {
+      // ignore
+    }
+  };
+
+  const handleClearRecentQueries = () => {
+    setRecentQueries([]);
+    try {
+      localStorage.removeItem("specwise_recent_queries");
+    } catch {
+      // ignore
+    }
+  };
+
   // Search handler
   const handleSearch = async (text: string) => {
     if (!text.trim()) return;
     setIsLoading(true);
     setError(null);
 
+    // Sync query parameter to URL for deep linking
+    try {
+      if (typeof window !== "undefined") {
+        const newUrl = new URL(window.location.href);
+        newUrl.searchParams.set("q", text.trim());
+        window.history.replaceState({}, "", newUrl.toString());
+      }
+    } catch {
+      // ignore
+    }
+
     try {
       const data = await analyzeProduct({ text: text.trim() });
       setResponse(data);
+      saveRecentQuery(text.trim());
+
+      // Save latest session cache
+      try {
+        localStorage.setItem("specwise_last_query", text.trim());
+        localStorage.setItem("specwise_last_result", JSON.stringify(data));
+      } catch {
+        // ignore
+      }
 
       // Fetch primary standard details if strong recommendation exists
       const strongApp = data.applicability.find((a) => a.result === "strong");
@@ -75,8 +127,59 @@ export default function HomePage() {
     }
   };
 
-  // Perform initial search on mount with default query to match demo state
+  // Reset search and results
+  const handleResetSearch = () => {
+    setInputText("");
+    setResponse(null);
+    setPrimaryStandard(null);
+    setError(null);
+    try {
+      localStorage.removeItem("specwise_last_result");
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete("q");
+      window.history.replaceState({}, "", newUrl.toString());
+    } catch {
+      // ignore
+    }
+  };
+
+  // Initial load: start Render keep-alive, check URL params, then session cache, then default demo query
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    // Start 14-min keep-alive ping to prevent Render free instance sleep
+    startRenderKeepAlive();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryParam = urlParams.get("q");
+
+    if (queryParam && queryParam.trim()) {
+      setInputText(queryParam.trim());
+      handleSearch(queryParam.trim());
+      return;
+    }
+
+    try {
+      const cachedResult = localStorage.getItem("specwise_last_result");
+      const cachedQuery = localStorage.getItem("specwise_last_query");
+      if (cachedResult && cachedQuery) {
+        const parsed = JSON.parse(cachedResult);
+        setInputText(cachedQuery);
+        setResponse(parsed);
+        const strongApp = parsed.applicability?.find((a: any) => a.result === "strong");
+        const targetId = strongApp?.standard_id || parsed.candidates?.[0]?.standard_id;
+        if (targetId && parsed.decision !== "OUT_OF_CORPUS") {
+          fetchStandardDetails(targetId)
+            .then((res) => setPrimaryStandard(res.standard))
+            .catch(() => setPrimaryStandard(null));
+        }
+        return;
+      }
+    } catch {
+      // ignore cache parsing error
+    }
+
+    // Default initial demonstration search
     handleSearch("openwell submersible pumpset for agricultural irrigation");
   }, []);
 
@@ -92,6 +195,8 @@ export default function HomePage() {
           onSearch={handleSearch}
           isLoading={isLoading}
           onOpenPdfModal={() => setIsPdfModalOpen(true)}
+          recentQueries={recentQueries}
+          onClearRecentQueries={handleClearRecentQueries}
         />
 
         {/* Results Section */}

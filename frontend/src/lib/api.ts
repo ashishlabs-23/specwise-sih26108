@@ -2,6 +2,42 @@ import { AnalysisRequest, AnalysisResponse, StandardRecord, Evidence } from "@/t
 
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
 
+// Keep-alive timer reference for Render 15-minute inactivity spin-down
+let keepAliveInterval: any = null;
+
+/**
+ * Pre-warm / Wake up Render backend instance on load
+ */
+export async function wakeUpBackend(): Promise<boolean> {
+  try {
+    const res = await fetch(`${API_BASE}/api/v1/health`, {
+      method: "GET",
+      cache: "no-store",
+    });
+    return res.ok;
+  } catch {
+    // If backend is sleeping, the first request will trigger Render to spin up
+    return false;
+  }
+}
+
+/**
+ * Start periodic 14-minute ping to prevent Render free-tier from going to sleep
+ */
+export function startRenderKeepAlive(): void {
+  if (typeof window === "undefined") return;
+  if (keepAliveInterval) return;
+
+  // Initial wake up
+  wakeUpBackend();
+
+  // 14 minutes = 14 * 60 * 1000 = 840,000 ms (under the 15-minute sleep threshold)
+  const FOURTEEN_MINUTES_MS = 14 * 60 * 1000;
+  keepAliveInterval = setInterval(() => {
+    wakeUpBackend();
+  }, FOURTEEN_MINUTES_MS);
+}
+
 export async function analyzeProduct(request: AnalysisRequest): Promise<AnalysisResponse> {
   const res = await fetch(`${API_BASE}/api/v1/analyze`, {
     method: "POST",

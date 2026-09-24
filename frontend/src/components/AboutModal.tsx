@@ -12,24 +12,24 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer"
+          className="absolute top-3.5 right-3.5 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer z-10"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-          <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#0B57D0] flex items-center justify-center border border-blue-200">
+        <div className="flex items-center gap-3 pb-4 border-b border-slate-100 pr-8 min-w-0">
+          <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-50 text-[#0B57D0] flex items-center justify-center border border-blue-200 flex-shrink-0">
             <Award className="w-5 h-5" />
           </div>
-          <div>
-            <h3 className="text-base font-bold text-slate-900">
+          <div className="min-w-0">
+            <h3 className="text-sm sm:text-base font-bold text-slate-900 truncate">
               About SpecWise (SIH26108)
             </h3>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
               Smart Procurement Indian Standards Recommendation & Assurance
             </p>
           </div>
