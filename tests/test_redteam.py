@@ -546,3 +546,127 @@ class TestInvariants:
         """Unknown standard lookup must return 404."""
         resp = client.get("/api/v1/standards/IS 00000:9999")
         assert resp.status_code == 404
+
+
+class TestGeneralProcurementRedTeam:
+    """
+    Generalized Procurement Red-Team Suite:
+    Tests procurement tenders across unrelated domains (fire safety, laboratory, solar,
+    electrical switchgear, civil construction), lexical false positive resistance,
+    natural language tenders without IS numbers, partial coverage, and fake IS citations.
+    """
+
+    def test_unrelated_procurement_domains_out_of_corpus(self, client):
+        """Unrelated realistic procurement tenders must safely return OUT_OF_CORPUS without hallucinating pump standards."""
+        unrelated_tenders = [
+            # 1. Fire Safety Equipment
+            "Procurement of high pressure water mist fire extinguisher installation system with hose reels and nozzles",
+            # 2. Solar / Renewable Equipment
+            "Design, supply and commissioning of 10 kW grid-tied solar photovoltaic inverter system with monocrystalline panels",
+            # 3. Electrical Switchgear
+            "Supply of 11kV outdoor vacuum circuit breaker switchgear panel with micro-processor based protection relay",
+            # 4. Civil / Building Material
+            "Supply of ready-mix concrete grade M30 with portland pozzolana cement for multi-story foundation slab"
+        ]
+
+        for tender_text in unrelated_tenders:
+            res = client.post("/api/v1/analyze", json={"text": tender_text})
+            assert res.status_code == 200, f"Error on tender: {tender_text[:40]}"
+            data = res.json()
+            assert data["decision"] in {"REVIEW", "ABSTAIN", "OUT_OF_CORPUS"}, \
+                f"Expected safe non-recommendation state for '{tender_text[:40]}', got {data['decision']}"
+            # Ensure no primary pump standard was falsely recommended
+            strong_candidates = [
+                c["standard_id"] for c in data["candidates"]
+                if any(a["standard_id"] == c["standard_id"] and a["result"] == "strong" for a in data["applicability"])
+            ]
+            assert "IS 8034:2018" not in strong_candidates
+            assert "IS 14220:2018" not in strong_candidates
+            assert "IS 9079:2018" not in strong_candidates
+
+    def test_lexical_overlap_laboratory_equipment_no_false_positive(self, client):
+        """
+        Lexical overlap resistance: Tender mentions 'laboratory equipment', 'electric motor', and 'power cable'.
+        Must NOT falsely recommend IS 8034:2018 or promote motor/cable standards to primary.
+        """
+        lab_tender = (
+            "Supply of laboratory high-speed refrigerated centrifuge equipment with 3-phase electric motor, "
+            "digital RPM display, rotor safety lid, and 3-core flexible power cable for university research facility."
+        )
+        res = client.post("/api/v1/analyze", json={"text": lab_tender})
+        assert res.status_code == 200
+        data = res.json()
+
+        # Must not recommend pump standards as primary
+        assert data["decision"] in {"REVIEW", "ABSTAIN", "OUT_OF_CORPUS"}, \
+            f"Expected safe non-recommendation state for lab equipment, got {data['decision']}"
+        strong_candidates = [
+            c["standard_id"] for c in data["candidates"]
+            if any(a["standard_id"] == c["standard_id"] and a["result"] == "strong" for a in data["applicability"])
+        ]
+        assert "IS 8034:2018" not in strong_candidates
+        assert "IS 14220:2018" not in strong_candidates
+        assert "IS 9079:2018" not in strong_candidates
+
+    def test_no_explicit_is_number_supported_tender(self, client):
+        """Natural language tender with detailed product/application attributes but NO IS numbers recommends correctly."""
+        nl_tender = (
+            "Procurement of openwell submersible pumpsets for agricultural irrigation in open farm wells. "
+            "Pumpset must operate with clear cold water and three phase 415V power supply."
+        )
+        res = client.post("/api/v1/analyze", json={"text": nl_tender})
+        assert res.status_code == 200
+        data = res.json()
+
+        assert data["decision"] == "RECOMMEND"
+        assert len(data["candidates"]) > 0
+        assert data["candidates"][0]["standard_id"] == "IS 14220:2018"
+
+    def test_partial_corpus_tender_forces_review(self, client):
+        """
+        Partial corpus coverage: One item covered by corpus (openwell submersible pump),
+        one item outside corpus (10 kW rooftop solar panel array).
+        Decision must safely be REVIEW with explicit not_covered gap.
+        """
+        partial_tender = (
+            "Supply and installation of: "
+            "1. Openwell submersible pumpset for clear cold water agricultural irrigation. "
+            "2. 10 kW rooftop solar photovoltaic panel array with micro-inverter."
+        )
+        res = client.post("/api/v1/analyze", json={"text": partial_tender})
+        assert res.status_code == 200
+        data = res.json()
+
+        assert data["decision"] == "REVIEW", f"Expected REVIEW for partial tender, got {data['decision']}"
+        # Uncovered solar requirement must produce a not_covered gap
+        gaps = data["gaps"]
+        assert len(gaps) >= 1
+        assert any(g["state"] == "not_covered" for g in gaps)
+        # Pump standard must still be identified
+        assert any(c["standard_id"] == "IS 14220:2018" for c in data["candidates"])
+
+    def test_fake_nonexistent_is_references_unverified_gaps(self, client):
+        """
+        Tender containing fake IS citations (IS 99999:2026 and IS 88888:2030) must:
+        - Preserve original cited strings
+        - Mark state as unverified_reference
+        - Fabricate NO StandardRecord or relationship
+        """
+        fake_tender = (
+            "Submersible pumpset conforming to IS 99999:2026 with control panel switchgear as per IS 88888:2030."
+        )
+        res = client.post("/api/v1/analyze", json={"text": fake_tender})
+        assert res.status_code == 200
+        data = res.json()
+
+        assert data["decision"] in {"REVIEW", "ABSTAIN", "OUT_OF_CORPUS"}
+        # Must not fabricate fake candidate standards
+        cands = [c["standard_id"] for c in data["candidates"]]
+        assert "IS 99999:2026" not in cands
+        assert "IS 88888:2030" not in cands
+
+        # Unverified gaps must be generated
+        unverified_gaps = [g for g in data["gaps"] if g["state"] == "unverified_reference"]
+        assert len(unverified_gaps) >= 2
+        assert any("99999" in g["reason"] for g in unverified_gaps)
+        assert any("88888" in g["reason"] for g in unverified_gaps)

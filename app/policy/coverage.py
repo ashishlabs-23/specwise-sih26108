@@ -30,24 +30,24 @@ def _extract_matched_terms(reason: str) -> list[str]:
 def _score_for_req(assessment, req_text_lower: str) -> int:
     """
     Score a pre-computed ApplicabilityAssessment against a single requirement's
-    text.  Uses the global result tier as the base; within the same tier,
-    prefers candidates whose matched terms actually appear in this requirement.
+    text. Uses term overlap to establish requirement-specific relevance.
 
     Returns:
-        3  strong result AND at least one matched term overlaps req_text
-        2  strong result but no matched term overlaps this requirement's text
-        1  possible result (regardless of term overlap)
-        0  weak or unknown
+        3  strong result AND at least one matched term overlaps req_text -> covered
+        1  possible result AND at least one matched term overlaps req_text -> partial
+        0  no term overlap, weak, or unknown -> not_covered
     """
-    result = assessment.result
-    if result == "strong":
-        relevant = any(
-            term.lower() in req_text_lower
-            for reason in assessment.reasons
-            for term in _extract_matched_terms(reason)
-        )
-        return 3 if relevant else 2
-    if result == "possible":
+    relevant = any(
+        term.lower() in req_text_lower
+        for reason in assessment.reasons
+        for term in _extract_matched_terms(reason)
+    )
+    if not relevant:
+        return 0
+
+    if assessment.result == "strong":
+        return 3
+    if assessment.result == "possible":
         return 1
     return 0
 
