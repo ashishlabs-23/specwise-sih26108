@@ -17,15 +17,17 @@ export function RelatedStandardsCard({
 }: RelatedStandardsCardProps) {
   const { related_standards, decision } = response;
 
-  const getRelationshipBadge = (type: string, stdId: string) => {
-    if (stdId.includes("14536")) return "Installation & Maintenance CoP";
-    if (stdId.includes("9283")) return "Submersible Motor Specification";
-    if (stdId.includes("11346")) return "Hydraulic Test & Acceptance";
-    if (stdId.includes("10572")) return "Sampling & Inspection";
-    if (type === "normative_reference") return "Normative Reference";
-    if (type === "test_method") return "Test Standard";
-    if (type === "related_practice") return "Code of Practice";
-    return type.replace("_", " ");
+  const getRoleBadge = (type: string, stdId: string) => {
+    if (stdId.includes("14536") || type === "related_practice") {
+      return { label: "CODE OF PRACTICE", style: "bg-purple-100 text-purple-800 border-purple-200" };
+    }
+    if (stdId.includes("11346") || type === "test_method") {
+      return { label: "TEST METHOD", style: "bg-amber-100 text-amber-800 border-amber-200" };
+    }
+    if (type === "normative_reference") {
+      return { label: "RELATED STANDARD", style: "bg-indigo-100 text-indigo-800 border-indigo-200" };
+    }
+    return { label: "RELATED STANDARD", style: "bg-slate-100 text-slate-700 border-slate-200" };
   };
 
   const getTitle = (stdId: string) => {
@@ -37,6 +39,12 @@ export function RelatedStandardsCard({
       return "Tests for Agricultural and Water Supply Pumps — Code of Acceptance";
     if (stdId.includes("10572"))
       return "Methods of Sampling for Pumps";
+    if (stdId.includes("1239"))
+      return "Mild Steel Tubes, Tubulars and Other Wrought Steel Fittings (GI Pipes)";
+    if (stdId.includes("694"))
+      return "PVC Insulated Cables for Working Voltages up to 1100 V";
+    if (stdId.includes("1554"))
+      return "PVC Insulated (Heavy Duty) Electric Cables for Working Voltages up to 1100 V";
     return "Referenced Indian Standard";
   };
 
@@ -53,9 +61,9 @@ export function RelatedStandardsCard({
               <h3 className="text-base font-bold text-slate-900 truncate">
                 Related Standards
               </h3>
-              <span className="text-[11px] text-slate-500 font-medium block truncate">
-                (for reference & compliance)
-              </span>
+              <p className="text-[11px] text-slate-500 font-medium truncate">
+                Normative refs, test methods & practice codes
+              </p>
             </div>
           </div>
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 flex-shrink-0">
@@ -72,54 +80,56 @@ export function RelatedStandardsCard({
                 : "No normative references found in current graph."}
             </div>
           ) : (
-            related_standards.slice(0, 2).map((rel, idx) => (
-              <div
-                key={idx}
-                onClick={() => onSelectStandard && onSelectStandard(rel.to_standard)}
-                className="group p-3 rounded-xl border border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/30 transition-all cursor-pointer min-w-0"
-              >
-                <div className="flex items-start justify-between gap-2 min-w-0">
-                  <div className="flex items-start gap-2.5 min-w-0 flex-1">
-                    <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-slate-500 mt-0.5 flex-shrink-0">
-                      <BookOpen className="w-3.5 h-3.5" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="text-xs sm:text-sm font-bold font-mono text-slate-900 break-words">
-                          {rel.to_standard}
-                        </span>
-                        {rel.hop && (
-                          <span className="text-[10px] px-1 py-0.2 rounded bg-slate-200/70 text-slate-600 font-semibold flex-shrink-0">
-                            Hop {rel.hop}
+            related_standards.slice(0, 2).map((rel, idx) => {
+              const roleInfo = getRoleBadge(rel.relationship_type, rel.to_standard);
+              return (
+                <div
+                  key={idx}
+                  onClick={() => onSelectStandard && onSelectStandard(rel.to_standard)}
+                  className="group p-3 rounded-xl border border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/30 transition-all cursor-pointer min-w-0"
+                >
+                  <div className="flex items-start justify-between gap-2 min-w-0">
+                    <div className="flex items-start gap-2.5 min-w-0 flex-1">
+                      <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-slate-500 mt-0.5 flex-shrink-0">
+                        <BookOpen className="w-3.5 h-3.5" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="text-xs sm:text-sm font-bold font-mono text-slate-900 break-words">
+                            {rel.to_standard}
                           </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-slate-600 line-clamp-2 mt-0.5 break-words">
-                        {getTitle(rel.to_standard)}
-                      </p>
-                      <div className="mt-2">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[11px] font-medium bg-blue-100/70 text-[#0A3871] break-words">
-                          {getRelationshipBadge(rel.relationship_type, rel.to_standard)}
-                        </span>
+                          <span className={`text-[9px] px-1.5 py-0.2 rounded font-extrabold uppercase border ${roleInfo.style}`}>
+                            {roleInfo.label}
+                          </span>
+                          {rel.hop && (
+                            <span className="text-[10px] px-1 py-0.2 rounded bg-slate-200/70 text-slate-600 font-semibold flex-shrink-0">
+                              Hop {rel.hop}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-slate-600 line-clamp-2 mt-1 break-words">
+                          {getTitle(rel.to_standard)}
+                        </p>
                       </div>
                     </div>
+                    <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#0B57D0] transition-transform group-hover:translate-x-0.5 mt-1 flex-shrink-0" />
                   </div>
-                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-[#0B57D0] transition-transform group-hover:translate-x-0.5 mt-1 flex-shrink-0" />
                 </div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>
 
       {/* Footer Link */}
-      <div className="mt-6 pt-4 border-t border-slate-100">
+      <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+        <span>Non-primary reference standards</span>
         <button
           type="button"
           onClick={onViewAll}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
         >
-          <span>View all related standards</span>
+          <span>View all ({related_standards.length})</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

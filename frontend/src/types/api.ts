@@ -66,7 +66,14 @@ export interface Relationship {
 export interface CoverageEntry {
   requirement_id: string;
   standard_id?: string | null;
-  state: "covered" | "partial" | "not_covered" | "conflicting" | "unknown";
+  state:
+    | "covered"
+    | "partial"
+    | "not_covered"
+    | "conflicting"
+    | "unknown"
+    | "unverified_reference"
+    | "edition_mismatch";
   reason: string;
   evidence_ids: string[];
 }

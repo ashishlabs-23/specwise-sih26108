@@ -59,7 +59,15 @@ class Relationship(BaseModel):
 class CoverageEntry(BaseModel):
     requirement_id: str
     standard_id: Optional[str]
-    state: Literal["covered", "partial", "not_covered", "conflicting", "unknown"]
+    state: Literal[
+        "covered",
+        "partial",
+        "not_covered",
+        "conflicting",
+        "unknown",
+        "unverified_reference",
+        "edition_mismatch",
+    ]
     reason: str
     evidence_ids: list[str] = Field(default_factory=list)
 

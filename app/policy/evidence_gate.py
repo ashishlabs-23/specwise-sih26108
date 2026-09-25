@@ -16,7 +16,9 @@ def route(candidates, applicability, lifecycle, coverage, conflicts, by_id=None)
         ]
 
     by_id = by_id or {}
-    gaps = [x for x in coverage if x.state == "not_covered"]
+    # unverified_reference and edition_mismatch are gaps: a tender-cited IS number
+    # absent from corpus or citing a historical edition cannot be silently treated as covered.
+    gaps = [x for x in coverage if x.state in {"not_covered", "unverified_reference", "edition_mismatch"}]
     strong = [x for x in applicability if x.result == "strong"]
     possible = [x for x in applicability if x.result == "possible"]
 
@@ -51,11 +53,25 @@ def route(candidates, applicability, lifecycle, coverage, conflicts, by_id=None)
         )
 
     if gaps:
-        gap_ids = ", ".join(x.requirement_id for x in gaps)
-        review_reasons.append(
-            f"Insufficient product attributes: requirements [{gap_ids}] "
-            "could not be covered by any candidate in the prototype corpus."
-        )
+        unverified = [x for x in gaps if x.state == "unverified_reference"]
+        mismatches = [x for x in gaps if x.state == "edition_mismatch"]
+        not_cov    = [x for x in gaps if x.state == "not_covered"]
+        if unverified:
+            unv_details = "; ".join(f"[{x.requirement_id}] {x.reason}" for x in unverified)
+            review_reasons.append(
+                f"Tender cites IS references not present in the prototype corpus: {unv_details}"
+            )
+        if mismatches:
+            mis_details = "; ".join(f"[{x.requirement_id}] {x.reason}" for x in mismatches)
+            review_reasons.append(
+                f"Edition mismatch / currentness issues detected: {mis_details}"
+            )
+        if not_cov:
+            nc_ids = ", ".join(x.requirement_id for x in not_cov)
+            review_reasons.append(
+                f"Insufficient product attributes: requirements [{nc_ids}] "
+                "could not be covered by any candidate in the prototype corpus."
+            )
 
     if conflicts:
         descs = "; ".join(x.description for x in conflicts)

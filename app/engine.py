@@ -132,7 +132,7 @@ class RecommendationEngine:
         applicability = [assess(self.by_id[c.standard_id], requirements) for c in candidates]
         lifecycle = [lifecycle_assess(self.by_id[c.standard_id], request.tender_date) for c in candidates]
         coverage = build(requirements, applicability)
-        gaps = [x for x in coverage if x.state != "covered"]
+        gaps = [x for x in coverage if x.state in {"not_covered", "unverified_reference", "edition_mismatch"}]
         related = expand([c.standard_id for c in candidates], self.repo.relationships, settings.max_related_hops)
 
         product_text = " ".join(r.text for r in requirements)

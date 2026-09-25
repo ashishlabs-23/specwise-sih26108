@@ -1,6 +1,33 @@
 {
   "sources": [
     {
+      "source_id": "BIS-1239-SEARCH-2026",
+      "name": "BIS IS 1239 Standard — web search summary 2026",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/",
+      "source_type": "secondary_search_result",
+      "retrieved_at": "2026-09-24",
+      "notes": "Web search results from bis.gov.in confirm IS 1239 (Part 1) covers mild steel tubes (welded and seamless) for conveyance of water, gas, air and steam, classified as Light (Class A), Medium (Class B) and Heavy (Class C). Steel Tubes (Quality Control) Order 2020 mandates ISI mark. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B. This is a secondary search-result summary; no official gazette number confirmed."
+    },
+    {
+      "source_id": "BIS-694-SEARCH-2026",
+      "name": "BIS IS 694:2010 Standard — web search summary 2026",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/",
+      "source_type": "secondary_search_result",
+      "retrieved_at": "2026-09-24",
+      "notes": "Web search results from bis.gov.in confirm IS 694:2010 specifies PVC insulated unsheathed and sheathed cables/cords with rigid and flexible conductors for rated voltages up to 1100 V. BIS product manual referenced for IS 694:2010. Tender cites 'IS 694-1990' for flat 3-core PVC insulated cables. IS 694 has been revised to 2010 edition. This is a secondary search-result summary; no gazette number confirmed."
+    },
+    {
+      "source_id": "BIS-1554-SEARCH-2026",
+      "name": "BIS IS 1554 (Part 1):1988 Standard — web search summary 2026",
+      "publisher": "Bureau of Indian Standards",
+      "url": "https://www.bis.gov.in/",
+      "source_type": "secondary_search_result",
+      "retrieved_at": "2026-09-24",
+      "notes": "Web search results from bis.gov.in confirm IS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables for working voltages up to 1100 V (armoured and unarmoured). BIS certification is mandatory. Tender explicitly cites 'IS 1554/ 1988' for PVC insulated sheathed steel wire armoured LT UG cable. This is a secondary search-result summary."
+    },
+    {
       "source_id": "BIS-14220-SUMMARY-2024",
       "name": "BIS Summary of IS 14220:2018",
       "publisher": "Bureau of Indian Standards",
@@ -47,6 +74,33 @@
     }
   ],
   "evidence": [
+    {
+      "evidence_id": "E-1239-SCOPE",
+      "source_id": "BIS-1239-SEARCH-2026",
+      "source_name": "BIS IS 1239 Standard — web search summary 2026",
+      "url": "https://www.bis.gov.in/",
+      "page": null,
+      "text": "IS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.",
+      "verified": false
+    },
+    {
+      "evidence_id": "E-694-SCOPE",
+      "source_id": "BIS-694-SEARCH-2026",
+      "source_name": "BIS IS 694:2010 Standard — web search summary 2026",
+      "url": "https://www.bis.gov.in/",
+      "page": null,
+      "text": "IS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.",
+      "verified": false
+    },
+    {
+      "evidence_id": "E-1554-SCOPE",
+      "source_id": "BIS-1554-SEARCH-2026",
+      "source_name": "BIS IS 1554 (Part 1):1988 Standard — web search summary 2026",
+      "url": "https://www.bis.gov.in/",
+      "page": null,
+      "text": "IS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.",
+      "verified": false
+    },
     {
       "evidence_id": "E-14220-SCOPE",
       "source_id": "BIS-14220-SUMMARY-2024",
@@ -336,6 +390,51 @@
       "application_terms": ["sampling", "conformity", "inspection"],
       "exclusion_terms": [],
       "evidence_ids": ["E-10572-LISTING-MED20"]
+    },
+    {
+      "standard_id": "IS 1239:1990",
+      "title": "Mild Steel Tubes, Tubulars and Other Wrought Steel Fittings — Specification (Part 1: Mild Steel Tubes)",
+      "scope": "Specification for mild steel tubes (welded and seamless) for conveyance of water, gas, air and steam, classified as Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Directly cited in the Ganga Kalyana Scheme tender for 50mm GI column pipes Class B.",
+      "category": "piping",
+      "domain": "piping",
+      "standard_role": "RELATED_STANDARD",
+      "versions": ["1990"],
+      "lifecycle_events": [],
+      "keywords": ["steel tube", "GI pipe", "galvanized", "mild steel", "column pipe", "water pipe", "Class B", "ISI 1239"],
+      "product_terms": ["GI pipe", "GI pipes", "galvanized pipe", "mild steel tube", "steel tube"],
+      "application_terms": ["column pipe", "water conveyance", "borewell", "submersible pump"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-1239-SCOPE"]
+    },
+    {
+      "standard_id": "IS 694:2010",
+      "title": "PVC Insulated Cables for Working Voltages up to and Including 1100 V",
+      "scope": "Specification for PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to 1100 V. Tender cites IS 694-1990 for flat 3-core sheathed PVC submersible pump cable. IS 694 has been revised to 2010 edition.",
+      "category": "electrical_cables",
+      "domain": "electrical",
+      "standard_role": "RELATED_STANDARD",
+      "versions": ["2010"],
+      "lifecycle_events": [],
+      "keywords": ["PVC cable", "PVC insulated", "submersible cable", "flat cable", "3 core cable", "pump cable", "IS 694"],
+      "product_terms": ["PVC insulated cable", "flat 3 core cable", "submersible pump cable"],
+      "application_terms": ["submersible pump", "borewell pump", "cable installation"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-694-SCOPE"]
+    },
+    {
+      "standard_id": "IS 1554:1988",
+      "title": "PVC Insulated (Heavy Duty) Electric Cables (Part 1: For Working Voltages up to and Including 1100 V)",
+      "scope": "Specification for PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to and including 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm).",
+      "category": "electrical_cables",
+      "domain": "electrical",
+      "standard_role": "RELATED_STANDARD",
+      "versions": ["1988"],
+      "lifecycle_events": [],
+      "keywords": ["UG cable", "underground cable", "armoured cable", "LT cable", "PVC heavy duty", "IS 1554"],
+      "product_terms": ["armoured cable", "LT UG cable", "underground cable"],
+      "application_terms": ["underground installation", "submersible pump", "borewell electrification"],
+      "exclusion_terms": [],
+      "evidence_ids": ["E-1554-SCOPE"]
     }
   ]
 }

@@ -122,6 +122,7 @@ export function AdvancedDetailsAccordion({
                       <th className="p-2.5">Category</th>
                       <th className="p-2.5">Extracted Text</th>
                       <th className="p-2.5">Attribute / Value</th>
+                      <th className="p-2.5">Source / Page</th>
                       <th className="p-2.5">Method</th>
                     </tr>
                   </thead>
@@ -137,6 +138,17 @@ export function AdvancedDetailsAccordion({
                         <td className="p-2.5 text-slate-800 font-medium break-words">{r.text}</td>
                         <td className="p-2.5 text-slate-600 break-words">
                           {r.attribute ? `${r.attribute}: ${r.value || ""}` : "—"}
+                        </td>
+                        <td className="p-2.5 text-slate-600 whitespace-nowrap">
+                          {r.source_page ? (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-[10px] font-bold border border-purple-200">
+                              PDF Page {r.source_page}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 font-mono text-[10px]">
+                              Text Input
+                            </span>
+                          )}
                         </td>
                         <td className="p-2.5 text-slate-500 font-mono text-[11px] whitespace-nowrap">
                           {r.extraction_method}

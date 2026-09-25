@@ -3,7 +3,10 @@ from app.models import Requirement
 
 # Regex patterns — domain-agnostic
 POWER = re.compile(r"\b(\d+(?:\.\d+)?)\s*(HP|kW)\b", re.I)
-IS_REF = re.compile(r"\bIS\s*[:\-]?\s*(\d{3,6})(?:\s*:\s*(\d{4}))?\b", re.I)
+IS_REF = re.compile(
+    r"\bIS\s*[:\-]?\s*(\d{3,6})(?:(?:\s*[:/\-]\s*|\s+)(?:part\s*\d+\s*[:/\-]\s*)?(\d{2,4}))?\b",
+    re.I,
+)
 VOLTAGE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(V|kV|volt)\b", re.I)
 FLOW = re.compile(r"\b(\d+(?:\.\d+)?)\s*(LPS|LPM|m3/h|GPM)\b", re.I)
 
@@ -26,12 +29,26 @@ def extract_requirements(text: str):
         page = _page(text, text.find(chunk))
 
         # IS reference extraction — always run, domain-agnostic
-        for m in IS_REF.finditer(chunk):
+        is_matches = list(IS_REF.finditer(chunk))
+        for j, m in enumerate(is_matches):
+            std_num = m.group(1)
+            raw_year = m.group(2)
+            if raw_year:
+                if len(raw_year) == 2:
+                    y_int = int(raw_year)
+                    year = f"19{raw_year}" if y_int >= 50 else f"20{raw_year}"
+                else:
+                    year = raw_year
+                ref_val = f"IS {std_num}:{year}"
+            else:
+                ref_val = f"IS {std_num}"
+
+            req_suffix = f"-IS-{j+1}" if len(is_matches) > 1 else "-IS"
             rows.append(Requirement(
-                requirement_id=f"REQ-{i:03d}-IS",
+                requirement_id=f"REQ-{i:03d}{req_suffix}",
                 category="reference",
                 attribute="is_number",
-                value=f"IS {m.group(1)}" + (f":{m.group(2)}" if m.group(2) else ""),
+                value=ref_val,
                 text=chunk,
                 source_page=page,
                 extraction_method="regex",

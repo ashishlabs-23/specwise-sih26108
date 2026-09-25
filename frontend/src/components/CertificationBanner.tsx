@@ -25,7 +25,7 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
 
   const description =
     certData?.description ||
-    "Proposed Quality Control Order (QCO) for pumps is under consideration by DPIIT. Details not formally verified in prototype corpus.";
+    "No verified certification/QCO mapping available in the current prototype knowledge base.";
 
   return (
     <>

@@ -277,7 +277,7 @@ export default function ResourcesPage() {
               <Info className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div className="text-xs sm:text-sm">
                 <div className="font-bold flex items-center gap-2">
-                  <span>Prototype corpus — currently 7 verified standards</span>
+                  <span>Prototype corpus — currently {summary.standards_count} verified standards</span>
                   <span className="inline-block px-2 py-0.5 rounded bg-amber-200/80 text-amber-900 text-[10px] uppercase font-mono font-bold">
                     Not the full BIS catalogue
                   </span>

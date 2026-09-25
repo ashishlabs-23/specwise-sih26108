@@ -197,6 +197,19 @@ class FirestoreRepository(BaseRepository):
         self.refresh()
 
     def _init_client(self):
+        # 1. Credentials file validation
+        if self._credentials_path and not os.path.exists(self._credentials_path):
+            raise FileNotFoundError(
+                f"Firebase credentials file not found at '{self._credentials_path}'. "
+                "When deploying to Render, ensure Secret File path is configured in GOOGLE_APPLICATION_CREDENTIALS."
+            )
+
+        # 2. Project ID resolution check
+        if not self._project_id and not self._credentials_path:
+            raise ValueError(
+                "Missing required environment variable: FIRESTORE_PROJECT_ID must be set when DATA_BACKEND=FIRESTORE."
+            )
+
         try:
             from google.cloud import firestore  # type: ignore
             from google.oauth2 import service_account  # type: ignore
@@ -206,14 +219,8 @@ class FirestoreRepository(BaseRepository):
                 "Install with: pip install google-cloud-firestore"
             ) from exc
 
-        # 1. Credentials file validation
         credentials = None
         if self._credentials_path:
-            if not os.path.exists(self._credentials_path):
-                raise FileNotFoundError(
-                    f"Firebase credentials file not found at '{self._credentials_path}'. "
-                    "When deploying to Render, ensure Secret File path is configured in GOOGLE_APPLICATION_CREDENTIALS."
-                )
             try:
                 credentials = service_account.Credentials.from_service_account_file(
                     self._credentials_path
@@ -223,7 +230,6 @@ class FirestoreRepository(BaseRepository):
                     f"Failed to parse Firebase service-account credentials from '{self._credentials_path}': {exc}"
                 ) from exc
 
-        # 2. Project ID resolution
         project_id = self._project_id
         if not project_id and credentials and hasattr(credentials, "project_id"):
             project_id = credentials.project_id

@@ -67,22 +67,27 @@ User Text Description / Tender PDF
 1. Requirement Extraction (Regex / Rule Parameter Isolation & PyMuPDF Text Layer Extraction)
                │
                ▼
-2. Lexical & Identifier Retrieval (Exact IS-Identifier Match + BM25 Lexical Scoring)
+2. Retrieval — Deployed MVP: Exact IS-Identifier Match + BM25 Lexical Scoring
+   [Future / Provisioned: Dense Neural Embeddings + Cross-Encoder Reranker (disabled)]
                │
                ▼
 3. Deterministic Applicability Gates (Inclusion / Exclusion Terms & Evidence Grounding Checks)
                │
                ▼
-4. Normative Knowledge Graph Traversal (Max 2 Hops: Motors, Codes of Practice, Test Standards)
+4. Requirement-Level Coverage Assessment
+   (covered | partial | not_covered | unverified_reference — per requirement, not global)
                │
                ▼
-5. Certification & QCO Verification (Regulatory notices tagged with verification status)
+5. Normative Knowledge Graph Traversal (Max 2 Hops: Motors, Codes of Practice, Test Standards)
                │
                ▼
-6. 4-State Decision Synthesis (RECOMMEND, REVIEW, ABSTAIN, OUT_OF_CORPUS)
+6. Certification & QCO Verification (Regulatory notices tagged with verification status)
                │
                ▼
-7. Traceable Output & Audit Report Generation (Interactive UI & Standalone HTML Report)
+7. Evidence-State Decision Synthesis (RECOMMEND, REVIEW, ABSTAIN, OUT_OF_CORPUS)
+               │
+               ▼
+8. Traceable Output & Audit Report Generation (Interactive UI & Standalone HTML Report)
 ```
 
 ---
@@ -125,11 +130,10 @@ Only active, verified technologies used in the current deployment are listed:
 * **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS, Lucide Icons
 * **Backend:** Python 3.11, FastAPI, Pydantic v2, Uvicorn
 * **Database & Cloud Storage:** Google Cloud Firestore (serverless NoSQL database)
-* **Document Processing:** PyMuPDF (PDF text layer extraction)
-* **Search & Retrieval:** Exact Identifier Matching + BM25 Lexical Retrieval
+* **Document Processing:** PyMuPDF (PDF text layer extraction — image-only PDFs require OCR, not yet implemented)
+* **Retrieval (Deployed MVP):** Exact IS-Identifier Matching + BM25 Lexical Retrieval
+* **Retrieval (Future / Provisioned):** Dense Neural Embeddings (`ENABLE_DENSE=true`) + Cross-Encoder Reranker (`ENABLE_RERANKER=true`) — disabled in current deployment
 * **Hosting & Infrastructure:** Firebase Hosting (Frontend), Render (Backend Web Service)
-
-*(Note: Dense neural embeddings and cross-encoder neural rerankers are disabled in the active free-tier deployment to ensure low latency and zero memory overhead).*
 
 ---
 
@@ -138,21 +142,25 @@ Only active, verified technologies used in the current deployment are listed:
 The deployed prototype provides the following verified capabilities:
 
 * **Natural Specification Analysis:** Accepts free-form commercial procurement descriptions and technical trade text.
-* **Tender PDF Document Upload:** Ingests tender PDFs, extracts text layers via PyMuPDF, and runs requirement isolation.
+* **Tender PDF Document Upload:** Ingests tender PDFs, extracts text layers via PyMuPDF, and runs requirement isolation. Image-only/scanned PDFs (no text layer) return an explicit OCR-required error — OCR is not yet implemented.
+* **Requirement-Level Coverage:** Every extracted requirement is assessed independently. Tender-cited IS numbers absent from the corpus are surfaced as `unverified_reference` gaps, not silently masked.
 * **Evidence-Grounded Traceability:** Every recommendation displays the exact BIS clause, scope text, and official source link.
 * **Normative Reference Graph:** Automatically discovers companion standards (e.g. electric motors under IS 9283 for submersible pumps).
-* **Transparent Regulatory Status:** Displays Quality Control Order (QCO) notices with explicit verification flags.
+* **Transparent Regulatory Status:** Displays Quality Control Order (QCO) notices with explicit verification flags. No mandatory/non-mandatory status is inferred without a confirmed gazette source.
 * **Audit Report Generator:** Produces auditable HTML reports detailing parameter coverage and gap analysis.
 * **Out-of-Corpus Safety Gate:** Accurately rejects out-of-domain queries without emitting false standard recommendations.
 * **Corpus Explorer:** Dedicated Resources explorer page allowing full browsing and searching of all 7 standards and 15 evidence records.
+* **Procurement API:** REST JSON output (`AnalysisResponse`) is the MVP procurement integration layer. Direct GeM/CPPP portal integration is future work.
 
 ---
 
 ## 8. Current Limitations
 
 * **Curated Corpus Scope:** The verified corpus currently covers 7 Indian Standards in the pump sector (MED 20).
-* **Dense Retrieval & Reranking Inactive:** Neural embedding search and cross-encoder rerankers are intentionally disabled in this deployment tier.
-* **Text-Based PDF Extraction:** PyMuPDF extracts text layers directly; scanned or image-only PDFs without text layers require OCR.
+* **Retrieval MVP:** Active deployment uses Exact IS-ID + BM25 only. Dense neural embeddings and cross-encoder rerankers are provisioned but disabled (`ENABLE_DENSE=false`, `ENABLE_RERANKER=false`).
+* **Text-Based PDF Extraction Only:** PyMuPDF extracts text layers. Scanned or image-only PDFs without text layers return an explicit error — OCR integration is a future step.
+* **English-Only Input:** Multilingual (Hindi/regional language) tender support is not yet implemented.
+* **Procurement Output:** API + HTML report (MVP). Direct GeM/CPPP portal integration is not yet implemented.
 * **Render Free-Tier Spin-Down:** Render backend instances may experience a 30–50 second cold-start delay after 15 minutes of inactivity (mitigated by automated client keep-alive pings).
 
 ---

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BookMarked, ExternalLink, CheckCircle2, FileText, ChevronRight } from "lucide-react";
+import { BookMarked, ExternalLink, CheckCircle2, FileText, ChevronRight, Bookmark } from "lucide-react";
 import { AnalysisResponse, Evidence } from "@/types/api";
 
 interface EvidenceSourcesCardProps {
@@ -14,6 +14,9 @@ export function EvidenceSourcesCard({
   onViewAllSources,
 }: EvidenceSourcesCardProps) {
   const { evidence, decision } = response;
+
+  // Deduplicate unique sources
+  const uniqueSourceIds = Array.from(new Set(evidence.map((e) => e.source_id)));
 
   const truncateUrl = (url: string) => {
     try {
@@ -33,9 +36,14 @@ export function EvidenceSourcesCard({
             <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center flex-shrink-0">
               <BookMarked className="w-4 h-4" />
             </div>
-            <h3 className="text-base font-bold text-slate-900 truncate">
-              Evidence / Sources
-            </h3>
+            <div className="min-w-0">
+              <h3 className="text-base font-bold text-slate-900 truncate">
+                Evidence & Sources
+              </h3>
+              <p className="text-[11px] text-slate-500 font-medium truncate">
+                {uniqueSourceIds.length} source docs • {evidence.filter((e) => e.verified).length} verified claims
+              </p>
+            </div>
           </div>
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex-shrink-0">
             {evidence.filter((e) => e.verified).length} Verified
@@ -54,34 +62,56 @@ export function EvidenceSourcesCard({
             evidence.slice(0, 2).map((ev, idx) => (
               <div
                 key={idx}
-                className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex items-start justify-between gap-3 min-w-0"
+                className="p-3 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col gap-2 min-w-0"
               >
-                <div className="flex items-start gap-2.5 min-w-0 flex-1">
-                  <div className="w-6 h-6 rounded-md bg-white border border-slate-200 flex items-center justify-center text-slate-600 mt-0.5 flex-shrink-0">
-                    <FileText className="w-3.5 h-3.5" />
+                {/* Evidence ID + Verification Badge */}
+                <div className="flex flex-wrap items-center justify-between gap-1.5 min-w-0">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="font-mono text-[10px] sm:text-xs font-bold bg-white px-2 py-0.5 rounded border border-slate-200 text-slate-800">
+                      {ev.evidence_id}
+                    </span>
+                    {(ev.page || ev.section) && (
+                      <span className="text-[10px] text-slate-500 font-medium">
+                        {ev.page ? `p. ${ev.page}` : ""} {ev.section ? `§ ${ev.section}` : ""}
+                      </span>
+                    )}
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5 min-w-0">
-                      <h4 className="text-xs font-bold text-slate-900 truncate">
-                        {ev.source_name}
-                      </h4>
-                      {ev.verified && (
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                      )}
-                    </div>
-                    <p className="text-[11px] text-slate-600 line-clamp-2 mt-0.5 break-words">
-                      {ev.text}
-                    </p>
+                  {ev.verified ? (
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 flex-shrink-0">
+                      <CheckCircle2 className="w-3 h-3" />
+                      <span>Verified BIS</span>
+                    </span>
+                  ) : (
+                    <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200 flex-shrink-0">
+                      Unverified
+                    </span>
+                  )}
+                </div>
+
+                {/* Concise Evidence Finding */}
+                <p className="text-xs text-slate-700 font-medium leading-relaxed break-words">
+                  "{ev.text}"
+                </p>
+
+                {/* Source Document Reference & Link */}
+                <div className="pt-2 border-t border-slate-200/60 flex flex-wrap items-center justify-between gap-1 text-[11px] text-slate-500">
+                  <div className="flex items-center gap-1 truncate max-w-[60%]">
+                    <FileText className="w-3 h-3 text-slate-400 flex-shrink-0" />
+                    <span className="truncate font-semibold text-slate-700" title={ev.source_name}>
+                      {ev.source_name}
+                    </span>
+                  </div>
+                  {ev.url && (
                     <a
                       href={ev.url}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] text-[#0B57D0] hover:underline mt-1 font-mono max-w-full truncate"
+                      className="inline-flex items-center gap-1 text-[#0B57D0] hover:underline font-mono text-[10px] flex-shrink-0"
                     >
-                      <span className="truncate">{truncateUrl(ev.url)}</span>
-                      <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                      <span>Link</span>
+                      <ExternalLink className="w-2.5 h-2.5" />
                     </a>
-                  </div>
+                  )}
                 </div>
               </div>
             ))
@@ -90,13 +120,16 @@ export function EvidenceSourcesCard({
       </div>
 
       {/* Footer Link */}
-      <div className="mt-6 pt-4 border-t border-slate-100">
+      <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+        <span className="text-[11px] text-slate-500">
+          Source = Document | Evidence = Verified Finding
+        </span>
         <button
           type="button"
           onClick={onViewAllSources}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
         >
-          <span>View all sources</span>
+          <span>View all ({evidence.length})</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

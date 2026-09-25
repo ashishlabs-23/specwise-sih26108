@@ -45,20 +45,20 @@ def test_client():
 
 class TestRepositoryAbstraction:
     def test_json_repo_exact_counts(self, json_repo):
-        assert len(json_repo.standards) == 7, "Corpus must have exactly 7 standards"
-        assert len(json_repo.evidence) == 15, "Corpus must have exactly 15 evidence records"
+        assert len(json_repo.standards) == 10, "Corpus must have exactly 10 standards"
+        assert len(json_repo.evidence) == 18, "Corpus must have exactly 18 evidence records"
         assert len(json_repo.relationships) == 5, "Corpus must have exactly 5 relationships"
-        assert len(json_repo.sources) == 5, "Corpus must have exactly 5 source documents"
+        assert len(json_repo.sources) == 8, "Corpus must have exactly 8 source documents"
         assert len(json_repo.benchmark_cases) == 10, "Corpus must have exactly 10 benchmark cases"
         assert len(json_repo.certification) == 2, "Corpus must have exactly 2 certification rules"
 
     def test_json_repo_health_summary(self, json_repo):
         summary = json_repo.get_health_summary()
         assert summary["data_source"] == "local"
-        assert summary["standards_count"] == 7
-        assert summary["evidence_count"] == 15
+        assert summary["standards_count"] == 10
+        assert summary["evidence_count"] == 18
         assert summary["relationships_count"] == 5
-        assert summary["sources_count"] == 5
+        assert summary["sources_count"] == 8
         assert summary["benchmark_cases_count"] == 10
 
     def test_get_standard_and_evidence(self, json_repo):
@@ -115,10 +115,10 @@ class TestRepositoryAbstraction:
 
         fs_repo = FirestoreRepository(firestore_client=mock_db)
         assert fs_repo.data_source == "firestore"
-        assert len(fs_repo.standards) == 7
-        assert len(fs_repo.evidence) == 15
+        assert len(fs_repo.standards) == 10
+        assert len(fs_repo.evidence) == 18
         assert len(fs_repo.relationships) == 5
-        assert len(fs_repo.sources) == 5
+        assert len(fs_repo.sources) == 8
         assert len(fs_repo.benchmark_cases) == 10
         assert len(fs_repo.certification) == 2
 
@@ -171,10 +171,10 @@ class TestBackendFrontendContract:
         data = res.json()
         assert "status" in data and data["status"] == "ok"
         assert "data_source" in data and data["data_source"] in {"local", "firestore"}
-        assert "standards_count" in data and data["standards_count"] == 7
-        assert "evidence_count" in data and data["evidence_count"] == 15
+        assert "standards_count" in data and data["standards_count"] == 10
+        assert "evidence_count" in data and data["evidence_count"] == 18
         assert "relationships_count" in data and data["relationships_count"] == 5
-        assert "sources_count" in data and data["sources_count"] == 5
+        assert "sources_count" in data and data["sources_count"] == 8
 
     def test_resources_endpoint_contract(self, test_client):
         res = test_client.get("/api/v1/resources")
@@ -183,14 +183,14 @@ class TestBackendFrontendContract:
 
         # Summary
         summary = data["summary"]
-        assert summary["standards_count"] == 7
-        assert summary["evidence_count"] == 15
+        assert summary["standards_count"] == 10
+        assert summary["evidence_count"] == 18
         assert summary["relationships_count"] == 5
-        assert summary["sources_count"] == 5
+        assert summary["sources_count"] == 8
         assert summary["benchmark_cases_count"] == 10
 
         # Standards list
-        assert len(data["standards"]) == 7
+        assert len(data["standards"]) == 10
         for std in data["standards"]:
             assert "standard_id" in std
             assert "title" in std
@@ -199,7 +199,7 @@ class TestBackendFrontendContract:
             assert "evidence_ids" in std
 
         # Evidence list
-        assert len(data["evidence"]) == 15
+        assert len(data["evidence"]) == 18
         for ev in data["evidence"]:
             assert "evidence_id" in ev
             assert "source_name" in ev

@@ -1,5 +1,10 @@
+import os
+import sys
 import json
 from pathlib import Path
+
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from app.engine import RecommendationEngine
 from app.models import AnalysisRequest, StandardRecord
 from app.policy.lifecycle import assess as assess_lifecycle

@@ -43,6 +43,7 @@ export function HeroSearch({
   }, [isLoading]);
 
   const sampleQueries = [
+    { label: "Ganga Kalyana Tender (Borewell Submersible)", text: "Supply, installation & commissioning of submersible pump sets with accessories suitable for 165 mm dia borewells under Ganga Kalyana Scheme conforming to IS 8034:2018 and IS 9283:2024" },
     { label: "openwell submersible pumpset", text: "openwell submersible pumpset for agricultural irrigation" },
     { label: "borewell submersible", text: "submersible pumpset for a borewell supplying agricultural water" },
     { label: "monoset pump", text: "monoset pump for clear cold water for agriculture" },

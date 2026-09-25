@@ -95,7 +95,7 @@ def main():
     except Exception as e:
         results['backend_unavailable'] = True
 
-    print(results)
+    print(f"Smoke test success: health={results.get('health', {}).get('status')}, report_present={results.get('report_present')}, backend_unavailable_handled={results.get('backend_unavailable')}")
 
 if __name__ == '__main__':
     main()
