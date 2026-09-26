@@ -365,7 +365,9 @@ def test_15_resources_navigation_and_live_data(browser_context):
     expect(page.locator("h1")).to_contain_text("Corpus Resources & Provenance")
 
     # Verify live summary counts loaded from backend
-    expect(page.locator("text=Prototype corpus — currently").first).to_be_visible(timeout=8000)
+    prototype_scope = page.get_by_text("Prototype corpus", exact=False).first
+    expect(prototype_scope).to_be_visible(timeout=8000)
+    expect(prototype_scope).to_contain_text("Verified Standards")
     expect(page.locator("h2:has-text('Verified Indian Standards')")).to_be_visible()
 
     # Verify standard cards exist
@@ -490,7 +492,9 @@ def test_16_firestore_live_contract_and_field_match(browser_context):
     expected_std_count = len(res_data["standards"])
 
     # Check displayed summary text contains count from backend
-    expect(page.locator("text=Prototype corpus — currently").first).to_be_visible()
+    prototype_scope = page.get_by_text("Prototype corpus", exact=False).first
+    expect(prototype_scope).to_be_visible()
+    expect(prototype_scope).to_contain_text(f"{expected_std_count} Verified Standards")
 
     # Verify each standard in response is represented in UI
     for std in res_data["standards"]:
