@@ -6,6 +6,10 @@ from app.models import CoverageEntry
 # Matches "IS 8034", "IS 8034:2018", "IS 694", etc.
 _IS_NUM_RE = re.compile(r"IS\s*(\d{3,6})", re.I)
 _YEAR_RE = re.compile(r"\b(19\d\d|20\d\d)\b")
+_ITEM_PREFIX_RE = re.compile(r"^\s*(?:[-*•]\s*)?item\s+\d+\s*[:.)-]", re.I)
+_NUMBERED_METRIC_ITEM_RE = re.compile(r"^\s*\d+[.)]\s+\d+(?:\.\d+)?\s*(?:w|kw|kwp|mw|hp|kva|v|kv|mm|cm|m)\b", re.I)
+_LABELED_COMPONENT_RE = re.compile(r"^\s*[-*•]\s*([A-Za-z][A-Za-z0-9 /()-]{1,32})\s*:")
+_CONTEXT_LABELS = {"scope", "scope of work", "application", "standard", "standard compliance", "power", "power rating", "head range", "discharge", "rated power"}
 
 
 def _is_number_in(standard_id: str, is_value: str) -> bool:
@@ -105,6 +109,21 @@ def build(requirements, applicability):
         score 0  (weak / unknown)        → ``not_covered``
     """
     out: list = []
+    strong = [a for a in applicability if a.result == "strong"]
+
+    def product_term_matches(assessment, req_text_lower):
+        return any(
+            term.lower() in req_text_lower
+            for reason in assessment.reasons
+            if reason.startswith("Product term matched:")
+            for term in _extract_matched_terms(reason)
+        )
+
+    def explicit_item_clause(req_text):
+        if _ITEM_PREFIX_RE.search(req_text) or _NUMBERED_METRIC_ITEM_RE.search(req_text):
+            return True
+        label = _LABELED_COMPONENT_RE.match(req_text)
+        return bool(label and label.group(1).strip().lower() not in _CONTEXT_LABELS)
 
     for req in requirements:
         req_text_lower = req.text.lower()
@@ -152,7 +171,10 @@ def build(requirements, applicability):
                 ))
                 continue
 
-            _append_entry(out, req, best, _score_for_req(best, req_text_lower))
+            if best.result == "strong":
+                _append_entry(out, req, best, 3)
+            else:
+                _append_entry(out, req, best, _score_for_req(best, req_text_lower))
             continue
 
         # ── All other requirement categories ─────────────────────────────────
@@ -164,6 +186,23 @@ def build(requirements, applicability):
                 reason="No candidate standards available.",
                 evidence_ids=[],
             ))
+            continue
+
+        # Scope/admin prose extracted from a tender is not itself a technical
+        # procurement requirement. Keep separately labeled item/component
+        # clauses visible as gaps; unlabelled prose becomes relevant only when
+        # it carries the candidate's actual product discriminator.
+        direct = [a for a in applicability if product_term_matches(a, req_text_lower)]
+        if direct:
+            best = max(direct, key=lambda a: (a.result == "strong", a.result == "possible"))
+            _append_entry(out, req, best, 3 if best.result == "strong" else _score_for_req(best, req_text_lower))
+            continue
+
+        if req.category == "performance" and strong and not explicit_item_clause(req.text):
+            _append_entry(out, req, strong[0], 3)
+            continue
+
+        if req.category == "product" and not explicit_item_clause(req.text):
             continue
 
         # Score every candidate against this specific requirement

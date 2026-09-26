@@ -556,6 +556,32 @@ class TestGeneralProcurementRedTeam:
     natural language tenders without IS numbers, partial coverage, and fake IS citations.
     """
 
+    def test_unrelated_technical_terms_do_not_create_domain_relevance(self, client):
+        for text in [
+            "11 kV outdoor vacuum circuit breaker switchgear and protection relay",
+            "Fire sprinkler and hydrant water distribution installation system",
+            "Solar PV modules, string inverter, MPPT controller and mounting structure",
+            "Supply, installation, equipment, system, water distribution",
+        ]:
+            response = client.post("/api/v1/analyze", json={"text": text})
+            assert response.status_code == 200
+            data = response.json()
+            assert data["decision"] == "OUT_OF_CORPUS", (text, data["decision"])
+            assert data["candidates"] == [], text
+
+    def test_ambiguous_pump_stays_in_corpus_and_abstains(self, client):
+        response = client.post("/api/v1/analyze", json={"text": "pump for water supply"})
+        assert response.status_code == 200
+        data = response.json()
+        assert data["decision"] == "ABSTAIN"
+        assert data["candidates"]
+
+    def test_exact_standard_reference_bypasses_domain_gate(self, client):
+        response = client.post("/api/v1/analyze", json={"text": "Procurement as per IS 14220:2018"})
+        assert response.status_code == 200
+        data = response.json()
+        assert any(candidate["standard_id"] == "IS 14220:2018" for candidate in data["candidates"])
+
     def test_unrelated_procurement_domains_out_of_corpus(self, client):
         """Unrelated realistic procurement tenders must safely return OUT_OF_CORPUS without hallucinating pump standards."""
         unrelated_tenders = [

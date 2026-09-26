@@ -86,6 +86,19 @@ def assess(standard, requirements) -> ApplicabilityAssessment:
     if excluded:
         raw_result = "weak"
 
+    # A record with declared product terms must match at least one of those
+    # terms before broad application/keyword overlap can make it a strong
+    # primary candidate (for example, clear water terms cannot make a monoset
+    # standard strong for an openwell pump).
+    product_terms = getattr(standard, "product_terms", [])
+    product_hits = _phrases_in(product_terms, req_text)
+    if product_terms and not excluded and not product_hits:
+        raw_result = _cap(raw_result, "possible")
+        reasons.append(
+            "Product discriminator not matched: broad application or keyword overlap "
+            "cannot establish a strong match for this product standard."
+        )
+
     # ── 6. Apply role ceiling ─────────────────────────────────────────────────
     role = getattr(standard, "standard_role", "PRIMARY_PRODUCT_STANDARD")
     ceiling = _ROLE_CEILING.get(role, "strong")

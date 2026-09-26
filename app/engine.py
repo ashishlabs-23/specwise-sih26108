@@ -19,6 +19,7 @@ from app.policy.lifecycle import assess as lifecycle_assess
 from app.policy.coverage import build
 from app.policy.conflicts import detect
 from app.policy.evidence_gate import route
+from app.policy.domain_relevance import has_corpus_product_signal
 from app.policy.certification import CertificationRepository
 from app.graph.relationships import expand
 from app.report.builder import build_html
@@ -100,7 +101,11 @@ class RecommendationEngine:
 
         # CON-05: filter by relevance floor — if max score is below floor the
         # query is outside the corpus; candidates list stays empty → OUT_OF_CORPUS
-        if fused and fused[0][1] >= settings.relevance_floor:
+        if (
+            fused
+            and fused[0][1] >= settings.relevance_floor
+            and has_corpus_product_signal(text, self.standards)
+        ):
             top_fused = fused[:settings.max_candidates]
         else:
             top_fused = []

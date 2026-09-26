@@ -17,6 +17,9 @@ def _page(text: str, index: int):
 
 
 def _sentence_chunks(text: str):
+    # Preserve common numbered procurement-item prefixes ("2. 10 kW ...") as
+    # one clause instead of splitting off the list number as a sentence.
+    text = re.sub(r"(?<![\d.])(\d+)\.\s+(?=[A-Z0-9])", r"\1) ", text)
     return [x.strip() for x in re.split(r"(?<=[.!?])\s+|\n+", text) if x.strip()]
 
 
