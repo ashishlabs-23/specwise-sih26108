@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { User, ChevronDown, Info, ExternalLink, ShieldCheck } from "lucide-react";
+import { User, ChevronDown, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
@@ -14,6 +14,9 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
   const langLabels: Record<string, string> = {
     en: "English",
     hi: "हिन्दी",
+    kn: "ಕನ್ನಡ",
+    ta: "தமிழ்",
+    te: "తెలుగు",
   };
 
   return (
@@ -64,7 +67,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
               </span>
             </div>
             <span className="text-xs text-slate-500 font-medium hidden md:inline whitespace-nowrap">
-              Right Standards. Safer Procurement.
+              {t.tagline}
             </span>
           </div>
         </div>
@@ -141,6 +144,9 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
                   >
                     हिन्दी
                   </button>
+                  <button onClick={() => { setLanguage("kn"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "kn" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>ಕನ್ನಡ</button>
+                  <button onClick={() => { setLanguage("ta"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "ta" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>தமிழ்</button>
+                  <button onClick={() => { setLanguage("te"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "te" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>తెలుగు</button>
                 </div>
               )}
             </div>
@@ -173,7 +179,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
       {/* Subtle prototype disclosure below header */}
       <div className="bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-1 text-center text-xs text-slate-500">
-          SIH26108 Prototype · Not an official BIS portal
+          SIH26108 {t.prototypeNotice}
         </div>
       </div>
     </header>

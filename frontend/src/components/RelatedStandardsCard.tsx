@@ -16,6 +16,7 @@ export function RelatedStandardsCard({
   onViewAll,
 }: RelatedStandardsCardProps) {
   const { related_standards, decision } = response;
+  const contextOnly = decision === "ABSTAIN" || decision === "OUT_OF_CORPUS";
 
   const getRoleBadge = (type: string, stdId: string) => {
     if (stdId.includes("14536") || type === "related_practice") {
@@ -64,6 +65,11 @@ export function RelatedStandardsCard({
               <p className="text-[11px] text-slate-500 font-medium truncate">
                 Normative refs, test methods & practice codes
               </p>
+              {contextOnly && related_standards.length > 0 && (
+                <p className="text-[10px] font-semibold text-amber-700">
+                  Context only — not a recommendation
+                </p>
+              )}
             </div>
           </div>
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 flex-shrink-0">

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { X, ExternalLink, CheckCircle2, BookOpen, FileText, Layers, Bookmark } from "lucide-react";
 import { Evidence } from "@/types/api";
 
@@ -39,9 +40,9 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
 
   const uniqueSources = Array.from(uniqueSourcesMap.values());
 
-  return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] sm:max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
+  return createPortal(
+    <div className="fixed inset-0 z-50 pointer-events-none bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] sm:max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 relative z-10 pointer-events-auto animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         
         {/* Header */}
         <div className="p-4 sm:p-5 border-b border-slate-200 flex items-center justify-between bg-slate-50 rounded-t-2xl gap-2">
@@ -204,6 +205,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

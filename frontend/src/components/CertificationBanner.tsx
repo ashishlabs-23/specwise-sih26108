@@ -1,31 +1,45 @@
 "use client";
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { Info, ArrowRight, ShieldAlert, CheckCircle2, AlertCircle, X } from "lucide-react";
 import { AnalysisResponse, CertificationResult } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface CertificationBannerProps {
   response: AnalysisResponse;
 }
 
 export function CertificationBanner({ response }: CertificationBannerProps) {
+  const { t } = useLanguage();
   const [showModal, setShowModal] = useState(false);
-  const { certification, applicability, candidates } = response;
+  const { decision, certification, applicability } = response;
 
   const strongApp = applicability.find((a) => a.result === "strong");
-  const stdId = strongApp?.standard_id || candidates[0]?.standard_id;
+  const hasStrongPrimary = (decision === "RECOMMEND" || decision === "REVIEW") && !!strongApp;
+  const stdId = hasStrongPrimary ? strongApp.standard_id : null;
 
-  const certData: CertificationResult | undefined = stdId
-    ? certification[stdId]
-    : Object.values(certification)[0];
+  const certData: CertificationResult | undefined = stdId ? certification[stdId] : undefined;
 
-  const isProposed =
-    certData?.rule_type === "QCO_PROPOSED" ||
-    certData?.state === "not_verified_in_prototype_corpus";
+  let badgeLabel = t.regulatoryNotice;
+  let description = t.noCertificationMapping;
 
-  const description =
-    certData?.description ||
-    "No verified certification/QCO mapping available in the current prototype knowledge base.";
+  if (decision === "OUT_OF_CORPUS") {
+    badgeLabel = t.notApplicable;
+    description = t.outOfCorpusDescription;
+  } else if (decision === "ABSTAIN") {
+    badgeLabel = t.notEvaluated;
+    description = t.noPrimaryDescription;
+  } else if (decision === "REVIEW" && !hasStrongPrimary) {
+    badgeLabel = t.reviewRequired;
+    description = "Mandatory certification / QCO applicability depends on the specific standard confirmed during technical review.";
+  } else if (certData) {
+    const isProposed =
+      certData.rule_type === "QCO_PROPOSED" ||
+      certData.state === "not_verified_in_prototype_corpus";
+    badgeLabel = isProposed ? "QCO Proposed / Unconfirmed" : "Regulatory Notice";
+    description = certData.description || description;
+  }
 
   return (
     <>
@@ -37,10 +51,10 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
           <div className="min-w-0 flex-1">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="text-[11px] sm:text-xs font-extrabold uppercase tracking-wide text-[#0A3871]">
-                Certification / QCO Status
+                {t.certificationStatus}
               </span>
               <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[10px] font-semibold bg-amber-100 text-amber-800 border border-amber-200 flex-shrink-0">
-                {isProposed ? "QCO Proposed / Unconfirmed" : "Regulatory Notice"}
+                {badgeLabel}
               </span>
             </div>
             <p className="text-xs text-slate-700 mt-1 max-w-3xl leading-relaxed break-words">
@@ -54,15 +68,15 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
           onClick={() => setShowModal(true)}
           className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] hover:underline flex-shrink-0 self-end sm:self-center cursor-pointer"
         >
-          <span>Learn more</span>
+          <span>{t.learnMore}</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Modal Dialog for Certification Details */}
-      {showModal && (
-        <div className="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150">
+      {showModal && createPortal(
+        <div className="fixed inset-0 z-50 pointer-events-none bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 relative z-10 pointer-events-auto animate-in fade-in zoom-in-95 duration-150">
             <button
               onClick={() => setShowModal(false)}
               className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100"
@@ -109,11 +123,12 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
                 onClick={() => setShowModal(false)}
                 className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800"
               >
-                Close
+                {t.closeDialog}
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );

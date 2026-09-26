@@ -6,6 +6,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { AboutModal } from "@/components/AboutModal";
 import { fetchResources, ResourcesResponse } from "@/lib/api";
+import { useLanguage } from "@/context/LanguageContext";
 import {
   BookOpen,
   FileCheck,
@@ -27,6 +28,7 @@ import {
 } from "lucide-react";
 
 export default function ResourcesPage() {
+  const { t } = useLanguage();
   const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [data, setData] = useState<ResourcesResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -177,7 +179,7 @@ export default function ResourcesPage() {
     return (
       <div className="mt-8 pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
         <span className="text-slate-500 font-medium">
-          Showing page <strong className="text-slate-800">{currentPage}</strong> of <strong className="text-slate-800">{totalPages}</strong> ({totalCount} total items)
+          {t.page} <strong className="text-slate-800">{currentPage}</strong> {t.of} <strong className="text-slate-800">{totalPages}</strong> ({totalCount} {t.totalItems})
         </span>
         <div className="flex items-center gap-1.5">
           <button
@@ -186,7 +188,7 @@ export default function ResourcesPage() {
             disabled={currentPage === 1}
             className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700 font-semibold transition-colors cursor-pointer"
           >
-            Previous
+            {t.previous}
           </button>
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
             <button
@@ -208,7 +210,7 @@ export default function ResourcesPage() {
             disabled={currentPage === totalPages}
             className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 disabled:opacity-40 disabled:hover:bg-white text-slate-700 font-semibold transition-colors cursor-pointer"
           >
-            Next
+            {t.next}
           </button>
         </div>
       </div>
@@ -227,13 +229,13 @@ export default function ResourcesPage() {
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-semibold text-[#0B57D0] mb-3">
                   <Database className="w-3.5 h-3.5" />
-                  <span>SpecWise Knowledge Base & Corpus Explorer</span>
+                  <span>{t.productName} · {t.resourcesTitle}</span>
                 </div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-[#0A3871] tracking-tight">
-                  Corpus Resources & Provenance
+                  {t.resourcesTitle}
                 </h1>
                 <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-2xl leading-relaxed">
-                  Transparent repository of verified standards, evidence citations, normative relationships, and benchmark evaluation cases loaded live from the backend engine.
+                  {t.resourcesSubtitle}
                 </p>
               </div>
 
@@ -243,31 +245,31 @@ export default function ResourcesPage() {
                   <span className="block text-xl sm:text-2xl font-black text-[#0A3871]">
                     {isLoading ? "…" : summary.standards_count}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-500">Standards</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{t.standards}</span>
                 </div>
                 <div className="px-2 py-1 border-l border-slate-100">
                   <span className="block text-xl sm:text-2xl font-black text-emerald-600">
                     {isLoading ? "…" : summary.evidence_count}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-500">Evidence</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{t.evidence}</span>
                 </div>
                 <div className="px-2 py-1 border-l border-slate-100">
                   <span className="block text-xl sm:text-2xl font-black text-indigo-600">
                     {isLoading ? "…" : summary.relationships_count}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-500">Links</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{t.links}</span>
                 </div>
                 <div className="px-2 py-1 border-l border-slate-100">
                   <span className="block text-xl sm:text-2xl font-black text-purple-600">
                     {isLoading ? "…" : summary.benchmark_cases_count}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-500">Benchmarks</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{t.benchmarks}</span>
                 </div>
                 <div className="px-2 py-1 border-l border-slate-100">
                   <span className="block text-xl sm:text-2xl font-black text-amber-600">
                     {isLoading ? "…" : summary.sources_count}
                   </span>
-                  <span className="text-[11px] font-semibold text-slate-500">Sources</span>
+                  <span className="text-[11px] font-semibold text-slate-500">{t.sources}</span>
                 </div>
               </div>
             </div>
@@ -277,9 +279,9 @@ export default function ResourcesPage() {
               <Info className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
               <div className="text-xs sm:text-sm">
                 <div className="font-bold flex items-center gap-2">
-                  <span>Prototype corpus — currently {summary.standards_count} verified standards</span>
+                  <span>{t.prototypeCorpus} — {summary.standards_count} {t.verifiedStandards}</span>
                   <span className="inline-block px-2 py-0.5 rounded bg-amber-200/80 text-amber-900 text-[10px] uppercase font-mono font-bold">
-                    Not the full BIS catalogue
+                    {t.notFullCatalog}
                   </span>
                 </div>
                 <p className="mt-1 text-amber-800 leading-relaxed text-xs">
@@ -297,7 +299,7 @@ export default function ResourcesPage() {
             <div className="p-4 mb-6 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-center gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
               <div>
-                <h4 className="font-bold text-sm">Failed to Load Corpus Resources</h4>
+                <h4 className="font-bold text-sm">{t.failedResources}</h4>
                 <p className="text-xs mt-0.5">{error}</p>
               </div>
             </div>
@@ -317,7 +319,7 @@ export default function ResourcesPage() {
                 }`}
               >
                 <BookOpen className="w-4 h-4" />
-                <span>Verified Standards ({isLoading ? "…" : summary.standards_count})</span>
+                <span>{t.verifiedStandards} ({isLoading ? "…" : summary.standards_count})</span>
               </button>
 
               <button
@@ -330,7 +332,7 @@ export default function ResourcesPage() {
                 }`}
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Evidence Records ({isLoading ? "…" : summary.evidence_count})</span>
+                <span>{t.evidenceRecords} ({isLoading ? "…" : summary.evidence_count})</span>
               </button>
 
               <button
@@ -343,7 +345,7 @@ export default function ResourcesPage() {
                 }`}
               >
                 <Link2 className="w-4 h-4" />
-                <span>Relationships ({isLoading ? "…" : summary.relationships_count})</span>
+                <span>{t.relationships} ({isLoading ? "…" : summary.relationships_count})</span>
               </button>
 
               <button
@@ -356,7 +358,7 @@ export default function ResourcesPage() {
                 }`}
               >
                 <FileCheck className="w-4 h-4" />
-                <span>Benchmark Cases ({isLoading ? "…" : summary.benchmark_cases_count})</span>
+                <span>{t.benchmarkCases} ({isLoading ? "…" : summary.benchmark_cases_count})</span>
               </button>
 
               <button
@@ -369,7 +371,7 @@ export default function ResourcesPage() {
                 }`}
               >
                 <Building className="w-4 h-4" />
-                <span>Source Provenance ({isLoading ? "…" : summary.sources_count})</span>
+                <span>{t.sourceProvenance} ({isLoading ? "…" : summary.sources_count})</span>
               </button>
             </div>
 
@@ -380,7 +382,7 @@ export default function ResourcesPage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={`Search in ${activeTab}...`}
+                placeholder={`${t.searchIn} ${activeTab}...`}
                 className="w-full pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-[#0B57D0]"
               />
               {searchQuery && (
@@ -388,7 +390,7 @@ export default function ResourcesPage() {
                   onClick={() => setSearchQuery("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-slate-600"
                 >
-                  Clear
+                  {t.clearHistory}
                 </button>
               )}
             </div>
@@ -397,7 +399,7 @@ export default function ResourcesPage() {
           {isLoading && (
             <div className="py-20 flex flex-col items-center justify-center text-center">
               <Loader2 className="w-8 h-8 text-[#0B57D0] animate-spin mb-3" />
-              <p className="text-sm font-semibold text-slate-700">Loading verified corpus data from backend...</p>
+              <p className="text-sm font-semibold text-slate-700">{t.loadingResources}</p>
             </div>
           )}
 
@@ -409,17 +411,17 @@ export default function ResourcesPage() {
                   Verified Indian Standards ({filteredStandards.length} of {summary.standards_count})
                 </h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 font-medium hidden sm:inline">Role Filter:</span>
+                  <span className="text-xs text-slate-500 font-medium hidden sm:inline">{t.roleFilter}:</span>
                   <select
                     value={selectedRole}
                     onChange={(e) => setSelectedRole(e.target.value)}
                     className="text-xs font-semibold bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-slate-700 focus:outline-none"
                   >
-                    <option value="ALL">All Standard Types</option>
-                    <option value="PRIMARY_PRODUCT_STANDARD">Primary Product Standard</option>
-                    <option value="CODE_OF_PRACTICE">Code of Practice</option>
-                    <option value="TEST_METHOD">Test Method</option>
-                    <option value="RELATED_STANDARD">Related Specification</option>
+                    <option value="ALL">{t.allTypes}</option>
+                    <option value="PRIMARY_PRODUCT_STANDARD">{t.primaryProductType}</option>
+                    <option value="CODE_OF_PRACTICE">{t.practiceCode}</option>
+                    <option value="TEST_METHOD">{t.testMethod}</option>
+                    <option value="RELATED_STANDARD">{t.relatedSpecification}</option>
                   </select>
                 </div>
               </div>

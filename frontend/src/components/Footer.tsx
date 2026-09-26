@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="w-full bg-white border-t border-slate-200 py-6 mt-16 text-xs text-slate-500">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -26,7 +28,7 @@ export function Footer() {
             }}
             className="hover:text-slate-800 transition-colors"
           >
-            Privacy
+            {t.privacy}
           </a>
           <span className="text-slate-300">|</span>
           <a
@@ -37,7 +39,7 @@ export function Footer() {
             }}
             className="hover:text-slate-800 transition-colors"
           >
-            Terms
+            {t.terms}
           </a>
           <span className="text-slate-300">|</span>
           <a
@@ -46,7 +48,7 @@ export function Footer() {
             rel="noreferrer"
             className="hover:text-slate-800 transition-colors"
           >
-            Contact BIS
+            {t.contactBis}
           </a>
         </div>
 

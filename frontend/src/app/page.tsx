@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Navbar } from "@/components/Navbar";
 import { HeroSearch } from "@/components/HeroSearch";
 import { DecisionBanner } from "@/components/DecisionBanner";
@@ -15,10 +15,12 @@ import { AllSourcesModal } from "@/components/AllSourcesModal";
 import { AboutModal } from "@/components/AboutModal";
 import { Footer } from "@/components/Footer";
 import { AnalysisResponse, StandardRecord } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 import { analyzeProduct, fetchStandardDetails, startRenderKeepAlive } from "@/lib/api";
 import { AlertCircle, Loader2, Sparkles, RefreshCw, XCircle } from "lucide-react";
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const [inputText, setInputText] = useState<string>(
     "openwell submersible pumpset for agricultural irrigation"
   );
@@ -27,6 +29,9 @@ export default function HomePage() {
   const [response, setResponse] = useState<AnalysisResponse | null>(null);
   const [primaryStandard, setPrimaryStandard] = useState<StandardRecord | null>(null);
   const [recentQueries, setRecentQueries] = useState<string[]>([]);
+  // Only the most recently started analysis may update the visible result.
+  const analysisGeneration = useRef(0);
+  const activePdfGeneration = useRef<number | null>(null);
 
   // Modals state
   const [isPdfModalOpen, setIsPdfModalOpen] = useState(false);
@@ -68,8 +73,12 @@ export default function HomePage() {
   // Search handler
   const handleSearch = async (text: string) => {
     if (!text.trim()) return;
+    const generation = ++analysisGeneration.current;
+    activePdfGeneration.current = null;
     setIsLoading(true);
     setError(null);
+    setResponse(null);
+    setPrimaryStandard(null);
 
     // Sync query parameter to URL for deep linking
     try {
@@ -84,6 +93,7 @@ export default function HomePage() {
 
     try {
       const data = await analyzeProduct({ text: text.trim() });
+      if (generation !== analysisGeneration.current) return;
       setResponse(data);
       saveRecentQuery(text.trim());
 
@@ -95,15 +105,21 @@ export default function HomePage() {
         // ignore
       }
 
-      // Fetch primary standard details if strong recommendation exists
+      // Fetch primary standard details ONLY if strong recommendation exists for RECOMMEND or REVIEW
       const strongApp = data.applicability.find((a) => a.result === "strong");
-      const targetId = strongApp?.standard_id || data.candidates[0]?.standard_id;
+      const isEligibleDecision = data.decision === "RECOMMEND" || data.decision === "REVIEW";
 
-      if (targetId && data.decision !== "OUT_OF_CORPUS") {
+      if (strongApp && isEligibleDecision) {
         try {
-          const stdData = await fetchStandardDetails(targetId);
-          setPrimaryStandard(stdData.standard);
+          const stdData = await fetchStandardDetails(strongApp.standard_id);
+          if (generation !== analysisGeneration.current) return;
+          if (stdData.standard.standard_role === "PRIMARY_PRODUCT_STANDARD") {
+            setPrimaryStandard(stdData.standard);
+          } else {
+            setPrimaryStandard(null);
+          }
         } catch {
+          if (generation !== analysisGeneration.current) return;
           setPrimaryStandard(null);
         }
       } else {
@@ -118,17 +134,21 @@ export default function HomePage() {
         }
       }, 100);
     } catch (err: any) {
+      if (generation !== analysisGeneration.current) return;
       setError(
         err.message ||
           "Unable to connect to the BIS recommendation API. Please ensure the backend engine is running on http://127.0.0.1:8000."
       );
     } finally {
-      setIsLoading(false);
+      if (generation === analysisGeneration.current) setIsLoading(false);
     }
   };
 
   // Reset search and results
   const handleResetSearch = () => {
+    analysisGeneration.current += 1;
+    activePdfGeneration.current = null;
+    setIsLoading(false);
     setInputText("");
     setResponse(null);
     setPrimaryStandard(null);
@@ -167,10 +187,9 @@ export default function HomePage() {
         setInputText(cachedQuery);
         setResponse(parsed);
         const strongApp = parsed.applicability?.find((a: any) => a.result === "strong");
-        const targetId = strongApp?.standard_id || parsed.candidates?.[0]?.standard_id;
-        if (targetId && parsed.decision !== "OUT_OF_CORPUS") {
-          fetchStandardDetails(targetId)
-            .then((res) => setPrimaryStandard(res.standard))
+        if (strongApp && ["RECOMMEND", "REVIEW"].includes(parsed.decision)) {
+          fetchStandardDetails(strongApp.standard_id)
+            .then((res) => setPrimaryStandard(res.standard.standard_role === "PRIMARY_PRODUCT_STANDARD" ? res.standard : null))
             .catch(() => setPrimaryStandard(null));
         }
         return;
@@ -205,14 +224,14 @@ export default function HomePage() {
             <div className="p-4 mb-6 rounded-xl bg-red-50 border border-red-200 text-red-800 flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
               <div>
-                <h4 className="font-bold text-sm">Connection / API Error</h4>
+                <h4 className="font-bold text-sm">{t.connectionError}</h4>
                 <p className="text-xs mt-1 leading-relaxed">{error}</p>
                 <button
                   onClick={() => handleSearch(inputText)}
                   className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-red-900 text-xs font-semibold"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Retry Analysis</span>
+                  <span>{t.retryAnalysis}</span>
                 </button>
               </div>
             </div>
@@ -284,16 +303,33 @@ export default function HomePage() {
       <PdfUploadModal
         isOpen={isPdfModalOpen}
         onClose={() => setIsPdfModalOpen(false)}
+        onAnalysisStart={() => {
+          activePdfGeneration.current = ++analysisGeneration.current;
+          setIsLoading(false);
+          setResponse(null);
+          setPrimaryStandard(null);
+          setError(null);
+        }}
         onAnalysisComplete={async (data) => {
+          const generation = activePdfGeneration.current;
+          if (generation === null || generation !== analysisGeneration.current) return;
+          setPrimaryStandard(null);
           setResponse(data);
           setError(null);
           const strongApp = data.applicability.find((a) => a.result === "strong");
-          const targetId = strongApp?.standard_id || data.candidates[0]?.standard_id;
-          if (targetId && data.decision !== "OUT_OF_CORPUS") {
+          const isEligibleDecision = data.decision === "RECOMMEND" || data.decision === "REVIEW";
+
+          if (strongApp && isEligibleDecision) {
             try {
-              const stdData = await fetchStandardDetails(targetId);
-              setPrimaryStandard(stdData.standard);
+              const stdData = await fetchStandardDetails(strongApp.standard_id);
+              if (generation !== analysisGeneration.current) return;
+              if (stdData.standard.standard_role === "PRIMARY_PRODUCT_STANDARD") {
+                setPrimaryStandard(stdData.standard);
+              } else {
+                setPrimaryStandard(null);
+              }
             } catch {
+              if (generation !== analysisGeneration.current) return;
               setPrimaryStandard(null);
             }
           } else {

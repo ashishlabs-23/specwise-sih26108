@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { AnalysisResponse, StandardRecord } from "@/types/api";
 import { getDecisionTheme, formatDecisionLabel } from "@/lib/utils";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface DecisionBannerProps {
   response: AnalysisResponse;
@@ -29,44 +30,46 @@ export function DecisionBanner({
   onNewSearch,
   onDownloadReport,
 }: DecisionBannerProps) {
+  const { t } = useLanguage();
   const { decision, decision_reasons, applicability, candidates } = response;
   const theme = getDecisionTheme(decision);
 
   // Find strong primary standard ID
   const strongApp = applicability.find((a) => a.result === "strong");
-  const primaryId = strongApp?.standard_id || candidates[0]?.standard_id || "No primary match";
-  const primaryTitle = primaryStandard?.title || candidates[0]?.title || "";
+  const hasStrongPrimary = (decision === "RECOMMEND" || decision === "REVIEW") && !!strongApp;
+  const primaryId = hasStrongPrimary ? strongApp.standard_id : null;
+  const primaryTitle = hasStrongPrimary ? (primaryStandard?.title || "") : "";
 
   // Plain-language summary logic
   const getSimpleTermsExplanation = () => {
-    if (decision === "RECOMMEND") {
+    if (decision === "RECOMMEND" && primaryId) {
       if (primaryId.includes("14220")) {
-        return "This standard tells you what an openwell submersible pumpset should be like, so you can procure the right, energy-efficient, and reliable pump for agricultural irrigation.";
+        return "IS 14220 specifies requirements for openwell submersible pumpsets used for agricultural irrigation.";
       }
       if (primaryId.includes("8034")) {
-        return "This standard sets safety, construction, and acceptance criteria for submersible pumpsets installed inside boreholes and borewells for agricultural or drinking water.";
+        return "IS 8034 specifies safety, construction, and acceptance criteria for borewell submersible pumpsets.";
       }
       if (primaryId.includes("9079")) {
-        return "This standard defines specifications for monoset pumps handling clear cold water for farm irrigation and municipal supply.";
+        return "IS 9079 specifies monoset pumps for clear cold water applications.";
       }
-      return `This Indian Standard specifies the essential technical, material, performance, and safety criteria for procurement compliance.`;
+      return t.matchedEvidence;
     }
 
     if (decision === "REVIEW") {
-      return "Multiple standards may relate to your description or some specifications require technical review before issuing tender specifications.";
+      return t.reviewDescription;
     }
 
     if (decision === "ABSTAIN") {
-      return "Your description is too broad (e.g. 'submersible pump'). Specify whether it is an openwell pump (IS 14220) or a borewell pump (IS 8034) for an accurate recommendation.";
+      return t.noPrimaryDescription;
     }
 
-    return "The requested product does not fall under the current pump-sector demo corpus (MED 20). No supported BIS standard was found.";
+    return t.noRecommendation;
   };
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: `SpecWise BIS Assessment: ${primaryId}`,
+        title: `SpecWise BIS Assessment: ${primaryId || decision}`,
         text: `BIS Standard Recommendation for: ${response.input_text}`,
         url: window.location.href,
       }).catch(() => {});
@@ -86,7 +89,7 @@ export function DecisionBanner({
           className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0B57D0] transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>New Search</span>
+          <span>{t.newSearch}</span>
         </button>
 
         <div className="flex flex-wrap items-center gap-2">
@@ -96,7 +99,7 @@ export function DecisionBanner({
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-xs sm:text-sm font-medium text-slate-700 shadow-sm transition-colors cursor-pointer"
           >
             <Share2 className="w-3.5 h-3.5 text-slate-500" />
-            <span>Share</span>
+            <span>{t.share}</span>
           </button>
 
           <button
@@ -105,8 +108,8 @@ export function DecisionBanner({
             className="inline-flex items-center gap-1.5 px-3 sm:px-3.5 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-xs sm:text-sm font-semibold text-slate-800 shadow-sm transition-colors cursor-pointer"
           >
             <Download className="w-3.5 h-3.5 text-[#0B57D0]" />
-            <span className="hidden sm:inline">Download Report (Audit HTML)</span>
-            <span className="sm:hidden">Audit Report</span>
+            <span className="hidden sm:inline">{t.reportDownload}</span>
+            <span className="sm:hidden">{t.auditReport}</span>
           </button>
         </div>
       </div>
@@ -150,16 +153,29 @@ export function DecisionBanner({
                   {formatDecisionLabel(decision)}
                 </span>
                 <span className="text-[11px] sm:text-xs text-slate-500">
-                  {decision === "RECOMMEND" ? "Definitive Match" : "Evaluation Result"}
+                  {decision === "RECOMMEND" ? t.definitiveMatch : t.evaluationResult}
                 </span>
               </div>
 
               <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1 break-words">
-                {decision === "RECOMMEND" ? primaryId : "Evaluation Complete"}
+                {decision === "RECOMMEND" && primaryId
+                  ? primaryId
+                  : decision === "REVIEW" && primaryId
+                  ? `Review: ${primaryId}`
+                  : decision === "REVIEW"
+                  ? t.reviewRequired
+                  : decision === "ABSTAIN"
+                  ? t.noPrimary
+                  : t.outOfCorpus}
               </h2>
 
               <p className="text-xs sm:text-sm font-medium text-slate-700 mt-0.5 line-clamp-2 break-words">
-                {primaryTitle || (decision === "OUT_OF_CORPUS" ? "No matching standard in pump-sector demo corpus" : "Review candidate options")}
+                {primaryTitle ||
+                  (decision === "ABSTAIN"
+                    ? t.noPrimaryDescription
+                    : decision === "OUT_OF_CORPUS"
+                    ? t.outOfCorpusDescription
+                    : t.reviewDescription)}
               </p>
             </div>
           </div>
@@ -168,12 +184,12 @@ export function DecisionBanner({
           <div className="lg:col-span-4 lg:border-l lg:border-slate-300/60 lg:pl-6 min-w-0">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
               <Info className="w-3.5 h-3.5 text-[#0B57D0] flex-shrink-0" />
-              <span>Why this decision?</span>
+              <span>{t.whyDecision}</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-700 mt-1.5 leading-relaxed break-words">
               {decision_reasons && decision_reasons.length > 0
                 ? decision_reasons[0]
-                : "Matched based on product keywords, application terms, and normative BIS scope evidence."}
+                : t.matchedEvidence}
             </p>
           </div>
 
@@ -183,7 +199,7 @@ export function DecisionBanner({
               <span className="w-4 h-4 rounded-full bg-emerald-600 text-white flex items-center justify-center text-[9px] flex-shrink-0">
                 ✓
               </span>
-              <span>In simple terms</span>
+              <span>{t.simpleTerms}</span>
             </h3>
             <p className="text-xs text-slate-600 mt-1.5 leading-normal break-words">
               {getSimpleTermsExplanation()}

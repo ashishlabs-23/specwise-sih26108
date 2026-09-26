@@ -70,7 +70,7 @@ export function HeroSearch({
           <div className="lg:col-span-7 flex flex-col justify-center min-w-0 w-full">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200/60 text-xs font-semibold text-[#0B57D0] w-fit mb-3 max-w-full">
               <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-              <span className="truncate">Evidence-Grounded BIS Decision Support</span>
+              <span className="truncate">{t.evidenceSupport}</span>
             </div>
 
             <h1 className="text-2xl sm:text-4xl lg:text-[40px] font-extrabold text-[#0A3871] tracking-tight leading-[1.2] break-words">
@@ -225,11 +225,11 @@ export function HeroSearch({
                     <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5 text-emerald-300" />
                   </div>
                   <span className="text-xs font-semibold tracking-wide uppercase text-blue-100 truncate">
-                    BIS Standards Engine
+                    {t.bisEngine}
                   </span>
                 </div>
                 <span className="text-[10px] sm:text-[11px] px-2 py-0.5 rounded bg-emerald-400/20 text-emerald-200 border border-emerald-400/30 font-medium flex-shrink-0">
-                  Verified Data
+                  {t.verifiedData}
                 </span>
               </div>
 
@@ -241,10 +241,10 @@ export function HeroSearch({
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4 className="text-xs sm:text-sm font-semibold text-white break-words">
-                      Make informed procurement decisions
+                      {t.informedProcurement}
                     </h4>
                     <p className="text-[11px] sm:text-xs text-blue-100/80 mt-0.5 leading-normal break-words">
-                      Avoid incorrect standard citations in tender documents and purchase orders.
+                      {t.procurementDescription}
                     </p>
                   </div>
                 </div>
@@ -255,10 +255,10 @@ export function HeroSearch({
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4 className="text-xs sm:text-sm font-semibold text-white break-words">
-                      Based on Indian Standards & official sources
+                      {t.indianStandards}
                     </h4>
                     <p className="text-[11px] sm:text-xs text-blue-100/80 mt-0.5 leading-normal break-words">
-                      Every result is grounded in BIS committee evidence, guidelines, and published standards.
+                      {t.standardsDescription}
                     </p>
                   </div>
                 </div>
@@ -269,10 +269,10 @@ export function HeroSearch({
                   </div>
                   <div className="min-w-0 flex-1">
                     <h4 className="text-xs sm:text-sm font-semibold text-white break-words">
-                      Designed for citizens, buyers and government users
+                      {t.designedFor}
                     </h4>
                     <p className="text-[11px] sm:text-xs text-blue-100/80 mt-0.5 leading-normal break-words">
-                      Plain-language summaries backed by deep technical compliance traceability.
+                      {t.designedDescription}
                     </p>
                   </div>
                 </div>

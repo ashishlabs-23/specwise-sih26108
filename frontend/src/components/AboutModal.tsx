@@ -2,6 +2,7 @@
 
 import React from "react";
 import { X, ShieldCheck, CheckCircle2, Layers, Cpu, Award } from "lucide-react";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -9,11 +10,12 @@ interface AboutModalProps {
 }
 
 export function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  const { t } = useLanguage();
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
-      <div className="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 relative animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
+    <div className="fixed inset-0 z-50 pointer-events-none bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-2xl max-w-xl w-full p-4 sm:p-6 shadow-2xl border border-slate-200 relative z-10 pointer-events-auto animate-in fade-in zoom-in-95 duration-150 overflow-hidden">
         <button
           onClick={onClose}
           className="absolute top-3.5 right-3.5 text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 cursor-pointer z-10"
@@ -27,7 +29,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
           </div>
           <div className="min-w-0">
             <h3 className="text-sm sm:text-base font-bold text-slate-900 truncate">
-              About SpecWise (SIH26108)
+              {t.aboutTitle}
             </h3>
             <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
               Smart Procurement Indian Standards Recommendation & Assurance
@@ -37,12 +39,12 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
         <div className="mt-4 space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
           <div className="p-3 bg-blue-50/70 border border-blue-200 rounded-xl text-xs text-[#0A3871]">
-            <strong>Objective:</strong> Help government buyers, MSMEs, and citizens identify the exact applicable Indian Standards (BIS) from unstructured descriptions, avoiding tender non-compliance.
+            <strong>{t.objective}:</strong> Help government buyers, MSMEs, and citizens identify the exact applicable Indian Standards (BIS) from unstructured descriptions, avoiding tender non-compliance.
           </div>
 
           <div>
             <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider mb-1">
-              Key Engineering Principles
+              {t.keyPrinciples}
             </h4>
             <ul className="space-y-1.5 text-xs">
               <li className="flex items-start gap-2">
@@ -75,7 +77,7 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             onClick={onClose}
             className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 cursor-pointer"
           >
-            Close
+            {t.closeDialog}
           </button>
         </div>
       </div>

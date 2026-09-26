@@ -12,9 +12,9 @@ export function formatDecisionLabel(decision: string): string {
     case "REVIEW":
       return "REVIEW NEEDED";
     case "ABSTAIN":
-      return "INSUFFICIENT DATA (ABSTAIN)";
+      return "NO PRIMARY MATCH";
     case "OUT_OF_CORPUS":
-      return "OUT OF SCOPE / CORPUS";
+      return "OUT OF CORPUS";
     default:
       return decision;
   }
