@@ -1,4 +1,5 @@
 from app.models import ApplicabilityAssessment
+import re
 
 # Role-based score ceiling: CODE_OF_PRACTICE / TEST_METHOD / RELATED_STANDARD
 # can never be "strong" as a primary product recommendation.
@@ -19,7 +20,26 @@ def _cap(result: str, ceiling: str) -> str:
 
 def _phrases_in(phrases: list[str], text: str) -> list[str]:
     """Return phrases that appear verbatim in text (case-insensitive)."""
-    return [p for p in phrases if p.lower() in text]
+    hits = []
+    for phrase in phrases:
+        if phrase.lower() in text:
+            hits.append(phrase)
+            continue
+        if phrase.lower() in {"borewell", "borehole", "tubewell"} and re.search(r"\bdeep\s+well\b", text, re.I):
+            hits.append(phrase)
+            continue
+        # Pump product names tolerate intervening well descriptors and spacing
+        # variants ("deep well ... pump set") while preserving the product noun.
+        if re.search(r"submersible\s+(?:[a-z-]+\s+){0,3}pumps?\s*sets?", phrase, re.I):
+            if re.search(r"\bsubmersible\b(?:\s+[a-z-]+){0,3}\s+\bpumps?\s*sets?\b", text, re.I):
+                hits.append(phrase)
+                continue
+            if re.search(r"\bdeep\s+well\s+submersible\s+pumps?\s+sets?\b", text, re.I):
+                hits.append(phrase)
+                continue
+            if re.search(r"\bborewell\s+submersible\s+pumps?\s*sets?\b", text, re.I):
+                hits.append(phrase)
+    return hits
 
 
 def assess(standard, requirements) -> ApplicabilityAssessment:

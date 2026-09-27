@@ -11,6 +11,38 @@ _GENERIC_TERMS = {
 }
 _TOKEN = re.compile(r"[a-z0-9]+")
 _CORE_ITEM_NOUNS = {"pump", "pumps", "pumpset", "pumpsets", "cable", "cables"}
+_PROCUREMENT = re.compile(r"(?<!water )\b(?:supply|procure(?:ment)?|purchase|provide)\b", re.I)
+
+
+def _primary_procurement_text(text: str) -> str | None:
+    """Return the stated procurement heads, excluding attached accessories.
+
+    Tender language commonly lists accessory mentions after a lead item using
+    commas, "including", or "with". Explicit item clauses are kept separately
+    so genuine multi-item packages retain each primary procurement item.
+    """
+    heads = []
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    text = re.sub(r"\n+", " ", text)
+    text = re.sub(r"\s+(?=(?:item\s+\d+\s*[:.)-]|\d+[.)]\s))", "\n", text, flags=re.I)
+    for line in re.split(r"[\r\n]+", text):
+        line = re.sub(r"\[PAGE\s+\d+\]", " ", line, flags=re.I).strip()
+        if not line:
+            continue
+        item = re.match(r"\s*(?:item\s+\d+\s*[:.)-]|\d+[.)])\s*(.*)", line, re.I)
+        if item:
+            line = item.group(1)
+            # In enumerated lists each item begins with the item label and has
+            # its own procurement status; retain product-first item clauses.
+            candidate = re.split(r"[,;.]|\b(?:including|with|along with)\b", line, maxsplit=1, flags=re.I)[0]
+            if re.search(r"\b(?:pump|pumps|pumpset|pumpsets|cable|cables)\b", candidate, re.I):
+                heads.append(candidate)
+            continue
+        if _PROCUREMENT.search(line):
+            tail = _PROCUREMENT.split(line, maxsplit=1)[-1]
+            candidate = re.split(r"[,;.]|\b(?:including|with|along with)\b", tail, maxsplit=1, flags=re.I)[0]
+            heads.append(candidate)
+    return " ".join(heads) if heads else None
 
 
 def has_corpus_product_signal(text: str, standards) -> bool:
@@ -21,6 +53,11 @@ def has_corpus_product_signal(text: str, standards) -> bool:
     standard records, so this gate follows the existing corpus without changing it.
     """
     normalized = text.lower()
+    primary_text = _primary_procurement_text(text)
+    # When procurement structure is explicit, only product nouns in the stated
+    # procurement head count. This keeps accessory mentions from driving routing.
+    if primary_text is not None:
+        normalized = primary_text.lower()
     if re.search(r"\bis\s*[:\-]?\s*\d{3,6}\b", normalized):
         return True
 

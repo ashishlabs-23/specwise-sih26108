@@ -88,6 +88,16 @@ class TestBorewellSubmersible:
         assert r.result in {"weak", "unknown"}, \
             f"IS 8034 should be excluded for openwell query; got {r.result}"
 
+    @pytest.mark.parametrize("wording", [
+        "submersible pumpset for borewell",
+        "submersible borewell pumpset",
+        "borewell submersible pumpset",
+        "deep well submersible pump set",
+    ])
+    def test_borewell_product_word_order_variants(self, wording):
+        result = assess(IS_8034, _req(wording))
+        assert result.result == "strong", f"{wording}: {result.result} {result.reasons}"
+
 
 class TestMonoset:
     def test_strong_on_monoset_query(self):

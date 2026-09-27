@@ -1,11 +1,14 @@
 import json
 import os
 import tempfile
+import logging
 from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.engine import RecommendationEngine
 from app.models import AnalysisRequest, AnalysisResponse
+
+logger = logging.getLogger(__name__)
 
 # Runtime availability flag for PDF extraction (PyMuPDF / fitz)
 try:
@@ -129,8 +132,14 @@ async def upload_pdf(file: UploadFile = File(...)):
         request = AnalysisRequest(file_path=tmp_path)
         return engine.analyze(request)
 
-    except (ValueError, RuntimeError, Exception) as exc:
-        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from None
+    except Exception:
+        logger.exception("PDF upload analysis failed")
+        raise HTTPException(
+            status_code=400,
+            detail="We could not process this PDF. Please try a valid PDF with selectable text.",
+        ) from None
     finally:
         if tmp_path and os.path.exists(tmp_path):
             os.unlink(tmp_path)

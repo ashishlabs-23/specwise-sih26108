@@ -23,8 +23,26 @@ def _sentence_chunks(text: str):
     return [x.strip() for x in re.split(r"(?<=[.!?])\s+|\n+", text) if x.strip()]
 
 
+def _normalize_for_extraction(text: str) -> str:
+    """Join PDF line wraps while retaining page markers for provenance.
+
+    This normalized copy is only used for requirement extraction; callers keep
+    the original input text for display. Page markers remain hard boundaries.
+    """
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    pages = re.split(r"(\[PAGE\s+\d+\])", text, flags=re.I)
+    normalized = []
+    for part in pages:
+        if re.fullmatch(r"\[PAGE\s+\d+\]", part, flags=re.I):
+            normalized.append("\n" + part + "\n")
+        else:
+            normalized.append(re.sub(r"\s+", " ", part).strip())
+    return "".join(normalized)
+
+
 def extract_requirements(text: str):
     rows = []
+    text = _normalize_for_extraction(text)
     chunks = _sentence_chunks(text)
 
     for i, chunk in enumerate(chunks, 1):

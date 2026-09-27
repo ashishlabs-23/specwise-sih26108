@@ -99,13 +99,10 @@ class RecommendationEngine:
 
         fused = rrf(lists)
 
-        # CON-05: filter by relevance floor — if max score is below floor the
-        # query is outside the corpus; candidates list stays empty → OUT_OF_CORPUS
-        if (
-            fused
-            and fused[0][1] >= settings.relevance_floor
-            and has_corpus_product_signal(text, self.standards)
-        ):
+        # A product/requirement signal keeps weak lexical matches available to
+        # applicability routing, which can ABSTAIN when intent is underspecified.
+        # The document-intent gate already removes incidental accessory mentions.
+        if fused and has_corpus_product_signal(text, self.standards):
             top_fused = fused[:settings.max_candidates]
         else:
             top_fused = []
