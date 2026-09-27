@@ -53,3 +53,11 @@ def test_document_decisions_follow_primary_procurement_and_coverage():
     assert any(g.state == "not_covered" for g in mixed.gaps)
     assert generic.decision == "ABSTAIN"
     assert cable.candidates
+
+
+def test_explicit_fake_is_reference_survives_procurement_relevance_gate():
+    result = RecommendationEngine().analyze(AnalysisRequest(text=(
+        "PROCUREMENT SPECIFICATION. The buyer explicitly cites IS 77777:2026."
+    )))
+    assert any(g.state == "unverified_reference" for g in result.gaps)
+    assert result.decision == "REVIEW"

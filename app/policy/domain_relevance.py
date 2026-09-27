@@ -52,15 +52,16 @@ def has_corpus_product_signal(text: str, standards) -> bool:
     matches for unrelated technical tenders. Terms are derived from the loaded
     standard records, so this gate follows the existing corpus without changing it.
     """
+    # An explicit IS citation is itself a verifiable requirement, even when the
+    # stated procurement head is otherwise outside the product corpus.
+    if re.search(r"\bis\s*[:\-]?\s*\d{3,6}\b", text, re.I):
+        return True
     normalized = text.lower()
     primary_text = _primary_procurement_text(text)
     # When procurement structure is explicit, only product nouns in the stated
     # procurement head count. This keeps accessory mentions from driving routing.
     if primary_text is not None:
         normalized = primary_text.lower()
-    if re.search(r"\bis\s*[:\-]?\s*\d{3,6}\b", normalized):
-        return True
-
     corpus_phrases = set()
     for standard in standards:
         for field in standard.product_terms:
