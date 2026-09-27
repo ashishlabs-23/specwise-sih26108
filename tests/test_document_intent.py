@@ -61,3 +61,12 @@ def test_explicit_fake_is_reference_survives_procurement_relevance_gate():
     )))
     assert any(g.state == "unverified_reference" for g in result.gaps)
     assert result.decision == "REVIEW"
+
+
+def test_historical_openwell_edition_is_reported_as_mismatch():
+    result = RecommendationEngine().analyze(AnalysisRequest(text=(
+        "Supply openwell submersible pumpsets for agricultural irrigation "
+        "as per IS 14220:1994."
+    )))
+    assert result.decision == "REVIEW"
+    assert any(g.state == "edition_mismatch" and g.standard_id == "IS 14220:2018" for g in result.gaps)
