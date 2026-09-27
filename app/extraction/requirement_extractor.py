@@ -38,8 +38,66 @@ def _normalize_for_extraction(text: str) -> str:
         if re.fullmatch(r"\[PAGE\s+\d+\]", part, flags=re.I):
             normalized.append("\n" + part + "\n")
         else:
-            normalized.append(re.sub(r"\s+", " ", part).strip())
+            # Preserve only explicit list starts. Other PDF line breaks are
+            # wrapping noise and must remain joinable for references/clauses.
+            protected = re.sub(
+                r"\n\s*(?=(?:item\s+\d+\s*[:.)-]?|\(?[a-z]\)|\d{1,3}[.)]|[-*•])\s*)",
+                "\uE000",
+                part,
+                flags=re.I,
+            )
+            normalized.append(re.sub(r"\s+", " ", protected).replace("\uE000", "\n").strip())
     return "".join(normalized)
+
+
+_ITEM_MARKER = re.compile(
+    r"^\s*(?:item\s+\d+\s*[:.)-]?|\(?[a-z]\)|\d+[.)]|[-*•])\s*",
+    re.I,
+)
+_INLINE_ITEM_MARKER = re.compile(r"(?:\([a-z]\)|\bitem\s+\d+\s*[:.)-]?)", re.I)
+_ADMINISTRATIVE = re.compile(
+    r"^\s*(?:title|eligibility|bid(?:ding)?\s+terms|delivery\s+terms|"
+    r"warranty|inspection|payment|instructions|general\s+conditions)\b",
+    re.I,
+)
+
+
+def _procurement_chunks(text: str):
+    """Split explicit procurement items before ordinary sentence extraction.
+
+    Item markers and semicolons carry procurement structure across arbitrary
+    domains.  Commas deliberately remain inside an item so attributes such as
+    power, voltage, head, and material stay with their equipment.
+    """
+    pieces = re.split(r";|\n+", text)
+    out = []
+    item_number = 0
+    for piece in pieces:
+        markers = list(_INLINE_ITEM_MARKER.finditer(piece))
+        segments = []
+        if markers:
+            if piece[:markers[0].start()].strip():
+                segments.append((None, piece[:markers[0].start()]))
+            for index, marker in enumerate(markers):
+                end = markers[index + 1].start() if index + 1 < len(markers) else len(piece)
+                segments.append((marker.group(0), piece[marker.end():end]))
+        else:
+            marker = _ITEM_MARKER.match(piece)
+            segments.append((marker.group(0) if marker else None, piece[marker.end():] if marker else piece))
+
+        for marker_text, part in segments:
+            part = part.strip()
+            if not part:
+                continue
+            item_id = None
+            if marker_text:
+                item_number += 1
+                item_id = f"ITEM-{item_number:03d}"
+            for sentence in _sentence_chunks(part):
+                if _ADMINISTRATIVE.match(sentence):
+                    continue
+                out.append((item_id, sentence))
+    return out
 
 
 def extract_requirements(text: str):
@@ -47,9 +105,9 @@ def extract_requirements(text: str):
     source_references = list(IS_REF.finditer(text))
     source_reference_index = 0
     text = _normalize_for_extraction(text)
-    chunks = _sentence_chunks(text)
+    chunks = _procurement_chunks(text)
 
-    for i, chunk in enumerate(chunks, 1):
+    for i, (item_id, chunk) in enumerate(chunks, 1):
         low = chunk.lower()
         page = _page(text, text.find(chunk))
 
@@ -79,6 +137,7 @@ def extract_requirements(text: str):
             req_suffix = f"-IS-{j+1}" if len(is_matches) > 1 else "-IS"
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}{req_suffix}",
+                item_id=item_id,
                 category="reference",
                 attribute="is_number",
                 value=ref_val,
@@ -96,6 +155,7 @@ def extract_requirements(text: str):
         for m in POWER.finditer(chunk):
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}-POWER",
+                item_id=item_id,
                 category="performance",
                 attribute="rated_power",
                 value=m.group(1),
@@ -109,6 +169,7 @@ def extract_requirements(text: str):
         for m in VOLTAGE.finditer(chunk):
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}-VOLT",
+                item_id=item_id,
                 category="performance",
                 attribute="voltage",
                 value=m.group(1),
@@ -122,6 +183,7 @@ def extract_requirements(text: str):
         for m in FLOW.finditer(chunk):
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}-FLOW",
+                item_id=item_id,
                 category="performance",
                 attribute="flow_rate",
                 value=m.group(1),
@@ -133,10 +195,11 @@ def extract_requirements(text: str):
 
         # General product-description row: emit one per sentence that carries
         # any substantive noun content (avoids duplicating pure-numeric sentences)
-        alpha_tokens = [w for w in low.split() if w.isalpha() and len(w) > 2]
+        alpha_tokens = re.findall(r"[a-z]{3,}", low)
         if alpha_tokens and not any(r.text == chunk and r.category == "product" for r in rows):
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}",
+                item_id=item_id,
                 category="product",
                 text=chunk,
                 source_page=page,

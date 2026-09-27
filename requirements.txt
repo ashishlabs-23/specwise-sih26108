@@ -9,3 +9,7 @@ httpx>=0.27.0
 python-multipart>=0.0.18
 google-cloud-firestore>=2.14.0
 
+# Explicit direct dependency for the locally provisioned IndicTrans2 adapter.
+# Model weights are provisioned separately via INDICTRANS2_MODEL_PATH.
+transformers>=4.51,<5
+indictranstoolkit==1.1.1

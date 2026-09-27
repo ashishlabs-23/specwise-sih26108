@@ -4,7 +4,7 @@ import uuid
 from typing import Optional
 from app.config import settings
 
-from app.models import AnalysisRequest, AnalysisResponse, RetrievalResult
+from app.models import AnalysisRequest, AnalysisResponse, Evidence, LanguageInfo, RetrievalResult
 from app.storage.repository import get_repository, BaseRepository
 from app.extraction.document import extract_text_from_file
 from app.extraction.requirement_extractor import extract_requirements
@@ -23,12 +23,13 @@ from app.policy.domain_relevance import has_corpus_product_signal
 from app.policy.certification import CertificationRepository
 from app.graph.relationships import expand
 from app.report.builder import build_html
+from app.multilingual import Translator, prepare_input
 
 logger = logging.getLogger(__name__)
 
 
 class RecommendationEngine:
-    def __init__(self, repository: Optional[BaseRepository] = None):
+    def __init__(self, repository: Optional[BaseRepository] = None, translator: Optional[Translator] = None):
         self.repo = repository or get_repository()
         self.standards = self.repo.standards
         self.by_id = {x.standard_id: x for x in self.standards}
@@ -60,6 +61,7 @@ class RecommendationEngine:
                 )
 
         self.cert_repo = CertificationRepository(self.repo.certification)
+        self.translator = translator
 
     def _input(self, request):
         if request.text is not None:
@@ -70,14 +72,136 @@ class RecommendationEngine:
             return extract_text_from_file(request.file_path)
         raise ValueError("Provide text or file_path.")
 
+    def _evidence_with_provenance(self, coverage, applicability, certification):
+        """Return requirement-linked support and separately labeled context.
+
+        Corpus evidence records are immutable.  This method copies only the
+        records needed for the analysis response and adds analysis-time
+        provenance, so a retrieved candidate cannot make all of its source
+        material look applicable to the procurement.
+        """
+        by_evidence_id = {item.evidence_id: item for item in self.repo.evidence}
+        supporting: dict[tuple[str, str], Evidence] = {}
+        support_requirements: dict[str, set[str]] = {}
+        strong_standard_ids = {
+            assessment.standard_id
+            for assessment in applicability
+            if assessment.result == "strong"
+        }
+
+        for entry in coverage:
+            if (
+                entry.standard_id
+                and entry.state in {"covered", "partial", "edition_mismatch"}
+                and entry.standard_id in strong_standard_ids
+            ):
+                support_requirements.setdefault(entry.standard_id, set()).add(entry.requirement_id)
+                for evidence_id in entry.evidence_ids:
+                    source = by_evidence_id.get(evidence_id)
+                    if source:
+                        key = (evidence_id, entry.standard_id)
+                        prior = supporting.get(key)
+                        requirement_ids = set(prior.requirement_ids) if prior else set()
+                        requirement_ids.add(entry.requirement_id)
+                        supporting[key] = source.model_copy(update={
+                            "requirement_ids": sorted(requirement_ids),
+                            "candidate_standard_id": entry.standard_id,
+                            "evidence_scope": "supporting",
+                            "inclusion_reason": (
+                                "Supports the requirement-to-standard coverage relationship."
+                            ),
+                        })
+
+        # Certification claims only support a decision when the same standard
+        # supports at least one concrete procurement requirement.
+        for standard_id, cert in certification.items():
+            requirement_ids = support_requirements.get(standard_id)
+            if not requirement_ids:
+                continue
+            for evidence_id in cert.evidence_ids:
+                source = by_evidence_id.get(evidence_id)
+                if source:
+                    supporting[(evidence_id, standard_id)] = source.model_copy(update={
+                        "requirement_ids": sorted(requirement_ids),
+                        "candidate_standard_id": standard_id,
+                        "evidence_scope": "supporting",
+                        "inclusion_reason": (
+                            "Certification/QCO status for a standard that supports the listed requirement(s)."
+                        ),
+                    })
+
+        context: dict[tuple[str, str], Evidence] = {}
+        for assessment in applicability:
+            # Supporting records above already carry a requirement relationship.
+            if assessment.standard_id in support_requirements:
+                continue
+            for evidence_id in assessment.evidence_ids:
+                source = by_evidence_id.get(evidence_id)
+                if source:
+                    context[(evidence_id, assessment.standard_id)] = source.model_copy(update={
+                        "requirement_ids": [],
+                        "candidate_standard_id": assessment.standard_id,
+                        "evidence_scope": "context_only",
+                        "inclusion_reason": (
+                            "Retrieved candidate context only; no covered procurement requirement is linked to this evidence."
+                        ),
+                    })
+
+        return list(supporting.values()), list(context.values())
+
+    def _safe_multilingual_result(self, original_text, prepared, request, timings):
+        """Return a non-recommending result without running English retrieval.
+
+        This deliberately retains only source-derived requirements (such as an
+        explicit IS citation) so unavailable or failed normalization cannot
+        create an English lexical match or fabricated product recommendation.
+        """
+        requirements = extract_requirements(original_text)
+        validate_requirements(requirements)
+        coverage = build(requirements, [], known_standard_ids=self.by_id)
+        gaps = [entry for entry in coverage if entry.state in {
+            "not_covered", "unverified_reference", "edition_mismatch"
+        }]
+        decision, reasons = route([], [], [], coverage, [], by_id=self.by_id)
+        reason = prepared.failure_reason or "Multilingual normalization could not be verified."
+        result = AnalysisResponse(
+            analysis_id=f"AN-{uuid.uuid4().hex[:12]}",
+            input_text=original_text,
+            language=LanguageInfo(**prepared.metadata.__dict__),
+            requirements=requirements,
+            candidates=[], applicability=[], lifecycle=[], related_standards=[],
+            certification={}, coverage=coverage, gaps=gaps, conflicts=[],
+            decision=decision,
+            decision_reasons=[reason, *reasons],
+            evidence=[], context_evidence=[],
+            tender_cited_standards=[
+                requirement for requirement in requirements
+                if requirement.category == "reference" and requirement.attribute == "is_number"
+            ],
+            timings_ms=timings,
+        )
+        result.report_html = build_html(result, by_id=self.by_id)
+        return result
+
     def analyze(self, request: AnalysisRequest):
         # CON-07: capture true start time for total_ms
         t_start = time.perf_counter()
         timings = {}
 
         t = time.perf_counter()
-        text, ocr_used = self._input(request)
+        original_text, ocr_used = self._input(request)
         timings["input_ms"] = (time.perf_counter() - t) * 1000
+
+        t = time.perf_counter()
+        prepared = prepare_input(original_text, self.translator)
+        timings["language_processing_ms"] = (time.perf_counter() - t) * 1000
+        if prepared.normalized_english_text is None:
+            result = self._safe_multilingual_result(original_text, prepared, request, timings)
+            result.timings_ms["total_ms"] = (time.perf_counter() - t_start) * 1000
+            return result
+        # Downstream remains the existing English-only stack. input_text below
+        # always remains the original submitted wording for audit/reporting.
+        text = prepared.normalized_english_text
 
         t = time.perf_counter()
         requirements = extract_requirements(text)
@@ -133,7 +257,7 @@ class RecommendationEngine:
         t = time.perf_counter()
         applicability = [assess(self.by_id[c.standard_id], requirements) for c in candidates]
         lifecycle = [lifecycle_assess(self.by_id[c.standard_id], request.tender_date) for c in candidates]
-        coverage = build(requirements, applicability)
+        coverage = build(requirements, applicability, known_standard_ids=self.by_id)
         gaps = [x for x in coverage if x.state in {"not_covered", "unverified_reference", "edition_mismatch"}]
         related = expand([c.standard_id for c in candidates], self.repo.relationships, settings.max_related_hops)
 
@@ -150,24 +274,17 @@ class RecommendationEngine:
         )
         timings["policy_ms"] = (time.perf_counter() - t) * 1000
 
-        ids = set()
-        for c in candidates:
-            ids.update(self.by_id[c.standard_id].evidence_ids)
-        for a in applicability:
-            ids.update(a.evidence_ids)
-        for l in lifecycle:
-            ids.update(l.evidence_ids)
-        for g in coverage:
-            ids.update(g.evidence_ids)
-        for r in related:
-            ids.update(r.evidence_ids)
-        for x in certification.values():
-            ids.update(x.evidence_ids)
-
-        evidence = [e for e in self.repo.evidence if e.evidence_id in ids]
+        evidence, context_evidence = self._evidence_with_provenance(
+            coverage, applicability, certification
+        )
+        tender_cited_standards = [
+            requirement for requirement in requirements
+            if requirement.category == "reference" and requirement.attribute == "is_number"
+        ]
         result = AnalysisResponse(
             analysis_id=f"AN-{uuid.uuid4().hex[:12]}",
-            input_text=text,
+            input_text=original_text,
+            language=LanguageInfo(**prepared.metadata.__dict__),
             requirements=requirements,
             candidates=candidates,
             applicability=applicability,
@@ -180,6 +297,8 @@ class RecommendationEngine:
             decision=decision,
             decision_reasons=reasons + ([f"OCR used: {ocr_used}"] if ocr_used else []),
             evidence=evidence,
+            context_evidence=context_evidence,
+            tender_cited_standards=tender_cited_standards,
             timings_ms=timings,
         )
         result.report_html = build_html(result, by_id=self.by_id)

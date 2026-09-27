@@ -357,6 +357,7 @@ export default function HomePage() {
           isOpen={isSourcesModalOpen}
           onClose={() => setIsSourcesModalOpen(false)}
           evidence={response.evidence}
+          contextEvidence={response.context_evidence}
         />
       )}
 

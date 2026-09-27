@@ -11,11 +11,14 @@ _ROLE_CEILING = {
 }
 
 _RESULT_ORDER = ["unknown", "weak", "possible", "strong"]
+_GENERIC_SUBMERSIBLE_PRODUCT_TERMS = {"submersible pump", "submersible pumpset"}
 
 
 def _normalize_product_wording(value: str) -> str:
     """Normalize spelling variants while keeping openwell and borewell distinct."""
     value = re.sub(r"\b(open|bore)[\s-]*well\b", r"\1well", value, flags=re.I)
+    value = re.sub(r"\bpump\s+sets?\b", "pumpset", value, flags=re.I)
+    value = re.sub(r"\bpumpsets\b", "pumpset", value, flags=re.I)
     return re.sub(r"\s+", " ", value).strip().lower()
 
 
@@ -50,6 +53,18 @@ def _phrases_in(phrases: list[str], text: str) -> list[str]:
     return hits
 
 
+def _has_current_exact_reference(standard, requirements) -> bool:
+    """Return whether the tender explicitly cites this record's current ID."""
+    target = standard.standard_id.upper().replace(" ", "")
+    for req in requirements:
+        if req.category != "reference" or not req.value:
+            continue
+        citation = req.value.upper().replace(" ", "")
+        if citation == target:
+            return True
+    return False
+
+
 def assess(standard, requirements) -> ApplicabilityAssessment:
     """
     Role-aware, data-driven applicability scoring.
@@ -75,6 +90,7 @@ def assess(standard, requirements) -> ApplicabilityAssessment:
     score = 0
     reasons: list[str] = []
     excluded = False
+    app_hits: list[str] = []
 
     # ── 1. Exclusion terms ────────────────────────────────────────────────────
     exclusion_hits = _phrases_in(getattr(standard, "exclusion_terms", []), req_text)
@@ -127,8 +143,40 @@ def assess(standard, requirements) -> ApplicabilityAssessment:
             "cannot establish a strong match for this product standard."
         )
 
-    # ── 6. Apply role ceiling ─────────────────────────────────────────────────
+    # Generic submersible wording is useful retrieval context but does not
+    # distinguish the competing openwell and borewell primary families. A
+    # current exact tender citation may anchor a generic product only when no
+    # exclusion contradicts it. Historical citations remain review signals.
+    generic_hits = {
+        _normalize_product_wording(term)
+        for term in product_hits
+        if _normalize_product_wording(term) in _GENERIC_SUBMERSIBLE_PRODUCT_TERMS
+    }
+    family_hits = [
+        term for term in product_hits
+        if _normalize_product_wording(term) not in _GENERIC_SUBMERSIBLE_PRODUCT_TERMS
+    ]
+    family_hits.extend(
+        term for term in app_hits
+        if "well" in _normalize_product_wording(term)
+    )
+    current_reference = _has_current_exact_reference(standard, requirements)
     role = getattr(standard, "standard_role", "PRIMARY_PRODUCT_STANDARD")
+    if (
+        role == "PRIMARY_PRODUCT_STANDARD"
+        and generic_hits
+        and not family_hits
+        and not current_reference
+        and not excluded
+    ):
+        raw_result = _cap(raw_result, "possible")
+        reasons.append(
+            "Generic submersible product wording is not sufficient to select a "
+            "primary family; a family-specific well discriminator or compatible "
+            "current tender citation is required."
+        )
+
+    # ── 6. Apply role ceiling ─────────────────────────────────────────────────
     ceiling = _ROLE_CEILING.get(role, "strong")
     final_result = _cap(raw_result, ceiling)
     if final_result != raw_result:

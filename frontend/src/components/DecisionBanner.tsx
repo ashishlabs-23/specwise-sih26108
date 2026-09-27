@@ -32,6 +32,10 @@ export function DecisionBanner({
 }: DecisionBannerProps) {
   const { t } = useLanguage();
   const { decision, decision_reasons, applicability, candidates } = response;
+  const languageNames: Record<string, string> = {
+    en: "English", hi: "Hindi", kn: "Kannada", ta: "Tamil", te: "Telugu",
+    mixed: "Mixed language", unsupported: "Unsupported language",
+  };
   const theme = getDecisionTheme(decision);
 
   // Find strong primary standard ID
@@ -155,6 +159,11 @@ export function DecisionBanner({
                 <span className="text-[11px] sm:text-xs text-slate-500">
                   {decision === "RECOMMEND" ? t.definitiveMatch : t.evaluationResult}
                 </span>
+                {response.language?.detected !== "en" && (
+                  <span className="text-[11px] sm:text-xs text-slate-500">
+                    Language: {languageNames[response.language.detected] || response.language.detected}
+                  </span>
+                )}
               </div>
 
               <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mt-1 break-words">

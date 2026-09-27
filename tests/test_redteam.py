@@ -576,11 +576,12 @@ class TestGeneralProcurementRedTeam:
         assert data["decision"] == "ABSTAIN"
         assert data["candidates"]
 
-    def test_exact_standard_reference_bypasses_domain_gate(self, client):
+    def test_bare_standard_reference_does_not_bypass_domain_gate(self, client):
         response = client.post("/api/v1/analyze", json={"text": "Procurement as per IS 14220:2018"})
         assert response.status_code == 200
         data = response.json()
-        assert any(candidate["standard_id"] == "IS 14220:2018" for candidate in data["candidates"])
+        assert data["candidates"] == []
+        assert data["decision"] == "OUT_OF_CORPUS"
 
     def test_unrelated_procurement_domains_out_of_corpus(self, client):
         """Unrelated realistic procurement tenders must safely return OUT_OF_CORPUS without hallucinating pump standards."""

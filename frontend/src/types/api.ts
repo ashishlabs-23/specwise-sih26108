@@ -15,10 +15,15 @@ export interface Evidence {
   section?: string | null;
   text: string;
   verified: boolean;
+  requirement_ids: string[];
+  candidate_standard_id?: string | null;
+  evidence_scope: "supporting" | "context_only";
+  inclusion_reason?: string | null;
 }
 
 export interface Requirement {
   requirement_id: string;
+  item_id?: string | null;
   category: string;
   product?: string | null;
   attribute?: string | null;
@@ -29,6 +34,10 @@ export interface Requirement {
   source_page?: number | null;
   extraction_method: string;
   extraction_confidence: number;
+  standard_number?: string | null;
+  part?: string | null;
+  year?: string | null;
+  source_citation?: string | null;
 }
 
 export interface RetrievalResult {
@@ -122,6 +131,11 @@ export interface AnalysisRequest {
 export interface AnalysisResponse {
   analysis_id: string;
   input_text: string;
+  language: {
+    detected: "en" | "hi" | "kn" | "ta" | "te" | "mixed" | "unsupported";
+    processing_mode: "native_english" | "translated_to_english" | "mixed" | "unsupported";
+    translation_verified: boolean;
+  };
   requirements: Requirement[];
   candidates: RetrievalResult[];
   applicability: ApplicabilityAssessment[];
@@ -134,6 +148,8 @@ export interface AnalysisResponse {
   decision: Decision;
   decision_reasons: string[];
   evidence: Evidence[];
+  context_evidence: Evidence[];
+  tender_cited_standards: Requirement[];
   report_html?: string | null;
   timings_ms: Record<string, number>;
 }

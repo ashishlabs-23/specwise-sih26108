@@ -79,8 +79,37 @@ def test_ambiguous_submersible_only_query(engine):
     ABSTAIN is the correct honest outcome. REVIEW is also acceptable.
     OUT_OF_CORPUS is NOT acceptable — candidates are retrieved above the relevance floor."""
     r = engine.analyze(AnalysisRequest(text="submersible pump for water supply"))
-    assert r.decision in {"RECOMMEND", "REVIEW", "ABSTAIN"}, \
-        f"Expected RECOMMEND/REVIEW/ABSTAIN, got {r.decision}"
+    assert r.decision in {"REVIEW", "ABSTAIN"}, \
+        f"Expected REVIEW/ABSTAIN, got {r.decision}"
     # Candidates must still be retrieved (corpus does contain submersible standards)
     assert any(x.standard_id == "IS 8034:2018" for x in r.candidates), \
         "IS 8034:2018 must appear in candidates for a submersible query"
+
+
+def test_generic_submersible_pumpset_has_no_strong_primary(engine):
+    result = engine.analyze(AnalysisRequest(text="submersible pumpset"))
+    assert result.decision == "ABSTAIN"
+    assert not any(item.result == "strong" for item in result.applicability)
+
+
+def test_evidence_is_requirement_linked_and_context_is_separate(engine):
+    result = engine.analyze(AnalysisRequest(
+        text="openwell submersible pumpset for agricultural irrigation"
+    ))
+    assert result.evidence
+    assert all(item.evidence_scope == "supporting" for item in result.evidence)
+    assert all(item.requirement_ids for item in result.evidence)
+    assert all(item.candidate_standard_id == "IS 14220:2018" for item in result.evidence)
+    assert all(item.evidence_scope == "context_only" for item in result.context_evidence)
+
+
+def test_unrelated_fake_reference_has_no_inherited_supporting_evidence(engine):
+    result = engine.analyze(AnalysisRequest(
+        text="Laboratory centrifuge equipment conforming to IS 88888:2024."
+    ))
+    assert result.decision == "REVIEW"
+    assert not result.candidates
+    assert not result.evidence
+    assert not result.context_evidence
+    assert any(item.state == "unverified_reference" for item in result.gaps)
+    assert result.tender_cited_standards

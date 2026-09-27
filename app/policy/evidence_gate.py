@@ -9,6 +9,12 @@ def route(candidates, applicability, lifecycle, coverage, conflicts, by_id=None)
     - ABSTAIN distinguishes 'only related/CoP candidates' from 'no signal at all'.
     """
     if not candidates:
+        unverified = [x for x in coverage if x.state == "unverified_reference"]
+        if unverified:
+            details = "; ".join(f"[{x.requirement_id}] {x.reason}" for x in unverified)
+            return "REVIEW", [
+                f"Tender cites IS references not present in the prototype corpus: {details}"
+            ]
         return "OUT_OF_CORPUS", [
             "No candidate standard in the prototype corpus scored above the "
             "relevance floor for this query. The input domain is likely outside "

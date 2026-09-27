@@ -9,10 +9,11 @@ interface AllSourcesModalProps {
   isOpen: boolean;
   onClose: () => void;
   evidence: Evidence[];
+  contextEvidence?: Evidence[];
 }
 
-export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalProps) {
-  const [activeTab, setActiveTab] = useState<"evidence" | "sources">("evidence");
+export function AllSourcesModal({ isOpen, onClose, evidence, contextEvidence = [] }: AllSourcesModalProps) {
+  const [activeTab, setActiveTab] = useState<"evidence" | "context" | "sources">("evidence");
 
   if (!isOpen) return null;
 
@@ -52,10 +53,10 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
             </div>
             <div className="min-w-0">
               <h3 className="text-sm sm:text-base font-bold text-slate-900 truncate">
-                Evidence & Sources Provenance
+                Evidence Provenance
               </h3>
               <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
-                {uniqueSources.length} Source Documents • {evidence.length} Evidence Claims
+                {uniqueSources.length} source documents • {evidence.length} supporting claims
               </p>
             </div>
           </div>
@@ -79,7 +80,18 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            Evidence Findings ({evidence.length})
+            Supporting evidence ({evidence.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("context")}
+            className={`pb-2.5 px-3 text-xs font-bold border-b-2 transition-all cursor-pointer ${
+              activeTab === "context"
+                ? "border-amber-600 text-amber-700"
+                : "border-transparent text-slate-500 hover:text-slate-800"
+            }`}
+          >
+            Context only ({contextEvidence.length})
           </button>
           <button
             type="button"
@@ -113,7 +125,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                       {ev.verified ? (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex-shrink-0">
                           <CheckCircle2 className="w-3 h-3" />
-                          <span>Verified Official BIS</span>
+                          <span>Supporting BIS evidence</span>
                         </span>
                       ) : (
                         <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex-shrink-0">
@@ -125,6 +137,10 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
 
                   <p className="text-xs sm:text-sm text-slate-700 mt-2 font-medium leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200 break-words">
                     "{ev.text}"
+                  </p>
+                  <p className="mt-2 text-[11px] text-slate-600">
+                    Supports requirement{ev.requirement_ids.length === 1 ? "" : "s"}: {ev.requirement_ids.join(", ") || "not recorded"}
+                    {ev.candidate_standard_id ? ` • Candidate: ${ev.candidate_standard_id}` : ""}
                   </p>
 
                   <div className="mt-2 flex flex-wrap items-center justify-between gap-1 text-xs">
@@ -143,6 +159,26 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                       </a>
                     )}
                   </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === "context" && (
+            <div className="space-y-4">
+              <p className="text-xs text-amber-800 bg-amber-50 border border-amber-200 rounded-lg p-3">
+                Context only — not evidence for this procurement decision.
+              </p>
+              {contextEvidence.length === 0 ? (
+                <p className="text-xs text-slate-500">No context-only evidence records.</p>
+              ) : contextEvidence.map((ev, idx) => (
+                <div key={idx} className="pt-4 first:pt-0 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-mono text-xs font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded break-words">{ev.evidence_id}</span>
+                    <span className="text-[10px] font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">Context only</span>
+                  </div>
+                  <p className="text-xs sm:text-sm text-slate-700 mt-2 font-medium leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200 break-words">"{ev.text}"</p>
+                  <p className="mt-2 text-[11px] text-slate-600">{ev.inclusion_reason || "Retrieved context; not applicable support."}{ev.candidate_standard_id ? ` • Candidate: ${ev.candidate_standard_id}` : ""}</p>
                 </div>
               ))}
             </div>
@@ -195,7 +231,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
 
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-between items-center rounded-b-2xl text-xs text-slate-500">
-          <span>Source = Original Document • Evidence = Verified Finding</span>
+          <span>Supporting evidence is separated from context-only records.</span>
           <button
             type="button"
             onClick={onClose}

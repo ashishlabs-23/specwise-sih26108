@@ -76,7 +76,7 @@ def test_02_ambiguous_text_query_review_or_abstain(browser_context):
 
     # Should be ABSTAIN or REVIEW badge for ambiguous query
     banner = page.locator("#results-section")
-    decision_badge = banner.locator("span:has-text('REVIEW')").or_(banner.locator("span:has-text('ABSTAIN')")).first
+    decision_badge = banner.locator("span:has-text('NO PRIMARY MATCH')").first
     expect(decision_badge).to_be_visible(timeout=10000)
     page.close()
 
@@ -146,6 +146,7 @@ def test_05_malformed_pdf_user_error(browser_context):
     # Close modal
     page.locator("button:has-text('Cancel')").click()
     expect(page.locator("text=Upload Tender Document (PDF)")).not_to_be_visible()
+    expect(page.locator("#results-section h2")).to_have_count(0)
     page.close()
 
 def test_06_scanned_image_pdf_user_error(browser_context):
@@ -191,28 +192,31 @@ def test_07_prompt_injection_pdf_resilience(browser_context):
     # Wait for results
     page.wait_for_selector("#results-section", state="visible", timeout=15000)
 
-    # Grounded decision must remain IS 14220 RECOMMEND, NOT IS 99999 or OVERRIDE
-    expect(page.locator("text=RECOMMEND").first).to_be_visible(timeout=10000)
-    expect(page.locator("h2:has-text('IS 14220')")).to_be_visible()
-    expect(page.locator("text=IS 99999")).not_to_be_visible()
+    # Document instructions are untrusted text; they must not force the cited
+    # standard or an override state into the result.
+    # Preserve the cited fake reference as unverified context, without elevating
+    # it into a primary standard or fabricating a corpus record.
+    expect(page.locator("text=IS 99999")).to_be_visible()
+    expect(page.locator("h2:has-text('IS 99999')")).not_to_be_visible()
     expect(page.locator("text=OVERRIDE_SUCCESSFUL")).not_to_be_visible()
     page.close()
 
 def test_08_evidence_source_modal(browser_context):
     page = browser_context.new_page()
-    page.goto(FRONTEND_URL, wait_until="networkidle")
+    page.goto(f"{FRONTEND_URL}/?q=openwell%20submersible%20pumpset%20for%20agricultural%20irrigation", wait_until="networkidle")
 
     # Wait for initial results
     page.wait_for_selector("#results-section", state="visible", timeout=15000)
 
     # Click "View all" sources button
-    view_sources_btn = page.locator("button:has-text('View all')").first
+    # First "View all" belongs to related standards; the second opens evidence.
+    view_sources_btn = page.locator("button:has-text('View all')").nth(1)
     expect(view_sources_btn).to_be_visible()
     view_sources_btn.click()
 
     # Verify modal is visible
     expect(page.locator("text=Evidence & Sources Provenance").or_(page.locator("text=All Verified Sources & Evidence"))).to_be_visible()
-    expect(page.locator("text=Verified Official BIS").first).to_be_visible()
+    expect(page.locator("text=Verified BIS").first).to_be_visible()
 
     # Close modal
     page.locator("button:has-text('Close')").click()
@@ -240,13 +244,13 @@ def test_09_related_standards_expansion(browser_context):
 
 def test_10_certification_warning_and_modal(browser_context):
     page = browser_context.new_page()
-    page.goto(FRONTEND_URL, wait_until="networkidle")
+    page.goto(f"{FRONTEND_URL}/?q=openwell%20submersible%20pumpset%20for%20agricultural%20irrigation", wait_until="networkidle")
 
     # Wait for results
     page.wait_for_selector("#results-section", state="visible", timeout=15000)
 
     # Check Certification / QCO Status Banner
-    expect(page.locator("text=Certification / QCO Status")).to_be_visible()
+    expect(page.get_by_text("Certification / QCO Status", exact=True)).to_be_visible()
     expect(page.locator("text=QCO Proposed / Unconfirmed").or_(page.locator("text=Regulatory Notice"))).to_be_visible()
 
     # Click "Learn more"

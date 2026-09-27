@@ -1,0 +1,1979 @@
+[
+  {
+    "id": "TC-01-OPENWELL",
+    "category": "openwell_pump",
+    "text_preview": "Procurement of 5 HP openwell submersible pumpsets for lift irrigation and dewate...",
+    "decision": "RECOMMEND",
+    "decision_reasons": [
+      "Single primary product standard (IS 14220:2018) scored strong applicability and passed all prototype evidence gates: no coverage gaps, no conflicts, lifecycle supported."
+    ],
+    "strong": [
+      "IS 14220:2018"
+    ],
+    "possible": [],
+    "weak": [
+      "IS 9283:2024",
+      "IS 8034:2018",
+      "IS 14536:2018",
+      "IS 9079:2018",
+      "IS 10572:1983",
+      "IS 694:2010"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14536:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 2,
+    "evidence_ids": [
+      "E-14220-SCOPE",
+      "E-QCO-PUMPS-2023"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-02-MONOSET",
+    "category": "agricultural_monoset",
+    "text_preview": "Supply of 3 HP electric monoset pumps for agricultural water supply, suitable fo...",
+    "decision": "RECOMMEND",
+    "decision_reasons": [
+      "Single primary product standard (IS 9079:2018) scored strong applicability and passed all prototype evidence gates: no coverage gaps, no conflicts, lifecycle supported."
+    ],
+    "strong": [
+      "IS 9079:2018"
+    ],
+    "possible": [
+      "IS 14536:2018"
+    ],
+    "weak": [
+      "IS 8034:2018",
+      "IS 14220:2018",
+      "IS 10572:1983"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ]
+    ],
+    "cert_states": {
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 1,
+    "evidence_ids": [
+      "E-9079-SCOPE"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-03-REGENERATIVE",
+    "category": "regenerative_pump",
+    "text_preview": "Procurement of single-phase regenerative peripheral pumps for domestic water sup...",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "Candidates were retrieved but available evidence in the prototype corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 9079:2018",
+      "IS 8034:2018",
+      "IS 14220:2018",
+      "IS 14536:2018"
+    ],
+    "weak": [
+      "IS 10572:1983"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14536:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ]
+    ],
+    "cert_states": {
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-04-JET-PUMP",
+    "category": "centrifugal_jet",
+    "text_preview": "Supply of centrifugal deep well jet pumpsets for domestic water lifting with bui...",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "Candidates were retrieved but available evidence in the prototype corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 8034:2018"
+    ],
+    "weak": [
+      "IS 14220:2018",
+      "IS 9283:2024",
+      "IS 9079:2018",
+      "IS 1239:1990"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-05-ROTODYNAMIC",
+    "category": "rotodynamic_general",
+    "text_preview": "Supply of rotodynamic pumps for industrial cooling water circulation, including ...",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "No standard in the prototype corpus produced a sufficient applicability signal for this query. Evidence in the corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [
+      "IS 9079:2018",
+      "IS 10572:1983",
+      "IS 9283:2024"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 10572:1983",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-06-CABLE",
+    "category": "cable_only",
+    "text_preview": "Supply of PVC insulated unsheathed and sheathed electrical cables for working vo...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Insufficient product attributes: requirements [REQ-001-VOLT] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [
+      "IS 694:2010"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14536:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1239:1990",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 1,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001-VOLT"
+    ],
+    "related_standards": [
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-07-FUSE",
+    "category": "lv_fuse",
+    "text_preview": "Supply of low-voltage fuses for electrical circuit protection in residential dis...",
+    "decision": "OUT_OF_CORPUS",
+    "decision_reasons": [
+      "No candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [],
+    "top5_candidates": [],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 1,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001"
+    ],
+    "related_standards": [],
+    "cert_states": {},
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 0
+  },
+  {
+    "id": "TC-08-HISTORICAL-REF",
+    "category": "historical_reference",
+    "text_preview": "Supply of submersible pumpsets for borewell installation conforming to IS 8034:2...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Edition mismatch / currentness issues detected: [REQ-001-IS-1] Tender cites historical/cited edition 'IS 8034:2002', but corpus contains current edition 'IS 8034:2018'. Edition revision and technical parameter differences must be reviewed.",
+      "Insufficient product attributes: requirements [REQ-001-IS-2] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [
+      "IS 8034:2018"
+    ],
+    "possible": [
+      "IS 14536:2018"
+    ],
+    "weak": [
+      "IS 9283:2024",
+      "IS 1554:1988",
+      "IS 694:2010",
+      "IS 14220:2018",
+      "IS 1239:1990"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.03252,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.03252,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14536:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 3,
+    "req_categories": {
+      "reference": 2,
+      "product": 1
+    },
+    "gaps_total": 2,
+    "unverified_refs": [],
+    "edition_mismatches": [
+      "Tender cites historical/cited edition 'IS 8034:2002', but corpus contains current edition 'IS 8034:2018'. Edition revision and technical parameter differences must be reviewed."
+    ],
+    "not_covered_reqs": [
+      "REQ-001-IS-2"
+    ],
+    "related_standards": [
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ]
+    ],
+    "cert_states": {
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 3,
+    "evidence_ids": [
+      "E-8034-SCOPE",
+      "E-8034-LIFECYCLE",
+      "E-QCO-PUMPS-2023"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-09-EXPLICIT-CURRENT",
+    "category": "explicit_current_ref",
+    "text_preview": "Procurement of submersible pumpsets strictly conforming to IS 8034:2018 for agri...",
+    "decision": "RECOMMEND",
+    "decision_reasons": [
+      "Single primary product standard (IS 8034:2018) scored strong applicability and passed all prototype evidence gates: no coverage gaps, no conflicts, lifecycle supported."
+    ],
+    "strong": [
+      "IS 8034:2018"
+    ],
+    "possible": [
+      "IS 9079:2018"
+    ],
+    "weak": [
+      "IS 14220:2018",
+      "IS 9283:2024",
+      "IS 1239:1990",
+      "IS 14536:2018",
+      "IS 694:2010"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.03279,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "reference": 1,
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 3,
+    "evidence_ids": [
+      "E-8034-SCOPE",
+      "E-8034-LIFECYCLE",
+      "E-QCO-PUMPS-2023"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-10-FAKE-IS",
+    "category": "fake_is_reference",
+    "text_preview": "Supply of electric pumps conforming to IS 77777:2026 and IS 55555:2025 for sewag...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Tender cites IS references not present in the prototype corpus: [REQ-001-IS-1] Tender cites 'IS 77777:2026' which is not present in the prototype corpus. Coverage cannot be verified.; [REQ-001-IS-2] Tender cites 'IS 55555:2025' which is not present in the prototype corpus. Coverage cannot be verified."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [
+      "IS 9079:2018",
+      "IS 10572:1983"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 10572:1983",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 3,
+    "req_categories": {
+      "reference": 2,
+      "product": 1
+    },
+    "gaps_total": 2,
+    "unverified_refs": [
+      "Tender cites 'IS 77777:2026' which is not present in the prototype corpus. Coverage cannot be verified.",
+      "Tender cites 'IS 55555:2025' which is not present in the prototype corpus. Coverage cannot be verified."
+    ],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ]
+    ],
+    "cert_states": {
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-11-AMBIGUOUS",
+    "category": "ambiguous_pump",
+    "text_preview": "Supply of 5 HP submersible pumps for agricultural water supply — specifications ...",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "Candidates were retrieved but available evidence in the prototype corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 9079:2018",
+      "IS 8034:2018",
+      "IS 14220:2018"
+    ],
+    "weak": [
+      "IS 1239:1990",
+      "IS 10572:1983",
+      "IS 14536:2018",
+      "IS 694:2010"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1239:1990",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ]
+    ],
+    "cert_states": {
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-12-MULTI-ITEM",
+    "category": "multi_item_pump",
+    "text_preview": "Procurement package for rural water scheme: (a) 3 HP openwell submersible pumpse...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Insufficient product attributes: requirements [REQ-005] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [
+      "IS 14220:2018"
+    ],
+    "possible": [],
+    "weak": [
+      "IS 694:2010",
+      "IS 9283:2024",
+      "IS 1239:1990",
+      "IS 1554:1988",
+      "IS 8034:2018",
+      "IS 14536:2018",
+      "IS 9079:2018"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1239:1990",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1554:1988",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 8,
+    "req_categories": {
+      "product": 5,
+      "performance": 3
+    },
+    "gaps_total": 1,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-005"
+    ],
+    "related_standards": [
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 2,
+    "evidence_ids": [
+      "E-14220-SCOPE",
+      "E-QCO-PUMPS-2023"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-13-PARTIAL-CORPUS",
+    "category": "partial_corpus",
+    "text_preview": "Supply package for solar irrigation scheme: (a) submersible pumpset for borewell...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Insufficient product attributes: requirements [REQ-003-POWER, REQ-003, REQ-004-VOLT, REQ-004, REQ-005] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [
+      "IS 8034:2018"
+    ],
+    "possible": [],
+    "weak": [
+      "IS 1239:1990",
+      "IS 9283:2024",
+      "IS 14220:2018",
+      "IS 694:2010",
+      "IS 1554:1988",
+      "IS 14536:2018",
+      "IS 9079:2018"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 1239:1990",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "strong",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 8,
+    "req_categories": {
+      "product": 5,
+      "performance": 3
+    },
+    "gaps_total": 5,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-003-POWER",
+      "REQ-003",
+      "REQ-004-VOLT",
+      "REQ-004",
+      "REQ-005"
+    ],
+    "related_standards": [
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 3,
+    "evidence_ids": [
+      "E-8034-SCOPE",
+      "E-8034-LIFECYCLE",
+      "E-QCO-PUMPS-2023"
+    ],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-14-SWITCHGEAR",
+    "category": "non_pump_electrical",
+    "text_preview": "Supply and installation of 11 kV vacuum circuit breaker panels with numerical pr...",
+    "decision": "OUT_OF_CORPUS",
+    "decision_reasons": [
+      "No candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [],
+    "top5_candidates": [],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 2,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001-VOLT",
+      "REQ-001"
+    ],
+    "related_standards": [],
+    "cert_states": {},
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 0
+  },
+  {
+    "id": "TC-15-OOC",
+    "category": "out_of_corpus",
+    "text_preview": "Supply and installation of fire sprinkler system, hydrant network, hose reels, f...",
+    "decision": "OUT_OF_CORPUS",
+    "decision_reasons": [
+      "No candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [],
+    "top5_candidates": [],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 1,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001"
+    ],
+    "related_standards": [],
+    "cert_states": {},
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 0
+  },
+  {
+    "id": "TC-16-NO-IS",
+    "category": "no_is_number",
+    "text_preview": "Supply of centrifugal water pump suitable for agricultural irrigation, 5 HP moto...",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "Candidates were retrieved but available evidence in the prototype corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 9079:2018",
+      "IS 14220:2018"
+    ],
+    "weak": [
+      "IS 9283:2024",
+      "IS 10572:1983"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 2,
+    "req_categories": {
+      "performance": 1,
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 9079:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-17-PLAUSIBLE-FAKE",
+    "category": "plausible_fake_is",
+    "text_preview": "Supply of submersible pumpsets conforming to IS 14220:2026 (proposed revision) a...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Edition mismatch / currentness issues detected: [REQ-001-IS-1] Tender cites historical/cited edition 'IS 14220:2026', but corpus contains current edition 'IS 14220:2018'. Edition revision and technical parameter differences must be reviewed.",
+      "Insufficient product attributes: requirements [REQ-001-IS-2] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 8034:2018"
+    ],
+    "weak": [
+      "IS 14220:2018",
+      "IS 9283:2024",
+      "IS 694:2010",
+      "IS 1239:1990",
+      "IS 1554:1988",
+      "IS 14536:2018"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.03252,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.03252,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 1239:1990",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 3,
+    "req_categories": {
+      "reference": 2,
+      "product": 1
+    },
+    "gaps_total": 2,
+    "unverified_refs": [],
+    "edition_mismatches": [
+      "Tender cites historical/cited edition 'IS 14220:2026', but corpus contains current edition 'IS 14220:2018'. Edition revision and technical parameter differences must be reviewed."
+    ],
+    "not_covered_reqs": [
+      "REQ-001-IS-2"
+    ],
+    "related_standards": [
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 1239:1990": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-18-CONFLICTING",
+    "category": "conflicting_requirements",
+    "text_preview": "Supply of openwell submersible pumpset for borewell installation, conforming to ...",
+    "decision": "REVIEW",
+    "decision_reasons": [
+      "Insufficient product attributes: requirements [REQ-001-IS-1, REQ-001-IS-2] could not be covered by any candidate in the prototype corpus."
+    ],
+    "strong": [],
+    "possible": [
+      "IS 14536:2018"
+    ],
+    "weak": [
+      "IS 14220:2018",
+      "IS 8034:2018",
+      "IS 9283:2024",
+      "IS 1554:1988",
+      "IS 694:2010",
+      "IS 9079:2018"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 14220:2018",
+        "rrf": 0.03279,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 8034:2018",
+        "rrf": 0.03226,
+        "paths": [
+          "exact_id",
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 14536:2018",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "possible",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9283:2024",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01538,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 3,
+    "req_categories": {
+      "reference": 2,
+      "product": 1
+    },
+    "gaps_total": 2,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001-IS-1",
+      "REQ-001-IS-2"
+    ],
+    "related_standards": [
+      [
+        "IS 14220:2018",
+        "IS 14536:2018",
+        "related_practice"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 9283:2024",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 14536:2018",
+        "normative_reference"
+      ],
+      [
+        "IS 8034:2018",
+        "IS 11346:2002",
+        "test_method"
+      ],
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 14220:2018": "not_verified_in_prototype_corpus",
+      "IS 8034:2018": "not_verified_in_prototype_corpus",
+      "IS 14536:2018": "not_verified_in_prototype_corpus",
+      "IS 9283:2024": "not_verified_in_prototype_corpus",
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 1554:1988": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 8
+  },
+  {
+    "id": "TC-19-SHORT",
+    "category": "very_short",
+    "text_preview": "pump",
+    "decision": "ABSTAIN",
+    "decision_reasons": [
+      "No standard in the prototype corpus produced a sufficient applicability signal for this query. Evidence in the corpus is insufficient for a defensible recommendation. SOURCE ACCESS RESTRICTED — DETAILS NOT VERIFIED."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [
+      "IS 10572:1983",
+      "IS 9079:2018"
+    ],
+    "top5_candidates": [
+      {
+        "id": "IS 11346:2002",
+        "rrf": 0.01639,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 10572:1983",
+        "rrf": 0.01613,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 694:2010",
+        "rrf": 0.01587,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "unknown",
+        "lc": "supported"
+      },
+      {
+        "id": "IS 9079:2018",
+        "rrf": 0.01562,
+        "paths": [
+          "bm25"
+        ],
+        "appl": "weak",
+        "lc": "supported"
+      }
+    ],
+    "requirements_extracted": 1,
+    "req_categories": {
+      "product": 1
+    },
+    "gaps_total": 0,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [],
+    "related_standards": [
+      [
+        "IS 9079:2018",
+        "IS 11346:2002",
+        "test_method"
+      ]
+    ],
+    "cert_states": {
+      "IS 11346:2002": "not_verified_in_prototype_corpus",
+      "IS 10572:1983": "not_verified_in_prototype_corpus",
+      "IS 694:2010": "not_verified_in_prototype_corpus",
+      "IS 9079:2018": "not_verified_in_prototype_corpus"
+    },
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 4
+  },
+  {
+    "id": "TC-20-LONG-SPEC",
+    "category": "long_numbered_spec",
+    "text_preview": "GOVERNMENT PROCUREMENT SPECIFICATION — AGRICULTURAL WATER SUPPLY SCHEME\n1.0 SCOP...",
+    "decision": "OUT_OF_CORPUS",
+    "decision_reasons": [
+      "No candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus."
+    ],
+    "strong": [],
+    "possible": [],
+    "weak": [],
+    "top5_candidates": [],
+    "requirements_extracted": 13,
+    "req_categories": {
+      "product": 10,
+      "performance": 3
+    },
+    "gaps_total": 13,
+    "unverified_refs": [],
+    "edition_mismatches": [],
+    "not_covered_reqs": [
+      "REQ-001",
+      "REQ-002",
+      "REQ-003-POWER",
+      "REQ-003-VOLT",
+      "REQ-003",
+      "REQ-004",
+      "REQ-005",
+      "REQ-006-VOLT",
+      "REQ-006",
+      "REQ-007",
+      "REQ-008",
+      "REQ-009",
+      "REQ-010"
+    ],
+    "related_standards": [],
+    "cert_states": {},
+    "evidence_count": 0,
+    "evidence_ids": [],
+    "conflicts": [],
+    "candidates_total": 0
+  }
+]

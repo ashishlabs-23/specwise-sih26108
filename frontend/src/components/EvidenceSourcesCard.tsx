@@ -13,7 +13,7 @@ export function EvidenceSourcesCard({
   response,
   onViewAllSources,
 }: EvidenceSourcesCardProps) {
-  const { evidence, decision } = response;
+  const { evidence, context_evidence: contextEvidence, decision } = response;
 
   // Deduplicate unique sources
   const uniqueSourceIds = Array.from(new Set(evidence.map((e) => e.source_id)));
@@ -38,10 +38,10 @@ export function EvidenceSourcesCard({
             </div>
             <div className="min-w-0">
               <h3 className="text-base font-bold text-slate-900 truncate">
-                Evidence & Sources
+                Supporting Evidence
               </h3>
               <p className="text-[11px] text-slate-500 font-medium truncate">
-                {uniqueSourceIds.length} source docs • {evidence.filter((e) => e.verified).length} verified claims
+                {uniqueSourceIds.length} source docs • {evidence.filter((e) => e.verified).length} supporting claims
               </p>
             </div>
           </div>
@@ -79,7 +79,7 @@ export function EvidenceSourcesCard({
                   {ev.verified ? (
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 flex-shrink-0">
                       <CheckCircle2 className="w-3 h-3" />
-                      <span>Verified BIS</span>
+                      <span>Supporting BIS</span>
                     </span>
                   ) : (
                     <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200 flex-shrink-0">
@@ -122,14 +122,16 @@ export function EvidenceSourcesCard({
       {/* Footer Link */}
       <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
         <span className="text-[11px] text-slate-500">
-          Source = Document | Evidence = Verified Finding
+          {contextEvidence.length > 0
+            ? `${contextEvidence.length} context-only record${contextEvidence.length === 1 ? "" : "s"} available separately`
+            : "Source = Document | Evidence = Supporting finding"}
         </span>
         <button
           type="button"
           onClick={onViewAllSources}
           className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
         >
-          <span>View all ({evidence.length})</span>
+          <span>View evidence ({evidence.length + contextEvidence.length})</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

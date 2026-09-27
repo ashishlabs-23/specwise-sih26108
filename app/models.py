@@ -14,9 +14,16 @@ class Evidence(BaseModel):
     text: str
     verified: bool = True
     domain: Optional[str] = "pumps"
+    # Analysis-time provenance. Corpus evidence remains immutable; these fields
+    # explain why a returned copy is present in this particular result.
+    requirement_ids: list[str] = Field(default_factory=list)
+    candidate_standard_id: Optional[str] = None
+    evidence_scope: Literal["supporting", "context_only"] = "supporting"
+    inclusion_reason: Optional[str] = None
 
 class Requirement(BaseModel):
     requirement_id: str
+    item_id: Optional[str] = None
     category: str
     product: Optional[str] = None
     attribute: Optional[str] = None
@@ -148,9 +155,16 @@ class AnalysisRequest(BaseModel):
     file_path: Optional[str] = None
     tender_date: Optional[date] = None
 
+class LanguageInfo(BaseModel):
+    """Input-language processing metadata; corpus evidence is never translated."""
+    detected: Literal["en", "hi", "kn", "ta", "te", "mixed", "unsupported"]
+    processing_mode: Literal["native_english", "translated_to_english", "mixed", "unsupported"]
+    translation_verified: bool
+
 class AnalysisResponse(BaseModel):
     analysis_id: str
     input_text: str
+    language: LanguageInfo
     requirements: list[Requirement]
     candidates: list[RetrievalResult]
     applicability: list[ApplicabilityAssessment]
@@ -163,6 +177,7 @@ class AnalysisResponse(BaseModel):
     decision: Decision
     decision_reasons: list[str]
     evidence: list[Evidence]
+    context_evidence: list[Evidence] = Field(default_factory=list)
+    tender_cited_standards: list[Requirement] = Field(default_factory=list)
     report_html: Optional[str] = None
     timings_ms: dict[str, float] = Field(default_factory=dict)
-

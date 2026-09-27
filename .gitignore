@@ -30,6 +30,7 @@ firebase-service-account.json
 # ── Local output / reports / evaluation ──────────────────────────────────────
 reports/
 *.log
+.tmp-indictrans2-validation/
 
 # ── Node / Frontend ───────────────────────────────────────────────────────────
 .firebase/

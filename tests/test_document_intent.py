@@ -70,3 +70,31 @@ def test_historical_openwell_edition_is_reported_as_mismatch():
     )))
     assert result.decision == "REVIEW"
     assert any(g.state == "edition_mismatch" and g.standard_id == "IS 14220:2018" for g in result.gaps)
+
+
+def test_accessory_documents_keep_fake_references_without_supporting_evidence():
+    engine = RecommendationEngine()
+    for text in [
+        "Supply fire sprinkler and hydrant system including jockey pump, as per IS 77777:2026.",
+        "Supply solar PV modules, inverter and mounting structure with DC/AC cables, as per IS 66666:2025.",
+    ]:
+        result = engine.analyze(AnalysisRequest(text=text))
+        assert result.decision == "REVIEW"
+        assert not result.candidates
+        assert not result.evidence
+        assert not result.context_evidence
+        assert any(g.state == "unverified_reference" for g in result.gaps)
+
+
+def test_mixed_procurement_links_support_only_to_pump_requirement():
+    result = RecommendationEngine().analyze(AnalysisRequest(text=(
+        "MIXED PROCUREMENT\n"
+        "Item 1: borewell submersible pumpset.\n"
+        "Item 2: solar PV modules, inverter and mounting structure."
+    )))
+    assert result.decision == "REVIEW"
+    assert any(item.candidate_standard_id == "IS 8034:2018" for item in result.evidence)
+    requirements = {item.requirement_id: item.text.lower() for item in result.requirements}
+    for evidence in result.evidence:
+        if evidence.candidate_standard_id == "IS 8034:2018":
+            assert all("solar" not in requirements[req_id] for req_id in evidence.requirement_ids)

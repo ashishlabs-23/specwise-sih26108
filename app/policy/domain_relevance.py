@@ -46,16 +46,14 @@ def _primary_procurement_text(text: str) -> str | None:
 
 
 def has_corpus_product_signal(text: str, standards) -> bool:
-    """Check for a meaningful corpus term or explicit IS reference in the input.
+    """Check for a meaningful corpus product signal in the procurement text.
 
     Candidate retrieval alone is not a domain signal: BM25 can return lexical
     matches for unrelated technical tenders. Terms are derived from the loaded
     standard records, so this gate follows the existing corpus without changing it.
     """
-    # An explicit IS citation is itself a verifiable requirement, even when the
-    # stated procurement head is otherwise outside the product corpus.
-    if re.search(r"\bis\s*[:\-]?\s*\d{3,6}\b", text, re.I):
-        return True
+    # Citations are extracted and evaluated independently by coverage policy.
+    # A reference alone must not make an unrelated procurement corpus-relevant.
     normalized = text.lower()
     primary_text = _primary_procurement_text(text)
     # When procurement structure is explicit, only product nouns in the stated

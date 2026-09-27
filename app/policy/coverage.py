@@ -80,7 +80,7 @@ def _append_entry(out: list, req, assessment, score: int) -> None:
     ))
 
 
-def build(requirements, applicability):
+def build(requirements, applicability, known_standard_ids=None):
     """
     Requirement-specific coverage with unverified reference and currentness / edition mismatch handling.
 
@@ -139,6 +139,26 @@ def build(requirements, applicability):
             ]
 
             if not matching:
+                known_id = next(
+                    (
+                        standard_id for standard_id in (known_standard_ids or [])
+                        if _is_number_in(standard_id, cited)
+                    ),
+                    None,
+                )
+                if known_id:
+                    out.append(CoverageEntry(
+                        requirement_id=req.requirement_id,
+                        standard_id=known_id,
+                        state="not_covered",
+                        reason=(
+                            f"Tender cites {cited!r}, which is present in the corpus as "
+                            f"'{known_id}', but the procurement text has no sufficient "
+                            "product intent to establish applicability."
+                        ),
+                        evidence_ids=[],
+                    ))
+                    continue
                 # Cited IS number is absent from the corpus
                 out.append(CoverageEntry(
                     requirement_id=req.requirement_id,
@@ -198,11 +218,12 @@ def build(requirements, applicability):
             _append_entry(out, req, best, 3 if best.result == "strong" else _score_for_req(best, req_text_lower))
             continue
 
-        if req.category == "performance" and strong and not explicit_item_clause(req.text):
+        item_clause = bool(getattr(req, "item_id", None)) or explicit_item_clause(req.text)
+        if req.category == "performance" and strong and not item_clause:
             _append_entry(out, req, strong[0], 3)
             continue
 
-        if req.category == "product" and not explicit_item_clause(req.text):
+        if req.category == "product" and not item_clause:
             continue
 
         # Score every candidate against this specific requirement

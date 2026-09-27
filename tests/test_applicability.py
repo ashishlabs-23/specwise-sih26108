@@ -20,6 +20,16 @@ def _req(text):
     return [Requirement(requirement_id="R1", category="product", text=text)]
 
 
+def _req_with_reference(text, citation):
+    return [
+        Requirement(requirement_id="R1", category="product", text=text),
+        Requirement(
+            requirement_id="R2", category="reference", attribute="is_number",
+            value=citation, text=citation,
+        ),
+    ]
+
+
 IS_14220 = _std(
     "IS 14220:2018", "Openwell Submersible Pumpsets",
     "Openwell submersible pumpsets for clear, cold water.",
@@ -128,6 +138,33 @@ class TestBorewellSubmersible:
     def test_hyphenated_borewell_product_variant_is_strong(self):
         result = assess(IS_8034, _req("submersible bore-well pumpset"))
         assert result.result == "strong", result.reasons
+
+    @pytest.mark.parametrize("wording", [
+        "submersible pump",
+        "submersible pumpset",
+        "submersible pumpset for water supply",
+    ])
+    def test_generic_submersible_wording_cannot_select_borewell_primary(self, wording):
+        result = assess(IS_8034, _req(wording))
+        assert result.result != "strong", result.reasons
+
+    def test_current_compatible_reference_can_anchor_generic_product(self):
+        result = assess(
+            IS_8034,
+            _req_with_reference(
+                "submersible pumpset conforming to IS 8034:2018", "IS 8034:2018"
+            ),
+        )
+        assert result.result == "strong", result.reasons
+
+    def test_openwell_contradicts_current_borewell_reference(self):
+        result = assess(
+            IS_8034,
+            _req_with_reference(
+                "openwell pumpset conforming to IS 8034:2018", "IS 8034:2018"
+            ),
+        )
+        assert result.result != "strong", result.reasons
 
 
 class TestMonoset:
