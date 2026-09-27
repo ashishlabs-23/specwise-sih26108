@@ -1,0 +1,162 @@
+[
+  {
+    "id": "BLIND-01",
+    "domain": "water systems",
+    "class_": "meaningful_overlap",
+    "mode": "short",
+    "expected": "A strong borewell pump match may be recommended; the reference and product intent should agree. No unrelated standard should become primary.",
+    "primary": "IS 8034:2018"
+  },
+  {
+    "id": "BLIND-02",
+    "domain": "agricultural equipment",
+    "class_": "meaningful_overlap",
+    "mode": "short with historical reference",
+    "expected": "Openwell product intent should identify the current corpus family; the historical cited edition must remain an edition-mismatch review, not be treated as current.",
+    "primary": "IS 14220:2018"
+  },
+  {
+    "id": "BLIND-03",
+    "domain": "industrial equipment",
+    "class_": "meaningful_overlap",
+    "mode": "short with current reference",
+    "expected": "The monoset pump family is represented; a strong applicable primary may be recommended if all gates pass.",
+    "primary": "IS 9079:2018"
+  },
+  {
+    "id": "BLIND-04",
+    "domain": "water systems",
+    "class_": "meaningful_overlap",
+    "mode": "long numbered tender with boilerplate",
+    "expected": "The pump is a meaningful openwell procurement. RECOMMEND is plausible if extracted technical requirements are covered; unresolved item requirements should yield REVIEW.",
+    "primary": "IS 14220:2018"
+  },
+  {
+    "id": "BLIND-05",
+    "domain": "mechanical",
+    "class_": "meaningful_overlap",
+    "mode": "numbered mixed pump/cable with historical reference",
+    "expected": "The borewell pump is supported, while the historical cable edition and other components may remain unresolved. Do not silently cover those gaps; REVIEW is the safe result.",
+    "primary": "IS 8034:2018"
+  },
+  {
+    "id": "BLIND-06",
+    "domain": "renewable energy",
+    "class_": "partially_related",
+    "mode": "mixed solar and water equipment, fake reference",
+    "expected": "The pump may match, but the renewable system and fake controller reference are not fully supported. Expect REVIEW with an explicit unverified-reference gap, not RECOMMEND.",
+    "primary": "IS 8034:2018"
+  },
+  {
+    "id": "BLIND-07",
+    "domain": "electrical",
+    "class_": "partially_related",
+    "mode": "cable-only with historical reference",
+    "expected": "Cable terminology overlaps the corpus, but the cited standard is historical and the corpus role may be related rather than primary. Do not claim a definitive primary certification recommendation.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-08",
+    "domain": "civil/building",
+    "class_": "partially_related",
+    "mode": "building system with accessory-only pump",
+    "expected": "The lift/building system is primary; an incidental sump pump mention must not promote a pump standard. If candidate retrieval remains, it must not become primary.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-09",
+    "domain": "laboratory",
+    "class_": "partially_related",
+    "mode": "laboratory skid with accessory feed pump",
+    "expected": "Water-treatment laboratory equipment is primary; feed-pump language is accessory context. No pump standard should be promoted as the procurement primary.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-10",
+    "domain": "industrial equipment",
+    "class_": "partially_related",
+    "mode": "mechanical system with mixed requirements",
+    "expected": "Some pump terminology is relevant, but the complete cooling-tower package is not covered. Review or abstention is defensible; RECOMMEND for the whole package is not.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-11",
+    "domain": "electrical",
+    "class_": "clearly_outside",
+    "mode": "short, no IS reference",
+    "expected": "Transformer procurement is outside the current corpus. Do not recommend a pump or cable standard based on incidental electrical language.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-12",
+    "domain": "civil/building",
+    "class_": "clearly_outside",
+    "mode": "long numbered tender, boilerplate-heavy",
+    "expected": "Building retrofit is outside the corpus. Long generic boilerplate must not create a product match or evidence.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-13",
+    "domain": "laboratory",
+    "class_": "clearly_outside",
+    "mode": "laboratory analyzer with plausible reference",
+    "expected": "Analytical laboratory instrumentation is outside the corpus. The plausible citation must remain unverified and must not produce verified corpus evidence or a pump primary.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-14",
+    "domain": "renewable energy",
+    "class_": "clearly_outside",
+    "mode": "renewable system with accessory cable terms",
+    "expected": "Solar generation is the primary procurement. Incidental DC/AC cables must not make the document a cable-standard recommendation.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-15",
+    "domain": "safety/fire",
+    "class_": "clearly_outside",
+    "mode": "fire safety system with pump component",
+    "expected": "Fire safety systems are outside the corpus. Jockey-pump mention is an accessory and must not trigger a pump-standard primary.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-16",
+    "domain": "mechanical",
+    "class_": "ambiguous_underspecified",
+    "mode": "short, ambiguous product",
+    "expected": "Pump terminology may be relevant, but product intent and parameters are insufficient to choose an openwell, borewell or monoset standard. ABSTAIN/REVIEW is expected; no definitive RECOMMEND.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-17",
+    "domain": "water systems",
+    "class_": "ambiguous_underspecified",
+    "mode": "short, incomplete well equipment description",
+    "expected": "Potential pump-family language is present, but insufficient detail should lead to ABSTAIN or REVIEW rather than an unjustified primary recommendation.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-18",
+    "domain": "agricultural equipment",
+    "class_": "ambiguous_underspecified",
+    "mode": "underspecified farm equipment",
+    "expected": "Agricultural water context alone is insufficient to choose a corpus product family. Do not recommend a standard solely from application words.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-19",
+    "domain": "industrial equipment",
+    "class_": "ambiguous_underspecified",
+    "mode": "generic pump with incidental numeric requirements",
+    "expected": "Generic pump candidates may appear, but this does not distinguish product family or establish full coverage. ABSTAIN/REVIEW, not an unqualified recommendation.",
+    "primary": null
+  },
+  {
+    "id": "BLIND-20",
+    "domain": "medical/technical equipment",
+    "class_": "ambiguous_underspecified",
+    "mode": "technical assembly without procurement discriminator",
+    "expected": "The product itself is unclear despite a submersible technical phrase. ABSTAIN or REVIEW is defensible; do not infer a pump standard.",
+    "primary": null
+  }
+]

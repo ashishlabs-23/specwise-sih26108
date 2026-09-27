@@ -1,0 +1,409 @@
+{
+  "pdf_id": "BLIND-05",
+  "domain": "mechanical",
+  "expected_behavioral_class": "meaningful_overlap",
+  "expected_behavior": "The borewell pump is supported, while the historical cable edition and other components may remain unresolved. Do not silently cover those gaps; REVIEW is the safe result.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "REVIEW",
+  "actual_primary_standard": [
+    "IS 8034:2018"
+  ],
+  "ui_primary_standard": [
+    "IS 8034:2018"
+  ],
+  "candidate_count": 8,
+  "candidates": [
+    "IS 694:2010",
+    "IS 1554:1988",
+    "IS 1239:1990",
+    "IS 11346:2002",
+    "IS 9283:2024",
+    "IS 14536:2018",
+    "IS 8034:2018",
+    "IS 9079:2018"
+  ],
+  "applicability": [
+    {
+      "standard_id": "IS 694:2010",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'submersible pump'",
+        "Keyword matched: 'PVC insulated'",
+        "Keyword matched: 'submersible cable'",
+        "Keyword matched: 'IS 694'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.",
+        "Role ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'possible')."
+      ],
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 1554:1988",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'submersible pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 1239:1990",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'borewell'",
+        "Application term matched: 'submersible pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.",
+        "Role ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'possible')."
+      ],
+      "evidence_ids": [
+        "E-1239-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'test'",
+        "Keyword matched: 'performance'"
+      ],
+      "evidence_ids": [
+        "E-11346-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 9283:2024",
+      "result": "weak",
+      "reasons": [
+        "Product term matched: 'submersible pumpset motor'",
+        "Application term matched: 'submersible'",
+        "Application term matched: 'borewell'",
+        "Keyword matched: 'submersible'",
+        "Role ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'strong')."
+      ],
+      "evidence_ids": [
+        "E-9283-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 14536:2018",
+      "result": "possible",
+      "reasons": [
+        "Application term matched: 'installation'",
+        "Keyword matched: 'submersible'",
+        "Keyword matched: 'installation'"
+      ],
+      "evidence_ids": [
+        "E-14536-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 8034:2018",
+      "result": "strong",
+      "reasons": [
+        "Product term matched: 'submersible pumpset'",
+        "Product term matched: 'submersible pumpsets'",
+        "Application term matched: 'borewell'",
+        "Keyword matched: 'submersible'",
+        "Keyword matched: 'borewell'"
+      ],
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9079-SCOPE"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "standard_id": "IS 8034:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'submersible pumpset'",
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-002-VOLT",
+      "standard_id": "IS 8034:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'submersible pumpset'",
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-003-IS",
+      "standard_id": "IS 694:2010",
+      "state": "edition_mismatch",
+      "reason": "Tender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.",
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-003-VOLT",
+      "standard_id": "IS 8034:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'submersible pumpset'",
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "requirement_id": "REQ-003-IS",
+      "standard_id": "IS 694:2010",
+      "state": "edition_mismatch",
+      "reason": "Tender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.",
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    }
+  ],
+  "unverified_references": [
+    {
+      "requirement_id": "REQ-003-IS",
+      "standard_id": "IS 694:2010",
+      "state": "edition_mismatch",
+      "reason": "Tender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.",
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    }
+  ],
+  "evidence_count": 13,
+  "evidence_ids": [
+    "E-11346-LISTING-MED20",
+    "E-1239-SCOPE",
+    "E-14536-LISTING-2026",
+    "E-1554-SCOPE",
+    "E-694-SCOPE",
+    "E-8034-LIFECYCLE",
+    "E-8034-NORMREF-11346",
+    "E-8034-NORMREF-14536",
+    "E-8034-NORMREF-9283",
+    "E-8034-SCOPE",
+    "E-9079-SCOPE",
+    "E-9283-LISTING-2026",
+    "E-QCO-PUMPS-2023"
+  ],
+  "certification": {
+    "IS 694:2010": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1554:1988": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1239:1990": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 11346:2002": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9283:2024": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 14536:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 8034:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": [
+        "E-QCO-PUMPS-2023"
+      ]
+    },
+    "IS 9079:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    }
+  },
+  "certification_states": [
+    "not_verified_in_prototype_corpus"
+  ],
+  "ui_certification_state": "CERTIFICATION / QCO STATUS QCO Proposed / Unconfirmed",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\n1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5\nL/s discharge.\n2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS\n694:1990.\n3) Include starter panel, protection relay and delivery column.\n4) Conduct pump performance testing and hand over the test record.\n5) Provide installation, warranty and operator instructions.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "category": "performance",
+      "product": null,
+      "attribute": "rated_power",
+      "value": "4",
+      "unit": "hp",
+      "constraint": null,
+      "text": "1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.",
+      "source_page": 1,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.93
+    },
+    {
+      "requirement_id": "REQ-002-VOLT",
+      "category": "performance",
+      "product": null,
+      "attribute": "voltage",
+      "value": "415",
+      "unit": "v",
+      "constraint": null,
+      "text": "1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.",
+      "source_page": 1,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.9
+    },
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003-IS",
+      "category": "reference",
+      "product": null,
+      "attribute": "is_number",
+      "value": "IS 694:1990",
+      "unit": null,
+      "constraint": null,
+      "text": "2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.",
+      "source_page": 1,
+      "extraction_method": "regex",
+      "extraction_confidence": 0.99
+    },
+    {
+      "requirement_id": "REQ-003-VOLT",
+      "category": "performance",
+      "product": null,
+      "attribute": "voltage",
+      "value": "1100",
+      "unit": "v",
+      "constraint": null,
+      "text": "2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.",
+      "source_page": 1,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.9
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-004",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "4) Conduct pump performance testing and hand over the test record.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-005",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "5) Provide installation, warranty and operator instructions.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "REVIEW",
+    "primary_standard": [
+      "IS 8034:2018"
+    ],
+    "certification_state": "CERTIFICATION / QCO STATUS QCO Proposed / Unconfirmed",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nREVIEW NEEDED\nEvaluation Result\nReview: IS 8034:2018\n\nSubmersible Pumpsets\n\nWHY THIS DECISION?\n\nEdition mismatch / currentness issues detected: [REQ-003-IS] Tender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.\n\n\u2713\nIN SIMPLE TERMS\n\nMultiple standards may relate to your description or some specifications require technical review before issuing tender specifications.\n\nPrimary Standard\n\nRecommended core specification\n\nPRIMARY PRODUCT STANDARD\nStandard No.\nIS 8034:2018\nProduct\nBorewell / Borehole Submersible Pumpset\nApplication\nBorewell agricultural irrigation / water supply\nStatus\nActive (In Force)\nWHY IT MATCHED\n\u2022\nProduct term matched: 'submersible pumpset'\n\u2022\nProduct term matched: 'submersible pumpsets'\n\u2022\nApplication term matched: 'borewell'\nSCOPE\nSubmersible pumpsets for clear, cold water, commonly used in boreholes/borewells/tubewells for agriculture and water supply.\nVerified MED 20 Standard\nBIS Portal\nRelated Standards\n\nNormative refs, test methods & practice codes\n\n4 linked\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nIS 14536:2018\nCODE OF PRACTICE\nHop 1\n\nSelection, Installation, Operation and Maintenance of Submersible Pumpset \u2014 Code of Practice\n\nNon-primary reference standards\nView all (4)\nEvidence & Sources\n\n7 source docs \u2022 9 verified claims\n\n9 Verified\nE-11346-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nE-1239-SCOPE\nUnverified\n\n\"IS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\"\n\nBIS IS 1239 Standard \u2014 web search summary 2026\nLink\nSource = Document | Evidence = Verified Finding\nView all (13)\nCERTIFICATION / QCO STATUS\nQCO Proposed / Unconfirmed\n\nPumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (8)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (5)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX\nREQ-002-POWER\nCOVERED\n\nProduct term matched: 'submersible pumpset'\n\nREQ-002-VOLT\nCOVERED\n\nProduct term matched: 'submersible pumpset'\n\nREQ-003-IS\nEDITION_MISMATCH\n\nTender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.\n\nREQ-003-VOLT\nCOVERED\n\nProduct term matched: 'submersible pumpset'\n\nREQ-003-IS\nEDITION_MISMATCH\n\nTender cites historical/cited edition 'IS 694:1990', but corpus contains current edition 'IS 694:2010'. Edition revision and technical parameter differences must be reviewed.",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (8)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (5)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS\nE-11346-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1239-SCOPE\nSecondary Summary\n\nBIS IS 1239 Standard \u2014 web search summary 2026\n\nIS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\n\nhttps://www.bis.gov.in/\nE-14536-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS committee material lists IS 14536:2018 as Selection, installation, operation and maintenance of submersible pumpset - Code of practice (First Revision).\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1554-SCOPE\nSecondary Summary\n\nBIS IS 1554 (Part 1):1988 Standard \u2014 web search summary 2026\n\nIS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.\n\nhttps://www.bis.gov.in/\nE-694-SCOPE\nSecondary Summary\n\nBIS IS 694:2010 Standard \u2014 web search summary 2026\n\nIS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.\n\nhttps://www.bis.gov.in/\nE-8034-LIFECYCLE\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2002 was revised as IS 8034:2018 and the old standard would stand withdrawn after 04-04-2019.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-11346\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 11346 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance test method reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-14536\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 14536 (Code of practice for selection, installation, operation and maintenance of submersible pumpset) as a normative reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-9283\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 9283 (line-operated a.c. motors for submersible pumpsets) as a normative reference for the motor component of submersible pumpsets.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS describes IS 8034:2018 as Submersible Pumpsets used for clear, cold water in agriculture and water supply, commonly in boreholes/borewells/tubewells.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9079-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9283-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 9283 (Line operated a.c. motors for submersible pumpsets \u2014 Specification) as a standard under the submersible pumpset committee. Current revision noted as IS 9283:2024 on BIS portal.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-QCO-PUMPS-2023\nSecondary Summary\n\nPumps QCO 2023 \u2014 search-result summary\n\nSecondary search results confirm Pumps (Quality Control) Order 2023 proposed by DPIIT covers IS 8034:2018 (Submersible Pumpsets) and IS 14220:2018 (Openwell Submersible Pumpsets), requiring ISI Mark under BIS Scheme-I. Enforcement date cited as 'to be announced'. No official gazette number or effective date confirmed.\n\nhttps://www.bis.gov.in/",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (8)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (5)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT\nIS 694:2010\nWEAK\nApplication term matched: 'submersible pump'\nKeyword matched: 'PVC insulated'\nKeyword matched: 'submersible cable'\nKeyword matched: 'IS 694'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nRole ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'possible').\nIS 1554:1988\nWEAK\nApplication term matched: 'submersible pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 1239:1990\nWEAK\nApplication term matched: 'borewell'\nApplication term matched: 'submersible pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nRole ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'possible').\nIS 11346:2002\nWEAK\nKeyword matched: 'test'\nKeyword matched: 'performance'\nIS 9283:2024\nWEAK\nProduct term matched: 'submersible pumpset motor'\nApplication term matched: 'submersible'\nApplication term matched: 'borewell'\nKeyword matched: 'submersible'\nRole ceiling applied: standard_role='RELATED_STANDARD' limits applicability to at most 'weak' (was 'strong').\nIS 14536:2018\nPOSSIBLE\nApplication term matched: 'installation'\nKeyword matched: 'submersible'\nKeyword matched: 'installation'\nIS 8034:2018\nSTRONG\nProduct term matched: 'submersible pumpset'\nProduct term matched: 'submersible pumpsets'\nApplication term matched: 'borewell'\nKeyword matched: 'submersible'\nKeyword matched: 'borewell'\nIS 9079:2018\nWEAK\nKeyword matched: 'pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (8)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (5)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002-POWER\tperformance\t1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.\trated_power: 4\tPDF Page 1\trule\nREQ-002-VOLT\tperformance\t1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.\tvoltage: 415\tPDF Page 1\trule\nREQ-002\tproduct\t1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-003-IS\treference\t2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.\tis_number: IS 694:1990\tPDF Page 1\tregex\nREQ-003-VOLT\tperformance\t2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.\tvoltage: 1100\tPDF Page 1\trule\nREQ-003\tproduct\t2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990) 3) Include starter panel, protection relay and delivery column.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-004\tproduct\t4) Conduct pump performance testing and hand over the test record.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-005\tproduct\t5) Provide installation, warranty and operator instructions.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "PASS",
+  "expected_primary_if_appropriate": "IS 8034:2018",
+  "evaluation_finding": "IS 8034:2018 is primary; IS 694:1990 is explicitly detected as an edition mismatch against IS 694:2010, so the mixed component package receives REVIEW rather than RECOMMEND.",
+  "failure_stages": []
+}

@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-05",
+  "domain": "mechanical",
+  "expected_behavioral_class": "meaningful_overlap",
+  "format_variation": "numbered mixed pump/cable with historical reference",
+  "expected_behavior": "The borewell pump is supported, while the historical cable edition and other components may remain unresolved. Do not silently cover those gaps; REVIEW is the safe result.",
+  "expected_primary_if_appropriate": "IS 8034:2018",
+  "source_text_for_pdf": "1) Supply a 4 HP borewell submersible pump set for a 125 mm farm well, 415 V three phase, 60 m head and 3.5 L/s discharge.\n2) Include 30 m of flat, three-core PVC insulated submersible cable rated 1100 V; the schedule cites IS 694:1990.\n3) Include starter panel, protection relay and delivery column.\n4) Conduct pump performance testing and hand over the test record.\n5) Provide installation, warranty and operator instructions.",
+  "fixture_created_before_production_upload": true
+}

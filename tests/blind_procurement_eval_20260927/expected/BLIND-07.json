@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-07",
+  "domain": "electrical",
+  "expected_behavioral_class": "partially_related",
+  "format_variation": "cable-only with historical reference",
+  "expected_behavior": "Cable terminology overlaps the corpus, but the cited standard is historical and the corpus role may be related rather than primary. Do not claim a definitive primary certification recommendation.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Supply 1.1 kV PVC insulated, armoured, four-core low-voltage feeder cables for a small pump-house distribution panel. Cable sizes 16 and 35 square millimetres; the drawing notes IS 1554 (Part 1):1988. Include drums, glands and continuity-test records.",
+  "fixture_created_before_production_upload": true
+}

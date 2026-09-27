@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-02",
+  "domain": "agricultural equipment",
+  "expected_behavioral_class": "meaningful_overlap",
+  "format_variation": "short with historical reference",
+  "expected_behavior": "Openwell product intent should identify the current corpus family; the historical cited edition must remain an edition-mismatch review, not be treated as current.",
+  "expected_primary_if_appropriate": "IS 14220:2018",
+  "source_text_for_pdf": "Procure 5.5 HP open-well submersible pump sets for lifting clear water from dug wells to field channels. Three phase 415 V supply, 24 m duty head, 12 L/s discharge, cast iron casing and site acceptance test. Tender cites IS 14220:1994.",
+  "fixture_created_before_production_upload": true
+}

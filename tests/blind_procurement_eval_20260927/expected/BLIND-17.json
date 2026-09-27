@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-17",
+  "domain": "water systems",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "format_variation": "short, incomplete well equipment description",
+  "expected_behavior": "Potential pump-family language is present, but insufficient detail should lead to ABSTAIN or REVIEW rather than an unjustified primary recommendation.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Provide a submersible assembly for deep community wells, complete with starter and rising main. Well diameter, motor rating, water application and duty point are not available at tender stage.",
+  "fixture_created_before_production_upload": true
+}

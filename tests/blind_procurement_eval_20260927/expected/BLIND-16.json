@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-16",
+  "domain": "mechanical",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "format_variation": "short, ambiguous product",
+  "expected_behavior": "Pump terminology may be relevant, but product intent and parameters are insufficient to choose an openwell, borewell or monoset standard. ABSTAIN/REVIEW is expected; no definitive RECOMMEND.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Procure one pump package for process liquid transfer. Medium, installation arrangement, duty point, head, flow and pump construction will be finalized after award. Vendor may propose a suitable type.",
+  "fixture_created_before_production_upload": true
+}

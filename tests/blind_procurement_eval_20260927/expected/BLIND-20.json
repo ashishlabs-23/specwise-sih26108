@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-20",
+  "domain": "medical/technical equipment",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "format_variation": "technical assembly without procurement discriminator",
+  "expected_behavior": "The product itself is unclear despite a submersible technical phrase. ABSTAIN or REVIEW is defensible; do not infer a pump standard.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Deliver a 5 HP, 415 V submersible drive assembly for a controlled wet test cell. The procurement schedule does not state whether the assembly includes a pump, motor only, cooling equipment or circulation unit. Final process interface is pending.",
+  "fixture_created_before_production_upload": true
+}

@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-08",
+  "domain": "civil/building",
+  "expected_behavioral_class": "partially_related",
+  "format_variation": "building system with accessory-only pump",
+  "expected_behavior": "The lift/building system is primary; an incidental sump pump mention must not promote a pump standard. If candidate retrieval remains, it must not become primary.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Modernize a 12-storey passenger lift installation including traction machines, controller, landing doors, guide rails, emergency communication, fire recall and standby power. The basement package includes a small sump pump for incidental water removal. Submit structural calculations, inspection certificates and integrated commissioning records.",
+  "fixture_created_before_production_upload": true
+}

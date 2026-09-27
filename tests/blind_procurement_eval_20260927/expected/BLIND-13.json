@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-13",
+  "domain": "laboratory",
+  "expected_behavioral_class": "clearly_outside",
+  "format_variation": "laboratory analyzer with plausible reference",
+  "expected_behavior": "Analytical laboratory instrumentation is outside the corpus. The plausible citation must remain unverified and must not produce verified corpus evidence or a pump primary.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Purchase a benchtop gas chromatograph mass spectrometer with autosampler, capillary column oven, electron-ionization source, spectral library and nitrogen generator. Provide IQ/OQ documents, traceable calibration, training and two-year service. The laboratory schedule references IS 88888:2024 for instrument performance.",
+  "fixture_created_before_production_upload": true
+}

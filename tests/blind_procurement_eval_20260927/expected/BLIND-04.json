@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-04",
+  "domain": "water systems",
+  "expected_behavioral_class": "meaningful_overlap",
+  "format_variation": "long numbered tender with boilerplate",
+  "expected_behavior": "The pump is a meaningful openwell procurement. RECOMMEND is plausible if extracted technical requirements are covered; unresolved item requirements should yield REVIEW.",
+  "expected_primary_if_appropriate": "IS 14220:2018",
+  "source_text_for_pdf": "MUNICIPAL LIFT-IRRIGATION PROCUREMENT\n1. Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.\n2. Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.\n3. Construction: corrosion-resistant fasteners, guarded coupling, lifting arrangement and replaceable wear parts.\n4. Testing: submit performance curves and conduct witnessed acceptance testing.\n5. Delivery: deliver to three district depots, commission and train operators.\n6. Warranty: provide a two-year service plan and spare-parts schedule.\n7. Bid forms: submit sealed price schedules, tax registration, bank details, non-blacklisting declaration, delivery timetable and signed general conditions.\n8. Evaluation: purchaser may seek clarifications and reject incomplete bids. The specified equipment is the openwell pump set; references to site piping are interface requirements only.",
+  "fixture_created_before_production_upload": true
+}

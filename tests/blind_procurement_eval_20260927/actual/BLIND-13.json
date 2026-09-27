@@ -1,0 +1,288 @@
+{
+  "pdf_id": "BLIND-13",
+  "domain": "laboratory",
+  "expected_behavioral_class": "clearly_outside",
+  "expected_behavior": "Analytical laboratory instrumentation is outside the corpus. The plausible citation must remain unverified and must not produce verified corpus evidence or a pump primary.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "REVIEW",
+  "actual_primary_standard": [],
+  "ui_primary_standard": [],
+  "candidate_count": 8,
+  "candidates": [
+    "IS 1239:1990",
+    "IS 9283:2024",
+    "IS 11346:2002",
+    "IS 694:2010",
+    "IS 1554:1988",
+    "IS 9079:2018",
+    "IS 14536:2018",
+    "IS 10572:1983"
+  ],
+  "applicability": [
+    {
+      "standard_id": "IS 1239:1990",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1239-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 9283:2024",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9283-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'performance'"
+      ],
+      "evidence_ids": [
+        "E-11346-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 694:2010",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 1554:1988",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9079-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 14536:2018",
+      "result": "unknown",
+      "reasons": [
+        "No applicability signal matched."
+      ],
+      "evidence_ids": [
+        "E-14536-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 10572:1983",
+      "result": "unknown",
+      "reasons": [
+        "No applicability signal matched."
+      ],
+      "evidence_ids": [
+        "E-10572-LISTING-MED20"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "requirement_id": "REQ-004-IS",
+      "standard_id": null,
+      "state": "unverified_reference",
+      "reason": "Tender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.",
+      "evidence_ids": []
+    }
+  ],
+  "gaps": [
+    {
+      "requirement_id": "REQ-004-IS",
+      "standard_id": null,
+      "state": "unverified_reference",
+      "reason": "Tender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.",
+      "evidence_ids": []
+    }
+  ],
+  "unverified_references": [
+    {
+      "requirement_id": "REQ-004-IS",
+      "standard_id": null,
+      "state": "unverified_reference",
+      "reason": "Tender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.",
+      "evidence_ids": []
+    }
+  ],
+  "evidence_count": 8,
+  "evidence_ids": [
+    "E-10572-LISTING-MED20",
+    "E-11346-LISTING-MED20",
+    "E-1239-SCOPE",
+    "E-14536-LISTING-2026",
+    "E-1554-SCOPE",
+    "E-694-SCOPE",
+    "E-9079-SCOPE",
+    "E-9283-LISTING-2026"
+  ],
+  "certification": {
+    "IS 1239:1990": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9283:2024": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 11346:2002": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 694:2010": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1554:1988": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9079:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 14536:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 10572:1983": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    }
+  },
+  "certification_states": [
+    "not_verified_in_prototype_corpus"
+  ],
+  "ui_certification_state": "Technical Review Required Technical review required across candidates REVIEW REQUIRED CERTIFICATION / QCO STATUS Review Required",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\nPurchase a benchtop gas chromatograph mass spectrometer with autosampler, capillary column oven,\nelectron-ionization source, spectral library and nitrogen generator. Provide IQ/OQ documents, traceable\ncalibration, training and two-year service. The laboratory schedule references IS 88888:2024 for instrument\nperformance.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Purchase a benchtop gas chromatograph mass spectrometer with autosampler, capillary column oven, electron-ionization source, spectral library and nitrogen generator.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Provide IQ/OQ documents, traceable calibration, training and two-year service.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-004-IS",
+      "category": "reference",
+      "product": null,
+      "attribute": "is_number",
+      "value": "IS 88888:2024",
+      "unit": null,
+      "constraint": null,
+      "text": "The laboratory schedule references IS 88888:2024 for instrument performance.",
+      "source_page": 1,
+      "extraction_method": "regex",
+      "extraction_confidence": 0.99
+    },
+    {
+      "requirement_id": "REQ-004",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "The laboratory schedule references IS 88888:2024 for instrument performance.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "REVIEW",
+    "primary_standard": [],
+    "certification_state": "Technical Review Required Technical review required across candidates REVIEW REQUIRED CERTIFICATION / QCO STATUS Review Required",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nREVIEW NEEDED\nEvaluation Result\nTechnical Review Required\n\nReview candidate standards and tender specifications\n\nWHY THIS DECISION?\n\nTender cites IS references not present in the prototype corpus: [REQ-004-IS] Tender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.\n\n\u2713\nIN SIMPLE TERMS\n\nMultiple standards may relate to your description or some specifications require technical review before issuing tender specifications.\n\nNo primary standard selected\n\nTechnical review required across candidates\n\nREVIEW REQUIRED\n\nMultiple candidates match or tender specifications require technical review before procurement.\n\nTender cites IS references not present in the prototype corpus: [REQ-004-IS] Tender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.\n\nMATCHED CONTEXT STANDARDS\ncontext only \u2014 not a recommendation\nIS 1239:1990\nbm25\n\nMild Steel Tubes, Tubulars and Other Wrought Steel Fittings \u2014 Specification (Part 1: Mild Steel Tubes)\n\nIS 9283:2024\nbm25\n\nLine Operated A.C. Motors for Submersible Pumpsets \u2014 Specification\n\nBIS Prototype Knowledge Base\nMED 20 Verified\nRelated Standards\n\nNormative refs, test methods & practice codes\n\n1 linked\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nNon-primary reference standards\nView all (1)\nEvidence & Sources\n\n5 source docs \u2022 5 verified claims\n\n5 Verified\nE-10572-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nE-11346-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nSource = Document | Evidence = Verified Finding\nView all (8)\nCERTIFICATION / QCO STATUS\nReview Required\n\nMandatory certification / QCO applicability depends on the specific standard confirmed during technical review.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (1)\nCoverage & Gaps (2)\nConflicts (0)\nEvidence Provenance (8)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX\nREQ-004-IS\nUNVERIFIED_REFERENCE\n\nTender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.\n\nREQ-004-IS\nUNVERIFIED_REFERENCE\n\nTender cites 'IS 88888:2024' which is not present in the prototype corpus. Coverage cannot be verified.",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (1)\nCoverage & Gaps (2)\nConflicts (0)\nEvidence Provenance (8)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS\nE-10572-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-11346-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1239-SCOPE\nSecondary Summary\n\nBIS IS 1239 Standard \u2014 web search summary 2026\n\nIS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\n\nhttps://www.bis.gov.in/\nE-14536-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS committee material lists IS 14536:2018 as Selection, installation, operation and maintenance of submersible pumpset - Code of practice (First Revision).\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1554-SCOPE\nSecondary Summary\n\nBIS IS 1554 (Part 1):1988 Standard \u2014 web search summary 2026\n\nIS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.\n\nhttps://www.bis.gov.in/\nE-694-SCOPE\nSecondary Summary\n\nBIS IS 694:2010 Standard \u2014 web search summary 2026\n\nIS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.\n\nhttps://www.bis.gov.in/\nE-9079-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9283-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 9283 (Line operated a.c. motors for submersible pumpsets \u2014 Specification) as a standard under the submersible pumpset committee. Current revision noted as IS 9283:2024 on BIS portal.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (1)\nCoverage & Gaps (2)\nConflicts (0)\nEvidence Provenance (8)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT\nIS 1239:1990\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 9283:2024\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 11346:2002\nWEAK\nKeyword matched: 'performance'\nIS 694:2010\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 1554:1988\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 9079:2018\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 14536:2018\nUNKNOWN\nNo applicability signal matched.\nIS 10572:1983\nUNKNOWN\nNo applicability signal matched.",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (1)\nCoverage & Gaps (2)\nConflicts (0)\nEvidence Provenance (8)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002\tproduct\tPurchase a benchtop gas chromatograph mass spectrometer with autosampler, capillary column oven, electron-ionization source, spectral library and nitrogen generator.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-003\tproduct\tProvide IQ/OQ documents, traceable calibration, training and two-year service.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-004-IS\treference\tThe laboratory schedule references IS 88888:2024 for instrument performance.\tis_number: IS 88888:2024\tPDF Page 1\tregex\nREQ-004\tproduct\tThe laboratory schedule references IS 88888:2024 for instrument performance.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "REVIEW",
+  "expected_primary_if_appropriate": null,
+  "evaluation_finding": "The fake IS 88888:2024 is correctly unverified and no primary is shown. Eight unrelated corpus candidates and eight evidence records are nevertheless attached, creating evidence-relevance noise.",
+  "failure_stages": [
+    "retrieval / evidence assembly"
+  ]
+}

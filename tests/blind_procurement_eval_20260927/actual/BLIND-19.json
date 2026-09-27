@@ -1,0 +1,309 @@
+{
+  "pdf_id": "BLIND-19",
+  "domain": "industrial equipment",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "expected_behavior": "Generic pump candidates may appear, but this does not distinguish product family or establish full coverage. ABSTAIN/REVIEW, not an unqualified recommendation.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "REVIEW",
+  "actual_primary_standard": [],
+  "ui_primary_standard": [],
+  "candidate_count": 8,
+  "candidates": [
+    "IS 1554:1988",
+    "IS 694:2010",
+    "IS 1239:1990",
+    "IS 11346:2002",
+    "IS 9283:2024",
+    "IS 9079:2018",
+    "IS 8034:2018",
+    "IS 10572:1983"
+  ],
+  "applicability": [
+    {
+      "standard_id": "IS 1554:1988",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 694:2010",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 1239:1990",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1239-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "result": "unknown",
+      "reasons": [
+        "No applicability signal matched."
+      ],
+      "evidence_ids": [
+        "E-11346-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 9283:2024",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9283-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9079-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 8034:2018",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    },
+    {
+      "standard_id": "IS 10572:1983",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'"
+      ],
+      "evidence_ids": [
+        "E-10572-LISTING-MED20"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "standard_id": "IS 1554:1988",
+      "state": "not_covered",
+      "reason": "No candidate with sufficient applicability support for this requirement.",
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-002-VOLT",
+      "standard_id": "IS 1554:1988",
+      "state": "not_covered",
+      "reason": "No candidate with sufficient applicability support for this requirement.",
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "standard_id": "IS 1554:1988",
+      "state": "not_covered",
+      "reason": "No candidate with sufficient applicability support for this requirement.",
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-002-VOLT",
+      "standard_id": "IS 1554:1988",
+      "state": "not_covered",
+      "reason": "No candidate with sufficient applicability support for this requirement.",
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    }
+  ],
+  "unverified_references": [],
+  "evidence_count": 13,
+  "evidence_ids": [
+    "E-10572-LISTING-MED20",
+    "E-11346-LISTING-MED20",
+    "E-1239-SCOPE",
+    "E-1554-SCOPE",
+    "E-694-SCOPE",
+    "E-8034-LIFECYCLE",
+    "E-8034-NORMREF-11346",
+    "E-8034-NORMREF-14536",
+    "E-8034-NORMREF-9283",
+    "E-8034-SCOPE",
+    "E-9079-SCOPE",
+    "E-9283-LISTING-2026",
+    "E-QCO-PUMPS-2023"
+  ],
+  "certification": {
+    "IS 1554:1988": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 694:2010": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1239:1990": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 11346:2002": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9283:2024": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9079:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 8034:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": [
+        "E-QCO-PUMPS-2023"
+      ]
+    },
+    "IS 10572:1983": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    }
+  },
+  "certification_states": [
+    "not_verified_in_prototype_corpus"
+  ],
+  "ui_certification_state": "Technical Review Required Technical review required across candidates REVIEW REQUIRED CERTIFICATION / QCO STATUS Review Required",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\nSupply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz. Fluid, suction arrangement, well\ntype, duty head and discharge are to be confirmed during detailed engineering.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "category": "performance",
+      "product": null,
+      "attribute": "rated_power",
+      "value": "5",
+      "unit": "hp",
+      "constraint": null,
+      "text": "Supply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.",
+      "source_page": 1,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.93
+    },
+    {
+      "requirement_id": "REQ-002-VOLT",
+      "category": "performance",
+      "product": null,
+      "attribute": "voltage",
+      "value": "415",
+      "unit": "v",
+      "constraint": null,
+      "text": "Supply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.",
+      "source_page": 1,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.9
+    },
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Supply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Fluid, suction arrangement, well type, duty head and discharge are to be confirmed during detailed engineering.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "REVIEW",
+    "primary_standard": [],
+    "certification_state": "Technical Review Required Technical review required across candidates REVIEW REQUIRED CERTIFICATION / QCO STATUS Review Required",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nREVIEW NEEDED\nEvaluation Result\nTechnical Review Required\n\nReview candidate standards and tender specifications\n\nWHY THIS DECISION?\n\nInsufficient product attributes: requirements [REQ-002-POWER, REQ-002-VOLT] could not be covered by any candidate in the prototype corpus.\n\n\u2713\nIN SIMPLE TERMS\n\nMultiple standards may relate to your description or some specifications require technical review before issuing tender specifications.\n\nNo primary standard selected\n\nTechnical review required across candidates\n\nREVIEW REQUIRED\n\nMultiple candidates match or tender specifications require technical review before procurement.\n\nInsufficient product attributes: requirements [REQ-002-POWER, REQ-002-VOLT] could not be covered by any candidate in the prototype corpus.\n\nMATCHED CONTEXT STANDARDS\ncontext only \u2014 not a recommendation\nIS 1554:1988\nbm25\n\nPVC Insulated (Heavy Duty) Electric Cables (Part 1: For Working Voltages up to and Including 1100 V)\n\nIS 694:2010\nbm25\n\nPVC Insulated Cables for Working Voltages up to and Including 1100 V\n\nBIS Prototype Knowledge Base\nMED 20 Verified\nRelated Standards\n\nNormative refs, test methods & practice codes\n\n4 linked\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nNon-primary reference standards\nView all (4)\nEvidence & Sources\n\n7 source docs \u2022 9 verified claims\n\n9 Verified\nE-10572-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nE-11346-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nSource = Document | Evidence = Verified Finding\nView all (13)\nCERTIFICATION / QCO STATUS\nReview Required\n\nMandatory certification / QCO applicability depends on the specific standard confirmed during technical review.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX\nREQ-002-POWER\nNOT_COVERED\n\nNo candidate with sufficient applicability support for this requirement.\n\nREQ-002-VOLT\nNOT_COVERED\n\nNo candidate with sufficient applicability support for this requirement.\n\nREQ-002-POWER\nNOT_COVERED\n\nNo candidate with sufficient applicability support for this requirement.\n\nREQ-002-VOLT\nNOT_COVERED\n\nNo candidate with sufficient applicability support for this requirement.",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS\nE-10572-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-11346-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1239-SCOPE\nSecondary Summary\n\nBIS IS 1239 Standard \u2014 web search summary 2026\n\nIS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\n\nhttps://www.bis.gov.in/\nE-1554-SCOPE\nSecondary Summary\n\nBIS IS 1554 (Part 1):1988 Standard \u2014 web search summary 2026\n\nIS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.\n\nhttps://www.bis.gov.in/\nE-694-SCOPE\nSecondary Summary\n\nBIS IS 694:2010 Standard \u2014 web search summary 2026\n\nIS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.\n\nhttps://www.bis.gov.in/\nE-8034-LIFECYCLE\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2002 was revised as IS 8034:2018 and the old standard would stand withdrawn after 04-04-2019.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-11346\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 11346 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance test method reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-14536\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 14536 (Code of practice for selection, installation, operation and maintenance of submersible pumpset) as a normative reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-9283\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 9283 (line-operated a.c. motors for submersible pumpsets) as a normative reference for the motor component of submersible pumpsets.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS describes IS 8034:2018 as Submersible Pumpsets used for clear, cold water in agriculture and water supply, commonly in boreholes/borewells/tubewells.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9079-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9283-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 9283 (Line operated a.c. motors for submersible pumpsets \u2014 Specification) as a standard under the submersible pumpset committee. Current revision noted as IS 9283:2024 on BIS portal.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-QCO-PUMPS-2023\nSecondary Summary\n\nPumps QCO 2023 \u2014 search-result summary\n\nSecondary search results confirm Pumps (Quality Control) Order 2023 proposed by DPIIT covers IS 8034:2018 (Submersible Pumpsets) and IS 14220:2018 (Openwell Submersible Pumpsets), requiring ISI Mark under BIS Scheme-I. Enforcement date cited as 'to be announced'. No official gazette number or effective date confirmed.\n\nhttps://www.bis.gov.in/",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT\nIS 1554:1988\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 694:2010\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 1239:1990\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 11346:2002\nUNKNOWN\nNo applicability signal matched.\nIS 9283:2024\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 9079:2018\nWEAK\nKeyword matched: 'pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 8034:2018\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 10572:1983\nWEAK\nKeyword matched: 'pump'",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (4)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002-POWER\tperformance\tSupply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.\trated_power: 5\tPDF Page 1\trule\nREQ-002-VOLT\tperformance\tSupply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.\tvoltage: 415\tPDF Page 1\trule\nREQ-002\tproduct\tSupply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-003\tproduct\tFluid, suction arrangement, well type, duty head and discharge are to be confirmed during detailed engineering.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "PASS",
+  "expected_primary_if_appropriate": null,
+  "evaluation_finding": "Generic pump sets with duty details still lack product-family specificity; REVIEW with no primary is safe.",
+  "failure_stages": []
+}

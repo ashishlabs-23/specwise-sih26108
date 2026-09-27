@@ -1,0 +1,262 @@
+{
+  "pdf_id": "BLIND-15",
+  "domain": "safety/fire",
+  "expected_behavioral_class": "clearly_outside",
+  "expected_behavior": "Fire safety systems are outside the corpus. Jockey-pump mention is an accessory and must not trigger a pump-standard primary.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "ABSTAIN",
+  "actual_primary_standard": [],
+  "ui_primary_standard": [],
+  "candidate_count": 8,
+  "candidates": [
+    "IS 1239:1990",
+    "IS 11346:2002",
+    "IS 9283:2024",
+    "IS 10572:1983",
+    "IS 9079:2018",
+    "IS 1554:1988",
+    "IS 694:2010",
+    "IS 8034:2018"
+  ],
+  "applicability": [
+    {
+      "standard_id": "IS 1239:1990",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1239-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'test'"
+      ],
+      "evidence_ids": [
+        "E-11346-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 9283:2024",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9283-LISTING-2026"
+      ]
+    },
+    {
+      "standard_id": "IS 10572:1983",
+      "result": "possible",
+      "reasons": [
+        "Application term matched: 'inspection'",
+        "Keyword matched: 'pump'",
+        "Keyword matched: 'inspection'"
+      ],
+      "evidence_ids": [
+        "E-10572-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9079-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 1554:1988",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 694:2010",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 8034:2018",
+      "result": "unknown",
+      "reasons": [
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    }
+  ],
+  "coverage": [],
+  "gaps": [],
+  "unverified_references": [],
+  "evidence_count": 13,
+  "evidence_ids": [
+    "E-10572-LISTING-MED20",
+    "E-11346-LISTING-MED20",
+    "E-1239-SCOPE",
+    "E-1554-SCOPE",
+    "E-694-SCOPE",
+    "E-8034-LIFECYCLE",
+    "E-8034-NORMREF-11346",
+    "E-8034-NORMREF-14536",
+    "E-8034-NORMREF-9283",
+    "E-8034-SCOPE",
+    "E-9079-SCOPE",
+    "E-9283-LISTING-2026",
+    "E-QCO-PUMPS-2023"
+  ],
+  "certification": {
+    "IS 1239:1990": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 11346:2002": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9283:2024": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 10572:1983": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9079:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1554:1988": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 694:2010": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 8034:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": [
+        "E-QCO-PUMPS-2023"
+      ]
+    }
+  },
+  "certification_states": [
+    "not_verified_in_prototype_corpus"
+  ],
+  "ui_certification_state": "CERTIFICATION / QCO STATUS Not Evaluated Certification / QCO status is not evaluated because no primary product standard was selected.",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\nInstall an addressable fire alarm and clean-agent suppression system for a data hall: smoke detectors,\naspirating detection, releasing panel, cylinders, distribution pipework, sounders and cause-effect programming.\nInclude integrated cause-and-effect testing and authority inspection. A small jockey pump serves the adjacent\nfire-water header.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Install an addressable fire alarm and clean-agent suppression system for a data hall: smoke detectors, aspirating detection, releasing panel, cylinders, distribution pipework, sounders and cause-effect programming.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Include integrated cause-and-effect testing and authority inspection.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-004",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "A small jockey pump serves the adjacent fire-water header.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "ABSTAIN",
+    "primary_standard": [],
+    "certification_state": "CERTIFICATION / QCO STATUS Not Evaluated Certification / QCO status is not evaluated because no primary product standard was selected.",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nNO PRIMARY MATCH\nEvaluation Result\nNo primary standard selected\n\nThe input is not specific enough to select a primary product standard.\n\nWHY THIS DECISION?\n\nOnly related/code-of-practice standards (IS 10572:1983) matched the query. No primary product standard in the prototype corpus covers this input. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED for these candidates.\n\n\u2713\nIN SIMPLE TERMS\n\nThe input is not specific enough to select a primary product standard.\n\nNo primary standard selected\n\nInput not specific enough for a definitive product standard\n\nNO PRIMARY MATCH\n\nThe input is not specific enough to select a primary product standard.\n\nOnly related/code-of-practice standards (IS 10572:1983) matched the query. No primary product standard in the prototype corpus covers this input. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED for these candidates.\n\nMATCHED CONTEXT STANDARDS\ncontext only \u2014 not a recommendation\nIS 1239:1990\nbm25\n\nMild Steel Tubes, Tubulars and Other Wrought Steel Fittings \u2014 Specification (Part 1: Mild Steel Tubes)\n\nIS 11346:2002\nbm25\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nBIS Prototype Knowledge Base\nMED 20 Verified\nRelated Standards\n\nNormative refs, test methods & practice codes\n\nContext only \u2014 not a recommendation\n\n4 linked\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nNon-primary reference standards\nView all (4)\nEvidence & Sources\n\n7 source docs \u2022 9 verified claims\n\n9 Verified\nE-10572-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nE-11346-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nSource = Document | Evidence = Verified Finding\nView all (13)\nCERTIFICATION / QCO STATUS\nNot Evaluated\n\nCertification / QCO status is not evaluated because no primary product standard was selected.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (3)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (0)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (3)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (0)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS\nE-10572-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-11346-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1239-SCOPE\nSecondary Summary\n\nBIS IS 1239 Standard \u2014 web search summary 2026\n\nIS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\n\nhttps://www.bis.gov.in/\nE-1554-SCOPE\nSecondary Summary\n\nBIS IS 1554 (Part 1):1988 Standard \u2014 web search summary 2026\n\nIS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.\n\nhttps://www.bis.gov.in/\nE-694-SCOPE\nSecondary Summary\n\nBIS IS 694:2010 Standard \u2014 web search summary 2026\n\nIS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.\n\nhttps://www.bis.gov.in/\nE-8034-LIFECYCLE\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2002 was revised as IS 8034:2018 and the old standard would stand withdrawn after 04-04-2019.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-11346\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 11346 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance test method reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-14536\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 14536 (Code of practice for selection, installation, operation and maintenance of submersible pumpset) as a normative reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-9283\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 9283 (line-operated a.c. motors for submersible pumpsets) as a normative reference for the motor component of submersible pumpsets.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS describes IS 8034:2018 as Submersible Pumpsets used for clear, cold water in agriculture and water supply, commonly in boreholes/borewells/tubewells.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9079-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9283-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 9283 (Line operated a.c. motors for submersible pumpsets \u2014 Specification) as a standard under the submersible pumpset committee. Current revision noted as IS 9283:2024 on BIS portal.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-QCO-PUMPS-2023\nSecondary Summary\n\nPumps QCO 2023 \u2014 search-result summary\n\nSecondary search results confirm Pumps (Quality Control) Order 2023 proposed by DPIIT covers IS 8034:2018 (Submersible Pumpsets) and IS 14220:2018 (Openwell Submersible Pumpsets), requiring ISI Mark under BIS Scheme-I. Enforcement date cited as 'to be announced'. No official gazette number or effective date confirmed.\n\nhttps://www.bis.gov.in/",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (3)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (0)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT\nIS 1239:1990\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 11346:2002\nWEAK\nKeyword matched: 'test'\nIS 9283:2024\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 10572:1983\nPOSSIBLE\nApplication term matched: 'inspection'\nKeyword matched: 'pump'\nKeyword matched: 'inspection'\nIS 9079:2018\nWEAK\nKeyword matched: 'pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 1554:1988\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 694:2010\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 8034:2018\nUNKNOWN\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (3)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (4)\nCoverage & Gaps (0)\nConflicts (0)\nEvidence Provenance (13)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002\tproduct\tInstall an addressable fire alarm and clean-agent suppression system for a data hall: smoke detectors, aspirating detection, releasing panel, cylinders, distribution pipework, sounders and cause-effect programming.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-003\tproduct\tInclude integrated cause-and-effect testing and authority inspection.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-004\tproduct\tA small jockey pump serves the adjacent fire-water header.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "REVIEW",
+  "expected_primary_if_appropriate": null,
+  "evaluation_finding": "Fire alarm/clean-agent system does not get a primary pump standard. A jockey-pump mention leaves weak candidates and 13 evidence records on an ABSTAIN result; this is conservative but noisy.",
+  "failure_stages": [
+    "retrieval / evidence assembly"
+  ]
+}

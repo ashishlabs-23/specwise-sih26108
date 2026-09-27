@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-10",
+  "domain": "industrial equipment",
+  "expected_behavioral_class": "partially_related",
+  "format_variation": "mechanical system with mixed requirements",
+  "expected_behavior": "Some pump terminology is relevant, but the complete cooling-tower package is not covered. Review or abstention is defensible; RECOMMEND for the whole package is not.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Provide an induced-draft cooling-tower package for a process plant: fan assembly, gearbox, drift eliminators, fill media, basin, make-up controls and circulating-water pump set. The pump is one subsystem among multiple separately tested components. Include vibration limits, noise report and site acceptance plan.",
+  "fixture_created_before_production_upload": true
+}

@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-15",
+  "domain": "safety/fire",
+  "expected_behavioral_class": "clearly_outside",
+  "format_variation": "fire safety system with pump component",
+  "expected_behavior": "Fire safety systems are outside the corpus. Jockey-pump mention is an accessory and must not trigger a pump-standard primary.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Install an addressable fire alarm and clean-agent suppression system for a data hall: smoke detectors, aspirating detection, releasing panel, cylinders, distribution pipework, sounders and cause-effect programming. Include integrated cause-and-effect testing and authority inspection. A small jockey pump serves the adjacent fire-water header.",
+  "fixture_created_before_production_upload": true
+}

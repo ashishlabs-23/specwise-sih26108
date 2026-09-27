@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-14",
+  "domain": "renewable energy",
+  "expected_behavioral_class": "clearly_outside",
+  "format_variation": "renewable system with accessory cable terms",
+  "expected_behavior": "Solar generation is the primary procurement. Incidental DC/AC cables must not make the document a cable-standard recommendation.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Design, supply and commission a 180 kWp rooftop photovoltaic generation plant with mono-PERC modules, string inverters, rooftop mounting rails, DC isolators, AC combiner panels, monitoring gateway and earthing grid. Include DC and AC cable runs, generation forecast and grid-synchronization tests.",
+  "fixture_created_before_production_upload": true
+}

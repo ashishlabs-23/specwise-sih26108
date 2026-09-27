@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-01",
+  "domain": "water systems",
+  "expected_behavioral_class": "meaningful_overlap",
+  "format_variation": "short",
+  "expected_behavior": "A strong borewell pump match may be recommended; the reference and product intent should agree. No unrelated standard should become primary.",
+  "expected_primary_if_appropriate": "IS 8034:2018",
+  "source_text_for_pdf": "Supply and commissioning of 7.5 HP submersible pump sets for 180 mm agricultural bore wells, rated 415 V three phase, 50 Hz, 72 m head and 6 L/s discharge for a village water scheme. Require performance acceptance testing and conformity to IS 8034:2018.",
+  "fixture_created_before_production_upload": true
+}

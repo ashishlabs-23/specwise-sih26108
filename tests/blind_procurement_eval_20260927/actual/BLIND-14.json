@@ -1,0 +1,108 @@
+{
+  "pdf_id": "BLIND-14",
+  "domain": "renewable energy",
+  "expected_behavioral_class": "clearly_outside",
+  "expected_behavior": "Solar generation is the primary procurement. Incidental DC/AC cables must not make the document a cable-standard recommendation.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "OUT_OF_CORPUS",
+  "actual_primary_standard": [],
+  "ui_primary_standard": [],
+  "candidate_count": 0,
+  "candidates": [],
+  "applicability": [],
+  "coverage": [
+    {
+      "requirement_id": "REQ-002",
+      "standard_id": null,
+      "state": "not_covered",
+      "reason": "No candidate standards available.",
+      "evidence_ids": []
+    },
+    {
+      "requirement_id": "REQ-003",
+      "standard_id": null,
+      "state": "not_covered",
+      "reason": "No candidate standards available.",
+      "evidence_ids": []
+    }
+  ],
+  "gaps": [
+    {
+      "requirement_id": "REQ-002",
+      "standard_id": null,
+      "state": "not_covered",
+      "reason": "No candidate standards available.",
+      "evidence_ids": []
+    },
+    {
+      "requirement_id": "REQ-003",
+      "standard_id": null,
+      "state": "not_covered",
+      "reason": "No candidate standards available.",
+      "evidence_ids": []
+    }
+  ],
+  "unverified_references": [],
+  "evidence_count": 0,
+  "evidence_ids": [],
+  "certification": {},
+  "certification_states": [],
+  "ui_certification_state": "CERTIFICATION / QCO STATUS Not Applicable Certification / QCO regulatory status is not applicable because the specification is outside the prototype corpus.",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\nDesign, supply and commission a 180 kWp rooftop photovoltaic generation plant with mono-PERC modules,\nstring inverters, rooftop mounting rails, DC isolators, AC combiner panels, monitoring gateway and earthing grid.\nInclude DC and AC cable runs, generation forecast and grid-synchronization tests.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Design, supply and commission a 180 kWp rooftop photovoltaic generation plant with mono-PERC modules, string inverters, rooftop mounting rails, DC isolators, AC combiner panels, monitoring gateway and earthing grid.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "Include DC and AC cable runs, generation forecast and grid-synchronization tests.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "OUT_OF_CORPUS",
+    "primary_standard": [],
+    "certification_state": "CERTIFICATION / QCO STATUS Not Applicable Certification / QCO regulatory status is not applicable because the specification is outside the prototype corpus.",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nOUT OF CORPUS\nEvaluation Result\nOut of Prototype Corpus\n\nSpecification falls outside the verified MED 20 pump corpus\n\nWHY THIS DECISION?\n\nNo candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus.\n\n\u2713\nIN SIMPLE TERMS\n\nThe requested product does not fall under the current pump-sector demo corpus (MED 20). No supported BIS standard was found.\n\nNo primary standard selected\n\nScope is outside the verified prototype corpus\n\nOUT OF CORPUS\n\nNo matching standard exists in the current prototype corpus (MED 20 pump sector).\n\nNo candidate standard in the prototype corpus scored above the relevance floor for this query. The input domain is likely outside the current curated seed corpus.\n\nBIS Prototype Knowledge Base\nMED 20 Verified\nRelated Standards\n\nNormative refs, test methods & practice codes\n\n0 linked\nNo related standards available for out-of-corpus query.\nNon-primary reference standards\nView all (0)\nEvidence & Sources\n\n0 source docs \u2022 0 verified claims\n\n0 Verified\nNo evidence records required for out-of-corpus query.\nSource = Document | Evidence = Verified Finding\nView all (0)\nCERTIFICATION / QCO STATUS\nNot Applicable\n\nCertification / QCO regulatory status is not applicable because the specification is outside the prototype corpus.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (2)\nApplicability (0)\nLifecycle (0)\nGraph / Normative (0)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (0)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX\nREQ-002\nNOT_COVERED\n\nNo candidate standards available.\n\nREQ-003\nNOT_COVERED\n\nNo candidate standards available.\n\nREQ-002\nNOT_COVERED\n\nNo candidate standards available.\n\nREQ-003\nNOT_COVERED\n\nNo candidate standards available.",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (2)\nApplicability (0)\nLifecycle (0)\nGraph / Normative (0)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (0)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (2)\nApplicability (0)\nLifecycle (0)\nGraph / Normative (0)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (0)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (2)\nApplicability (0)\nLifecycle (0)\nGraph / Normative (0)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (0)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002\tproduct\tDesign, supply and commission a 180 kWp rooftop photovoltaic generation plant with mono-PERC modules, string inverters, rooftop mounting rails, DC isolators, AC combiner panels, monitoring gateway and earthing grid.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-003\tproduct\tInclude DC and AC cable runs, generation forecast and grid-synchronization tests.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "PASS",
+  "expected_primary_if_appropriate": null,
+  "evaluation_finding": "Solar generation remains OUT_OF_CORPUS; incidental DC/AC cable language does not create a cable candidate or evidence.",
+  "failure_stages": []
+}

@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-09",
+  "domain": "laboratory",
+  "expected_behavioral_class": "partially_related",
+  "format_variation": "laboratory skid with accessory feed pump",
+  "expected_behavior": "Water-treatment laboratory equipment is primary; feed-pump language is accessory context. No pump standard should be promoted as the procurement primary.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Supply a laboratory ultrapure-water skid with reverse-osmosis membranes, UV oxidation, resistivity monitor, TOC analyzer and automatic sanitization. A small feed pump is included inside the skid as a replaceable accessory. Provide calibration certificates, validation protocol and one-year consumables.",
+  "fixture_created_before_production_upload": true
+}

@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-06",
+  "domain": "renewable energy",
+  "expected_behavioral_class": "partially_related",
+  "format_variation": "mixed solar and water equipment, fake reference",
+  "expected_behavior": "The pump may match, but the renewable system and fake controller reference are not fully supported. Expect REVIEW with an explicit unverified-reference gap, not RECOMMEND.",
+  "expected_primary_if_appropriate": "IS 8034:2018",
+  "source_text_for_pdf": "Package for a remote solar water-lifting installation: 4 kW PV array, MPPT controller, battery bank, telemetry and a 5 HP submersible pump for a 90 m agricultural bore. The schedule cites IS 8034:2018 for the pump and IS 77777:2026 for the solar controller. Provide design, installation, commissioning and 12-month performance monitoring.",
+  "fixture_created_before_production_upload": true
+}

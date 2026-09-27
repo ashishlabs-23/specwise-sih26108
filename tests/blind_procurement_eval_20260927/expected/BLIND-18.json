@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-18",
+  "domain": "agricultural equipment",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "format_variation": "underspecified farm equipment",
+  "expected_behavior": "Agricultural water context alone is insufficient to choose a corpus product family. Do not recommend a standard solely from application words.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Supply water-lifting equipment for a farm pond and seasonal irrigation channel. The department has not selected the equipment type, source depth, capacity or power arrangement; bidder may recommend a configuration after a site visit.",
+  "fixture_created_before_production_upload": true
+}

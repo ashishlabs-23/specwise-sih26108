@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-19",
+  "domain": "industrial equipment",
+  "expected_behavioral_class": "ambiguous_underspecified",
+  "format_variation": "generic pump with incidental numeric requirements",
+  "expected_behavior": "Generic pump candidates may appear, but this does not distinguish product family or establish full coverage. ABSTAIN/REVIEW, not an unqualified recommendation.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Supply two standard pump sets for a plant utility service, 5 HP, 415 V, 50 Hz. Fluid, suction arrangement, well type, duty head and discharge are to be confirmed during detailed engineering.",
+  "fixture_created_before_production_upload": true
+}

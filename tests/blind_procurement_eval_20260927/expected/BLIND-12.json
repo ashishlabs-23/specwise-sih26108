@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-12",
+  "domain": "civil/building",
+  "expected_behavioral_class": "clearly_outside",
+  "format_variation": "long numbered tender, boilerplate-heavy",
+  "expected_behavior": "Building retrofit is outside the corpus. Long generic boilerplate must not create a product match or evidence.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "1. Work: seismic retrofit and fa\u00e7ade repair of the municipal records building.\n2. Install carbon-fibre reinforcement at nominated beams and columns.\n3. Replace expansion joints and repair concrete spalling.\n4. Provide scaffolding, debris removal, protection screens and a site safety plan.\n5. Submit structural calculations, material certificates and inspection reports.\n6. General conditions: sealed tender, tax registration, bank information, non-blacklisting declaration, delivery plan, insurance, warranty, signed forms and purchaser right to clarify or reject bids.\n7. No mechanical water equipment is included in the work scope.",
+  "fixture_created_before_production_upload": true
+}

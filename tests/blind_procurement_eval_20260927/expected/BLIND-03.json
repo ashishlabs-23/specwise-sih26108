@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-03",
+  "domain": "industrial equipment",
+  "expected_behavioral_class": "meaningful_overlap",
+  "format_variation": "short with current reference",
+  "expected_behavior": "The monoset pump family is represented; a strong applicable primary may be recommended if all gates pass.",
+  "expected_primary_if_appropriate": "IS 9079:2018",
+  "source_text_for_pdf": "Purchase 3 HP monoblock pump sets for clear, cold washdown water at a food-packaging unit, 415 V three phase, 50 Hz, 32 m head, 450 L/min, with factory performance test and IS 9079:2018 compliance documents.",
+  "fixture_created_before_production_upload": true
+}

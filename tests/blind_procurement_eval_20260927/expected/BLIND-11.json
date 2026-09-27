@@ -1,0 +1,10 @@
+{
+  "pdf_id": "BLIND-11",
+  "domain": "electrical",
+  "expected_behavioral_class": "clearly_outside",
+  "format_variation": "short, no IS reference",
+  "expected_behavior": "Transformer procurement is outside the current corpus. Do not recommend a pump or cable standard based on incidental electrical language.",
+  "expected_primary_if_appropriate": null,
+  "source_text_for_pdf": "Supply a 630 kVA, 11/0.433 kV oil-immersed distribution transformer with off-circuit tap changer, silica-gel breather, Buchholz relay, marshalling box and routine electrical test certificates for a campus substation.",
+  "fixture_created_before_production_upload": true
+}

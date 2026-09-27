@@ -1,0 +1,486 @@
+{
+  "pdf_id": "BLIND-04",
+  "domain": "water systems",
+  "expected_behavioral_class": "meaningful_overlap",
+  "expected_behavior": "The pump is a meaningful openwell procurement. RECOMMEND is plausible if extracted technical requirements are covered; unresolved item requirements should yield REVIEW.",
+  "fixture_written_before_upload": true,
+  "api_status": 200,
+  "actual_decision": "RECOMMEND",
+  "actual_primary_standard": [
+    "IS 14220:2018"
+  ],
+  "ui_primary_standard": [
+    "IS 14220:2018"
+  ],
+  "candidate_count": 8,
+  "candidates": [
+    "IS 1239:1990",
+    "IS 14220:2018",
+    "IS 11346:2002",
+    "IS 1554:1988",
+    "IS 694:2010",
+    "IS 9079:2018",
+    "IS 8034:2018",
+    "IS 10572:1983"
+  ],
+  "applicability": [
+    {
+      "standard_id": "IS 1239:1990",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'submersible pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1239-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 14220:2018",
+      "result": "strong",
+      "reasons": [
+        "Product term matched: 'openwell'",
+        "Application term matched: 'irrigation'",
+        "Keyword matched: 'openwell'",
+        "Keyword matched: 'submersible'",
+        "Keyword matched: 'irrigation'"
+      ],
+      "evidence_ids": [
+        "E-14220-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 11346:2002",
+      "result": "possible",
+      "reasons": [
+        "Keyword matched: 'test'",
+        "Keyword matched: 'performance'",
+        "Keyword matched: 'acceptance'"
+      ],
+      "evidence_ids": [
+        "E-11346-LISTING-MED20"
+      ]
+    },
+    {
+      "standard_id": "IS 1554:1988",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'submersible pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-1554-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 694:2010",
+      "result": "weak",
+      "reasons": [
+        "Application term matched: 'submersible pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-694-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 9079:2018",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'",
+        "Product discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard."
+      ],
+      "evidence_ids": [
+        "E-9079-SCOPE"
+      ]
+    },
+    {
+      "standard_id": "IS 8034:2018",
+      "result": "weak",
+      "reasons": [
+        "Exclusion signal: query contains 'openwell' which is outside the scope of IS 8034:2018."
+      ],
+      "evidence_ids": [
+        "E-8034-SCOPE",
+        "E-8034-LIFECYCLE"
+      ]
+    },
+    {
+      "standard_id": "IS 10572:1983",
+      "result": "weak",
+      "reasons": [
+        "Keyword matched: 'pump'"
+      ],
+      "evidence_ids": [
+        "E-10572-LISTING-MED20"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "standard_id": "IS 14220:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'openwell'",
+      "evidence_ids": [
+        "E-14220-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-002",
+      "standard_id": "IS 14220:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'openwell'",
+      "evidence_ids": [
+        "E-14220-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-003-VOLT",
+      "standard_id": "IS 14220:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'openwell'",
+      "evidence_ids": [
+        "E-14220-SCOPE"
+      ]
+    },
+    {
+      "requirement_id": "REQ-010",
+      "standard_id": "IS 14220:2018",
+      "state": "covered",
+      "reason": "Product term matched: 'openwell'",
+      "evidence_ids": [
+        "E-14220-SCOPE"
+      ]
+    }
+  ],
+  "gaps": [],
+  "unverified_references": [],
+  "evidence_count": 14,
+  "evidence_ids": [
+    "E-10572-LISTING-MED20",
+    "E-11346-LISTING-MED20",
+    "E-1239-SCOPE",
+    "E-14220-SCOPE",
+    "E-14536-LISTING-2026",
+    "E-1554-SCOPE",
+    "E-694-SCOPE",
+    "E-8034-LIFECYCLE",
+    "E-8034-NORMREF-11346",
+    "E-8034-NORMREF-14536",
+    "E-8034-NORMREF-9283",
+    "E-8034-SCOPE",
+    "E-9079-SCOPE",
+    "E-QCO-PUMPS-2023"
+  ],
+  "certification": {
+    "IS 1239:1990": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 14220:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 14220:2018 (Openwell Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": [
+        "E-QCO-PUMPS-2023"
+      ]
+    },
+    "IS 11346:2002": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 1554:1988": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 694:2010": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 9079:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    },
+    "IS 8034:2018": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": "QCO_PROPOSED",
+      "description": "Pumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 8034:2018 (Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.",
+      "effective_date": null,
+      "evidence_ids": [
+        "E-QCO-PUMPS-2023"
+      ]
+    },
+    "IS 10572:1983": {
+      "state": "not_verified_in_prototype_corpus",
+      "rule_type": null,
+      "description": "No verified certification or QCO mapping for this standard is included in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 DETAILS NOT VERIFIED.",
+      "effective_date": null,
+      "evidence_ids": []
+    }
+  },
+  "certification_states": [
+    "not_verified_in_prototype_corpus"
+  ],
+  "ui_certification_state": "CERTIFICATION / QCO STATUS QCO Proposed / Unconfirmed",
+  "ui_agrees_with_backend": {
+    "decision": true,
+    "primary": true,
+    "candidates_visible": true,
+    "coverage_states_visible": true,
+    "evidence_count_visible": true
+  },
+  "ui_parity": true,
+  "error": "",
+  "pdf_extracted_text": "[PAGE 1]\nMUNICIPAL LIFT-IRRIGATION PROCUREMENT\n1. Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.\n2. Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.\n3. Construction: corrosion-resistant fasteners, guarded coupling, lifting arrangement and replaceable wear parts.\n4. Testing: submit performance curves and conduct witnessed acceptance testing.\n5. Delivery: deliver to three district depots, commission and train operators.\n6. Warranty: provide a two-year service plan and spare-parts schedule.\n7. Bid forms: submit sealed price schedules, tax registration, bank details, non-blacklisting declaration, delivery\ntimetable and signed general conditions.\n8. Evaluation: purchaser may seek clarifications and reject incomplete bids. The specified equipment is the\nopenwell pump set; references to site piping are interface requirements only.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot\n\n[PAGE 2]\nchange the equipment scope.\nGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery\ndates and declarations. The purchaser may clarify submissions. These are administrative requirements and do\nnot change the equipment scope.\n",
+  "pdf_requirements": [
+    {
+      "requirement_id": "REQ-002-POWER",
+      "category": "performance",
+      "product": null,
+      "attribute": "rated_power",
+      "value": "6",
+      "unit": "hp",
+      "constraint": null,
+      "text": "MUNICIPAL LIFT-IRRIGATION PROCUREMENT 1) Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.",
+      "source_page": 2,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.93
+    },
+    {
+      "requirement_id": "REQ-002",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "MUNICIPAL LIFT-IRRIGATION PROCUREMENT 1) Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-003-VOLT",
+      "category": "performance",
+      "product": null,
+      "attribute": "voltage",
+      "value": "415",
+      "unit": "v",
+      "constraint": null,
+      "text": "2) Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.",
+      "source_page": 2,
+      "extraction_method": "rule",
+      "extraction_confidence": 0.9
+    },
+    {
+      "requirement_id": "REQ-003",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "2) Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-004",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "3) Construction: corrosion-resistant fasteners, guarded coupling, lifting arrangement and replaceable wear parts.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-005",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "4) Testing: submit performance curves and conduct witnessed acceptance testing.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-006",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "5) Delivery: deliver to three district depots, commission and train operators.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-007",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "6) Warranty: provide a two-year service plan and spare-parts schedule.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-008",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "7) Bid forms: submit sealed price schedules, tax registration, bank details, non-blacklisting declaration, delivery timetable and signed general conditions.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-009",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "8) Evaluation: purchaser may seek clarifications and reject incomplete bids.",
+      "source_page": 2,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-010",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "The specified equipment is the openwell pump set; references to site piping are interface requirements only.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-011",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "GENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery dates and declarations.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-012",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "The purchaser may clarify submissions.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-013",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "These are administrative requirements and do not change the equipment scope.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-031",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "These are administrative requirements and do not",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    },
+    {
+      "requirement_id": "REQ-033",
+      "category": "product",
+      "product": null,
+      "attribute": null,
+      "value": null,
+      "unit": null,
+      "constraint": null,
+      "text": "change the equipment scope.",
+      "source_page": 1,
+      "extraction_method": "general_text",
+      "extraction_confidence": 0.6
+    }
+  ],
+  "ui": {
+    "decision": "RECOMMEND",
+    "primary_standard": [
+      "IS 14220:2018"
+    ],
+    "certification_state": "CERTIFICATION / QCO STATUS QCO Proposed / Unconfirmed",
+    "error": "",
+    "rendered_result": "New Search\nShare\nDownload Report (Audit HTML)\nRECOMMEND\nDefinitive Match\nIS 14220:2018\n\nOpenwell Submersible Pumpsets\n\nWHY THIS DECISION?\n\nSingle primary product standard (IS 14220:2018) scored strong applicability and passed all prototype evidence gates: no coverage gaps, no conflicts, lifecycle supported.\n\n\u2713\nIN SIMPLE TERMS\n\nThis standard tells you what an openwell submersible pumpset should be like, so you can procure the right, energy-efficient, and reliable pump for agricultural irrigation.\n\nPrimary Standard\n\nRecommended core specification\n\nPRIMARY PRODUCT STANDARD\nStandard No.\nIS 14220:2018\nProduct\nOpenwell Submersible Pumpset\nApplication\nAgricultural irrigation & water supply\nStatus\nActive (In Force)\nWHY IT MATCHED\n\u2022\nProduct term matched: 'openwell'\n\u2022\nApplication term matched: 'irrigation'\n\u2022\nKeyword matched: 'openwell'\nSCOPE\nOpenwell submersible pumpsets for clear, cold water, including agriculture and irrigation applications described in BIS summary material.\nVerified MED 20 Standard\nBIS Portal\nRelated Standards\n\nNormative refs, test methods & practice codes\n\n5 linked\nIS 14536:2018\nCODE OF PRACTICE\nHop 1\n\nSelection, Installation, Operation and Maintenance of Submersible Pumpset \u2014 Code of Practice\n\nIS 11346:2002\nTEST METHOD\nHop 1\n\nTests for Agricultural and Water Supply Pumps \u2014 Code of Acceptance\n\nNon-primary reference standards\nView all (5)\nEvidence & Sources\n\n8 source docs \u2022 10 verified claims\n\n10 Verified\nE-10572-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nE-11346-LISTING-MED20\np. 1\nVerified BIS\n\n\"BIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\"\n\nBIS MED 20 committee material (2026)\nLink\nSource = Document | Evidence = Verified Finding\nView all (14)\nCERTIFICATION / QCO STATUS\nQCO Proposed / Unconfirmed\n\nPumps (Quality Control) Order 2023 proposed by DPIIT is reported to cover IS 14220:2018 (Openwell Submersible Pumpsets), requiring mandatory ISI Mark under BIS Scheme-I. Enforcement date was cited as 'to be announced' in available sources. No official gazette number or effective date has been confirmed in the prototype corpus. SOURCE ACCESS RESTRICTED \u2014 verify current status at bis.gov.in or dpiit.gov.in before procurement.\n\nLearn more\nDetailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nShow Details",
+    "rendered_tabs": {
+      "coverage": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (16)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (5)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (14)\nPerformance Timings\nAudit HTML Report\nSPECIFICATION COVERAGE MATRIX\nREQ-002-POWER\nCOVERED\n\nProduct term matched: 'openwell'\n\nREQ-002\nCOVERED\n\nProduct term matched: 'openwell'\n\nREQ-003-VOLT\nCOVERED\n\nProduct term matched: 'openwell'\n\nREQ-010\nCOVERED\n\nProduct term matched: 'openwell'",
+      "evidence": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (16)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (5)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (14)\nPerformance Timings\nAudit HTML Report\nFULL EVIDENCE PROVENANCE RECORDS\nE-10572-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 10572:1983 (Methods of sampling for pumps) as a sampling standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-11346-LISTING-MED20\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS MED 20 committee material lists IS 11346:2002 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance testing standard under Committee MED 20.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1239-SCOPE\nSecondary Summary\n\nBIS IS 1239 Standard \u2014 web search summary 2026\n\nIS 1239 (Part 1) covers mild steel tubes (welded and seamless, plain end, screwed end or screwed and socketed) for conveyance of water, gas, air and steam, in Class A (Light), Class B (Medium) and Class C (Heavy). Tubes may be supplied as uncoated or hot-dip galvanized (GI). Nominal bore 6 mm to 150 mm. Tender explicitly cites 'IS 1239 / 90' for 50mm GI pipes Class B for column pipe installation.\n\nhttps://www.bis.gov.in/\nE-14220-SCOPE\nVerified Official BIS\n\nBIS Summary of IS 14220:2018\n\nBIS describes IS 14220:2018 as Openwell Submersible Pumpsets and discusses agriculture and irrigation applications.\n\nhttps://www.services.bis.gov.in/tmp/tbl5_2024-11-11_1182.pdf\nE-14536-LISTING-2026\nVerified Official BIS\n\nBIS MED 20 committee material (2026)\n\nBIS committee material lists IS 14536:2018 as Selection, installation, operation and maintenance of submersible pumpset - Code of practice (First Revision).\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/bisconnect/pow_new/Pow/download_pow_pdf_dept_commtt/68/300/\nE-1554-SCOPE\nSecondary Summary\n\nBIS IS 1554 (Part 1):1988 Standard \u2014 web search summary 2026\n\nIS 1554 (Part 1):1988 covers PVC insulated heavy-duty electric cables (armoured and unarmoured) for working voltages up to 1100 V, used for electric supply and control including underground installation. Tender cites 'IS 1554/ 1988' for armoured LT UG cable (3.5x10 and 3.5x25 sq mm) for main connection.\n\nhttps://www.bis.gov.in/\nE-694-SCOPE\nSecondary Summary\n\nBIS IS 694:2010 Standard \u2014 web search summary 2026\n\nIS 694:2010 specifies PVC insulated unsheathed and sheathed cables and cords (circular and flat) with rigid and flexible conductors for rated voltages up to and including 1100 V. Tender cites 'IS 694-1990' for flat 3-core sheathed PVC insulated submersible pump cable of sizes 2.5, 4 and 6 sq mm. IS 694 has been revised; current edition is IS 694:2010.\n\nhttps://www.bis.gov.in/\nE-8034-LIFECYCLE\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2002 was revised as IS 8034:2018 and the old standard would stand withdrawn after 04-04-2019.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-11346\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 11346 (Tests for agricultural and water supply pumps \u2014 Code of acceptance) as the hydraulic performance test method reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-14536\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 14536 (Code of practice for selection, installation, operation and maintenance of submersible pumpset) as a normative reference.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-NORMREF-9283\nVerified Official BIS\n\nImplementation guideline for revised IS 8034:2018\n\nIS 8034:2018 guideline records IS 9283 (line-operated a.c. motors for submersible pumpsets) as a normative reference for the motor component of submersible pumpsets.\n\nhttps://www.services.bis.gov.in/tmp/CMD3_IS8034_guidelines_17112018.pdf\nE-8034-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS describes IS 8034:2018 as Submersible Pumpsets used for clear, cold water in agriculture and water supply, commonly in boreholes/borewells/tubewells.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-9079-SCOPE\nVerified Official BIS\n\nBIS Government Procurement pump standards booklet\n\nBIS booklet identifies IS 9079:2018 as Monoset Pumps for Clear, Cold Water for Agricultural and Water Supply.\n\nhttps://www.services.bis.gov.in/php/BIS_2.0/gpportal2/assets/img/Full-BookletGP.pdf\nE-QCO-PUMPS-2023\nSecondary Summary\n\nPumps QCO 2023 \u2014 search-result summary\n\nSecondary search results confirm Pumps (Quality Control) Order 2023 proposed by DPIIT covers IS 8034:2018 (Submersible Pumpsets) and IS 14220:2018 (Openwell Submersible Pumpsets), requiring ISI Mark under BIS Scheme-I. Enforcement date cited as 'to be announced'. No official gazette number or effective date confirmed.\n\nhttps://www.bis.gov.in/",
+      "applicability": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (16)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (5)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (14)\nPerformance Timings\nAudit HTML Report\nDETERMINISTIC APPLICABILITY ASSESSMENT\nIS 1239:1990\nWEAK\nApplication term matched: 'submersible pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 14220:2018\nSTRONG\nProduct term matched: 'openwell'\nApplication term matched: 'irrigation'\nKeyword matched: 'openwell'\nKeyword matched: 'submersible'\nKeyword matched: 'irrigation'\nIS 11346:2002\nPOSSIBLE\nKeyword matched: 'test'\nKeyword matched: 'performance'\nKeyword matched: 'acceptance'\nIS 1554:1988\nWEAK\nApplication term matched: 'submersible pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 694:2010\nWEAK\nApplication term matched: 'submersible pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 9079:2018\nWEAK\nKeyword matched: 'pump'\nProduct discriminator not matched: broad application or keyword overlap cannot establish a strong match for this product standard.\nIS 8034:2018\nWEAK\nExclusion signal: query contains 'openwell' which is outside the scope of IS 8034:2018.\nIS 10572:1983\nWEAK\nKeyword matched: 'pump'",
+      "requirements": "Detailed Procurement Audit & Technical Traceability\n\nProgressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance\n\nHide Details\nRequirements (16)\nApplicability (8)\nLifecycle (8)\nGraph / Normative (5)\nCoverage & Gaps (4)\nConflicts (0)\nEvidence Provenance (14)\nPerformance Timings\nAudit HTML Report\nEXTRACTED TENDER REQUIREMENTS\nID\tCategory\tExtracted Text\tAttribute / Value\tSource / Page\tMethod\nREQ-002-POWER\tperformance\tMUNICIPAL LIFT-IRRIGATION PROCUREMENT 1) Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.\trated_power: 6\tPDF Page 2\trule\nREQ-002\tproduct\tMUNICIPAL LIFT-IRRIGATION PROCUREMENT 1) Scope: Supply two 6 HP openwell submersible pump sets for a lined irrigation reservoir and delivery main.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-003-VOLT\tperformance\t2) Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.\tvoltage: 415\tPDF Page 2\trule\nREQ-003\tproduct\t2) Duty: 415 V, three phase, 50 Hz; 26 m total head; 10 L/s per pump; clear raw water.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-004\tproduct\t3) Construction: corrosion-resistant fasteners, guarded coupling, lifting arrangement and replaceable wear parts.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-005\tproduct\t4) Testing: submit performance curves and conduct witnessed acceptance testing.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-006\tproduct\t5) Delivery: deliver to three district depots, commission and train operators.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-007\tproduct\t6) Warranty: provide a two-year service plan and spare-parts schedule.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-008\tproduct\t7) Bid forms: submit sealed price schedules, tax registration, bank details, non-blacklisting declaration, delivery timetable and signed general conditions.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-009\tproduct\t8) Evaluation: purchaser may seek clarifications and reject incomplete bids.\t\u2014\tPDF Page 2\tgeneral_text\nREQ-010\tproduct\tThe specified equipment is the openwell pump set; references to site piping are interface requirements only.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-011\tproduct\tGENERAL CONDITIONS: Bidders must submit signed schedules, tax details, insurance, warranties, delivery dates and declarations.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-012\tproduct\tThe purchaser may clarify submissions.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-013\tproduct\tThese are administrative requirements and do not change the equipment scope.\t\u2014\tPDF Page 1\tgeneral_text\nREQ-031\tproduct\tThese are administrative requirements and do not\t\u2014\tPDF Page 1\tgeneral_text\nREQ-033\tproduct\tchange the equipment scope.\t\u2014\tPDF Page 1\tgeneral_text"
+    }
+  },
+  "api_http_status": 200,
+  "decision_classification": "REVIEW",
+  "expected_primary_if_appropriate": "IS 14220:2018",
+  "evaluation_finding": "Correct IS 14220:2018 primary, and boilerplate does not displace the product. The long tender's 26 m head and 10 L/s discharge stay in prose rather than structured coverage, yet the UI shows RECOMMEND with no gaps.",
+  "failure_stages": [
+    "requirement extraction",
+    "coverage",
+    "decision"
+  ]
+}
