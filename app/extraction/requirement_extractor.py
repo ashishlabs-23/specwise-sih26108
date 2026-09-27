@@ -4,7 +4,9 @@ from app.models import Requirement
 # Regex patterns — domain-agnostic
 POWER = re.compile(r"\b(\d+(?:\.\d+)?)\s*(HP|kW)\b", re.I)
 IS_REF = re.compile(
-    r"\bIS\s*[:\-]?\s*(\d{3,6})(?:(?:\s*[:/\-]\s*|\s+)(?:part\s*\d+\s*[:/\-]\s*)?(\d{2,4}))?\b",
+    r"\bIS\s*[:\-]?\s*(\d{3,6})"
+    r"(?:\s*\(\s*part\s*[- ]?\s*(\d+)\s*\)|\s+part\s*[- ]?\s*(\d+))?"
+    r"(?:\s*[:/\-]\s*|\s+)?(\d{2,4})?\b",
     re.I,
 )
 VOLTAGE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(V|kV|volt)\b", re.I)
@@ -42,6 +44,8 @@ def _normalize_for_extraction(text: str) -> str:
 
 def extract_requirements(text: str):
     rows = []
+    source_references = list(IS_REF.finditer(text))
+    source_reference_index = 0
     text = _normalize_for_extraction(text)
     chunks = _sentence_chunks(text)
 
@@ -53,16 +57,24 @@ def extract_requirements(text: str):
         is_matches = list(IS_REF.finditer(chunk))
         for j, m in enumerate(is_matches):
             std_num = m.group(1)
-            raw_year = m.group(2)
+            part_number = m.group(2) or m.group(3)
+            raw_year = m.group(4)
+            part = f"Part {part_number}" if part_number else None
             if raw_year:
                 if len(raw_year) == 2:
                     y_int = int(raw_year)
                     year = f"19{raw_year}" if y_int >= 50 else f"20{raw_year}"
                 else:
                     year = raw_year
-                ref_val = f"IS {std_num}:{year}"
+                ref_val = f"IS {std_num}{' ' + part if part else ''}:{year}"
             else:
-                ref_val = f"IS {std_num}"
+                ref_val = f"IS {std_num}{' ' + part if part else ''}"
+
+            source_citation = m.group(0)
+            if source_reference_index < len(source_references):
+                source_match = source_references[source_reference_index]
+                source_citation = source_match.group(0)
+                source_reference_index += 1
 
             req_suffix = f"-IS-{j+1}" if len(is_matches) > 1 else "-IS"
             rows.append(Requirement(
@@ -70,6 +82,10 @@ def extract_requirements(text: str):
                 category="reference",
                 attribute="is_number",
                 value=ref_val,
+                standard_number=f"IS {std_num}",
+                part=part,
+                year=year if raw_year else None,
+                source_citation=source_citation,
                 text=chunk,
                 source_page=page,
                 extraction_method="regex",

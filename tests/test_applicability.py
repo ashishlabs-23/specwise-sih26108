@@ -77,6 +77,24 @@ class TestOpenwell:
         r = assess(IS_14220, _req("monoset pump for agriculture"))
         assert r.result in {"weak", "unknown"}
 
+    @pytest.mark.parametrize("wording", [
+        "5 HP openwell submersible pumpset for irrigation",
+        "5 HP open well submersible pumpset for irrigation",
+        "5 HP open-well submersible pumpset for irrigation",
+        "OPENWELL submersible pumpset for irrigation",
+        "submersible open-well pumpset",
+        "open well submersible pump",
+    ])
+    def test_openwell_wording_variants_are_strong(self, wording):
+        assert assess(IS_14220, _req(wording)).result == "strong"
+
+    @pytest.mark.parametrize("wording", [
+        "submersible borewell pumpset",
+        "submersible bore-well pumpset",
+    ])
+    def test_borewell_wording_excludes_openwell_standard(self, wording):
+        assert assess(IS_14220, _req(wording)).result in {"weak", "unknown"}
+
 
 class TestBorewellSubmersible:
     def test_strong_on_borewell_query(self):
@@ -89,6 +107,15 @@ class TestBorewellSubmersible:
             f"IS 8034 should be excluded for openwell query; got {r.result}"
 
     @pytest.mark.parametrize("wording", [
+        "5 HP openwell submersible pumpset for irrigation",
+        "5 HP open well submersible pumpset for irrigation",
+        "5 HP open-well submersible pumpset for irrigation",
+        "submersible open-well pumpset",
+    ])
+    def test_openwell_wording_variants_exclude_borewell_standard(self, wording):
+        assert assess(IS_8034, _req(wording)).result in {"weak", "unknown"}
+
+    @pytest.mark.parametrize("wording", [
         "submersible pumpset for borewell",
         "submersible borewell pumpset",
         "borewell submersible pumpset",
@@ -97,6 +124,10 @@ class TestBorewellSubmersible:
     def test_borewell_product_word_order_variants(self, wording):
         result = assess(IS_8034, _req(wording))
         assert result.result == "strong", f"{wording}: {result.result} {result.reasons}"
+
+    def test_hyphenated_borewell_product_variant_is_strong(self):
+        result = assess(IS_8034, _req("submersible bore-well pumpset"))
+        assert result.result == "strong", result.reasons
 
 
 class TestMonoset:

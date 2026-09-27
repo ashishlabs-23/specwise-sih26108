@@ -27,6 +27,11 @@ class Requirement(BaseModel):
     source_page: Optional[int] = None
     extraction_method: str = "rule"
     extraction_confidence: float = 0.0
+    # Parsed IS-reference components are kept separately from the cited clause.
+    standard_number: Optional[str] = None
+    part: Optional[str] = None
+    year: Optional[str] = None
+    source_citation: Optional[str] = None
 
 class RetrievalResult(BaseModel):
     standard_id: str

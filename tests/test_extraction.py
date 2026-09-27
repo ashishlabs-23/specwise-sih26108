@@ -1,4 +1,7 @@
+import pytest
 from app.extraction.requirement_extractor import extract_requirements
+from app.engine import RecommendationEngine
+from app.models import AnalysisRequest
 
 
 def test_power_extracted():
@@ -40,6 +43,51 @@ def test_normalized_supported_and_older_is_references():
 def test_arbitrary_numbers_are_not_references():
     rows = extract_requirements("The equipment is sized for 77777 units and 2026 cycles.")
     assert not [r for r in rows if r.category == "reference"]
+
+
+@pytest.mark.parametrize("citation", [
+    "IS 1554 (Part 1):1988",
+    "IS 1554(Part 1):1988",
+    "IS 1554 Part 1:1988",
+    "IS 1554 (Part-1):1988",
+    "IS 1554 (Part 1):\n1988",
+])
+def test_is_reference_preserves_part_year_and_source_citation(citation):
+    rows = extract_requirements(f"Cable shall conform to {citation}.")
+    reference = next(r for r in rows if r.category == "reference")
+    assert reference.standard_number == "IS 1554"
+    assert reference.part == "Part 1"
+    assert reference.year == "1988"
+    assert reference.value == "IS 1554 Part 1:1988"
+    assert "IS 1554" in reference.source_citation
+    assert "1988" in reference.source_citation
+    if "\n" in citation:
+        assert reference.source_citation == citation
+
+
+def test_is_reference_preserves_part_year_for_line_wrapped_citation():
+    source = "Cable shall conform to\r\nIS 1554 (Part 1):\r\n1988."
+    reference = next(r for r in extract_requirements(source) if r.category == "reference")
+    assert reference.value == "IS 1554 Part 1:1988"
+    assert reference.part == "Part 1"
+    assert reference.year == "1988"
+    assert reference.source_citation == "IS 1554 (Part 1):\r\n1988"
+
+
+def test_part_year_reference_matches_existing_edition_without_inventing_revision():
+    result = RecommendationEngine().analyze(AnalysisRequest(text=(
+        "Supply PVC insulated cable and glands to IS 1554 (Part 1):1988."
+    )))
+    reference = next(r for r in result.requirements if r.category == "reference")
+    assert reference.value == "IS 1554 Part 1:1988"
+    assert any(
+        item.standard_id == "IS 1554:1988" and item.state != "edition_mismatch"
+        for item in result.coverage
+    )
+    assert not any(
+        item.state == "unverified_reference" and "1554" in item.reason
+        for item in result.coverage
+    )
 
 
 def test_fallback_for_empty_input():

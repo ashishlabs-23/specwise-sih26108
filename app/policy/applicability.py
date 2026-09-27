@@ -13,6 +13,12 @@ _ROLE_CEILING = {
 _RESULT_ORDER = ["unknown", "weak", "possible", "strong"]
 
 
+def _normalize_product_wording(value: str) -> str:
+    """Normalize spelling variants while keeping openwell and borewell distinct."""
+    value = re.sub(r"\b(open|bore)[\s-]*well\b", r"\1well", value, flags=re.I)
+    return re.sub(r"\s+", " ", value).strip().lower()
+
+
 def _cap(result: str, ceiling: str) -> str:
     ri, ci = _RESULT_ORDER.index(result), _RESULT_ORDER.index(ceiling)
     return _RESULT_ORDER[min(ri, ci)]
@@ -20,12 +26,14 @@ def _cap(result: str, ceiling: str) -> str:
 
 def _phrases_in(phrases: list[str], text: str) -> list[str]:
     """Return phrases that appear verbatim in text (case-insensitive)."""
+    text = _normalize_product_wording(text)
     hits = []
     for phrase in phrases:
-        if phrase.lower() in text:
+        normalized_phrase = _normalize_product_wording(phrase)
+        if normalized_phrase in text:
             hits.append(phrase)
             continue
-        if phrase.lower() in {"borewell", "borehole", "tubewell"} and re.search(r"\bdeep\s+well\b", text, re.I):
+        if normalized_phrase in {"borewell", "borehole", "tubewell"} and re.search(r"\bdeep\s+well\b", text, re.I):
             hits.append(phrase)
             continue
         # Pump product names tolerate intervening well descriptors and spacing
@@ -63,7 +71,7 @@ def assess(standard, requirements) -> ApplicabilityAssessment:
 
     6. EVIDENCE guard — standards with no loaded evidence are capped at 'possible'.
     """
-    req_text = " ".join(r.text for r in requirements).lower()
+    req_text = _normalize_product_wording(" ".join(r.text for r in requirements))
     score = 0
     reasons: list[str] = []
     excluded = False
