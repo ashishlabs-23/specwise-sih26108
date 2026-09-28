@@ -21,14 +21,17 @@ The harness decouples completely from heavy machine learning wrappers:
   - `sacrebleu`, `nltk`, `fairseq`, `tqdm`, `cython`, `pandas`, `lxml`, `sphinx`
 - **Pinned Validated Dependencies**:
   ```txt
-  ctranslate2==4.5.0
+  ctranslate2==4.6.0
   sentencepiece==0.2.0
   indic-nlp-library-itt==0.1.1
   sacremoses==0.1.1
   huggingface_hub==0.28.1
   psutil==5.9.8
   ```
-  *These exact pinned versions were verified during the successful Colab validation run. Render must use the same pinned versions for a controlled and reproducible comparison.*
+- **Render Compatibility Note**:
+  - `ctranslate2==4.5.0` failed in the Render Free Linux container environment with an executable-stack loader error (`ImportError: libctranslate2-bc15bf3f.so.4.5.0: cannot enable executable stack as shared object requires: Invalid argument`).
+  - `ctranslate2==4.6.0` is used because its upstream release notes indicate `-Wl,-z,noexecstack` linker flags were added to prevent executable-stack security denials on hardened Linux kernels.
+  - This is a Render compatibility test, not a production integration.
 
 ## Official Preprocessing Order
 
