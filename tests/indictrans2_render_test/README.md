@@ -19,13 +19,16 @@ The harness decouples completely from heavy machine learning wrappers:
   - `transformers` / `tokenizers`
   - `IndicTransToolkit`
   - `sacrebleu`, `nltk`, `fairseq`, `tqdm`, `cython`, `pandas`, `lxml`, `sphinx`
-- **Minimal Dependencies**:
-  - `ctranslate2>=4.0.0`
-  - `sentencepiece>=0.2.0`
-  - `indic-nlp-library-itt>=0.1.1`
-  - `sacremoses>=0.1.1`
-  - `huggingface_hub>=0.20.0`
-  - `psutil>=5.9.0`
+- **Pinned Validated Dependencies**:
+  ```txt
+  ctranslate2==4.5.0
+  sentencepiece==0.2.0
+  indic-nlp-library-itt==0.1.1
+  sacremoses==0.1.1
+  huggingface_hub==0.28.1
+  psutil==5.9.8
+  ```
+  *These exact pinned versions were verified during the successful Colab validation run. Render must use the same pinned versions for a controlled and reproducible comparison.*
 
 ## Official Preprocessing Order
 
@@ -48,7 +51,7 @@ The harness strictly preserves the official AI4Bharat 5-stage Indic $\rightarrow
   - Model load RSS: ~490.44 MiB
   - Peak RSS: ~506.85 MiB
   - Average inference latency: ~0.565 s
-- **Render Free Tier Notice**: While ~506.85 MiB is below the 512 MiB limit in controlled Colab environments, **Render Free tier (512 MiB ceiling) compatibility remains UNVERIFIED until an actual Render deployment executes**. Operating system overhead and memory fragmentation may vary.
+- **Render Free Tier Notice**: While the 506.85 MiB peak RSS was measured in Colab, **Render Free tier (512 MiB ceiling) compatibility remains UNVERIFIED until an actual Render deployment executes**. Operating system container overhead and memory fragmentation on Render may differ.
 
 ## Validation Cases & References
 

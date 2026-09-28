@@ -1,6 +1,6 @@
-ctranslate2>=4.0.0
-sentencepiece>=0.2.0
-indic-nlp-library-itt>=0.1.1
-sacremoses>=0.1.1
-huggingface_hub>=0.20.0
-psutil>=5.9.0
+ctranslate2==4.5.0
+sentencepiece==0.2.0
+indic-nlp-library-itt==0.1.1
+sacremoses==0.1.1
+huggingface_hub==0.28.1
+psutil==5.9.8
