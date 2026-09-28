@@ -1,44 +1,69 @@
-# IndicTrans2 Render Validation Harness
+# IndicTrans2 True Lean CT2 INT8 Validation Harness
 
-## Prototype Validation
+## Prototype Validation Status
 
-This is an isolated Render/Linux prototype test for loading and running the official AI4Bharat IndicTrans2 inference path. It downloads and loads `ai4bharat/indictrans2-indic-en-dist-200M`, then prints actual outputs, load/end-to-end timings, generation timings, and technical-identifier diagnostics. Identifier survival is diagnostic only; it does not establish semantic correctness.
+This directory contains an isolated, standalone prototype validation harness for evaluating the official **AI4Bharat IndicTrans2 CTranslate2 INT8 (`ct2_int8_model`)** runtime in a resource-constrained container environment.
 
-The harness uses `AutoTokenizer`, `AutoModelForSeq2SeqLM`, and `IndicProcessor` directly. It reads `HF_TOKEN` only from the environment. It does not use a translation pipeline, fixtures, external translation services, or SpecWise imports.
+> [!IMPORTANT]
+> **Independent Prototype — Not Production SpecWise**: IndicTrans2 is **not** integrated into the SpecWise production engine, API, or frontend. No multilingual capabilities are claimed or deployed in production. A successful test run verifies only isolated model-loading and translation accuracy for this specific harness.
+>
+> In any future SpecWise multilingual integration, original procurement text must remain preserved alongside any translation for audit and validation purposes. This benchmark does not establish production multilingual accuracy, BIS approval, nationwide coverage, or legal compliance.
 
-## Current SpecWise
+## True Lean CT2 INT8 Architecture
 
-IndicTrans2 is **not yet integrated into production SpecWise**. No multilingual capability should be claimed until this isolated validation succeeds. A successful run verifies only this model-loading and inference test, not an application integration or safe procurement analysis.
+The harness decouples completely from heavy machine learning wrappers:
 
-This harness makes no claim of production readiness, BIS certification, nationwide BIS coverage, real-time BIS synchronization, or legal/regulatory completeness.
+- **Execution Engine**: Single instance of `ctranslate2.Translator(compute_type="int8", device="cpu")`.
+- **Completely Removed Frameworks**:
+  - `torch` / `torchvision`
+  - `transformers` / `tokenizers`
+  - `IndicTransToolkit`
+  - `sacrebleu`, `nltk`, `fairseq`, `tqdm`, `cython`, `pandas`, `lxml`, `sphinx`
+- **Minimal Dependencies**:
+  - `ctranslate2>=4.0.0`
+  - `sentencepiece>=0.2.0`
+  - `indic-nlp-library-itt>=0.1.1`
+  - `sacremoses>=0.1.1`
+  - `huggingface_hub>=0.20.0`
+  - `psutil>=5.9.0`
 
-## Future Work
+## Official Preprocessing Order
 
-Any later production proposal requires separate engineering and policy review. Intended safeguards include:
+The harness strictly preserves the official AI4Bharat 5-stage Indic $\rightarrow$ English preprocessing pipeline:
 
-- Controlled multilingual normalization.
-- Retaining both the original and translated representation.
-- Bilingual/back-translation verification.
-- Fail-closed behavior when translation drifts or checks fail.
+1. **Punctuation Normalization**: `punc_norm()` (official pure-Python normalization for quotes, dashes, non-breaking spaces).
+2. **Regex & Entity Normalization**: `normalize_regex()` (official AI4Bharat spacing rules around punctuation and alphanumeric tokens).
+3. **Indic Unicode Normalization**: `IndicNormalizerFactory().get_normalizer(lang)` for `hi` and `kn`.
+4. **Indic Trivial Tokenization**: `trivial_tokenize(text, lang=lang)`.
+5. **Script Transliteration**: `UnicodeIndicTransliterator.transliterate(text, "kn", "hi")` for Kannada $\rightarrow$ unified Devanagari vocabulary (identity for Hindi).
+6. **SentencePiece Encoding**: `src_sp.encode_as_pieces()`.
+7. **Framing & Truncation**: `[src_lang] + subwords[:254] + ["</s>"]`.
+8. **CTranslate2 INT8 Beam Search**: `beam_size=5`, target prefix `[tgt_lang]`.
+9. **SentencePiece Decoding**: `tgt_sp.decode_pieces()`.
+10. **English Target Postprocessing**: `MosesDetokenizer("en")` and punctuation cleanup.
 
-## Model and Inputs
+## Memory & Resource Target
 
-Model ID: `ai4bharat/indictrans2-indic-en-dist-200M`
+- **Observed Colab Benchmark**:
+  - Model load RSS: ~490.44 MiB
+  - Peak RSS: ~506.85 MiB
+  - Average inference latency: ~0.565 s
+- **Render Free Tier Notice**: While ~506.85 MiB is below the 512 MiB limit in controlled Colab environments, **Render Free tier (512 MiB ceiling) compatibility remains UNVERIFIED until an actual Render deployment executes**. Operating system overhead and memory fragmentation may vary.
 
-The exact baseline sentences are:
+## Validation Cases & References
 
-- Hindi (`src_lang="hin_Deva"`): `सिंचाई के लिए 5 HP ओपनवेल सबमर्सिबल पंपसेट की आपूर्ति करें।`
-- Kannada (`src_lang="kan_Knda"`): `ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್‌ವೆಲ್ ಸಬ್‌ಮರ್ಸಿಬಲ್ ಪಂಪ್‌ಸೆಟ್ ಪೂರೈಸಬೇಕು.`
+The harness validates four procurement cases with deterministic parity checking:
 
-One additional short procurement sentence per language includes an IS reference, year, HP, mm, and product/application wording. The script compares extracted identifiers before and after translation, allowing case/spacing differences. This check does not evaluate meaning.
+1. **Hindi**: `सिंचाई के लिए 5 HP ओपनवेल सबमर्सिबल पंपसेट की आपूर्ति करें।`
+   - Reference: `Supply 5 HP openwell submersible pumpsets for irrigation.`
+2. **Kannada**: `ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್ವೆಲ್ ಸಬ್ಮರ್ಸಿಬಲ್ ಪಂಪ್ಸೆಟ್ ಪೂರೈಸಬೇಕು.`
+   - Reference: `A 5 HP openwell submersible pumpset should be supplied for irrigation.`
+3. **Hindi technical**: `IS 14220:2018 के अनुसार सिंचाई के लिए 5 HP ओपनवेल पंपसेट और 25 mm पाइप दें।`
+   - Reference: `Give 5 HP open well pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.`
+4. **Kannada technical**: `IS 14220:2018 ಪ್ರಕಾರ ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್ವೆಲ್ ಪಂಪ್ಸೆಟ್ ಮತ್ತು 25 mm ಪೈಪ್ ಒದಗಿಸಿ.`
+   - Reference: `Provide a 5 HP openwell pumpset and 25 mm pipe for irrigation according to IS 14220:2018.`
 
-## Render Execution
+## Security & Secrets
 
-1. Create a separate Render service from a test branch. Do not attach production environment groups or credentials.
-2. Select Docker and set both the root directory and build context to `tests/indictrans2_render_test`. Set the Dockerfile path to `Dockerfile` relative to that root.
-3. Add `HF_TOKEN` as a secret environment variable on the isolated service. Do not put it in source, a Blueprint value, Dockerfile, build argument, or command.
-4. Build the image. The Dockerfile installs CPU-only PyTorch plus this harness's dependencies and copies only the test script and requirements file.
-5. Manually execute `python test_indictrans2.py` once against the isolated service's built image. Render one-off jobs can execute a command against an existing service build.
-6. Collect the run logs, then delete or suspend the temporary test service after validation.
-
-Initial smoke-test resource target: **1 CPU / 2 GB RAM; actual suitability must be established by the Render build/run.**
+- `HF_TOKEN` is supplied strictly as a runtime environment variable for gated model access.
+- It is never logged, stored in images, or committed to source control. All exceptions mask tokens with `[REDACTED]`.

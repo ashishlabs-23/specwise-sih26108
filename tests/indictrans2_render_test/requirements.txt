@@ -1,5 +1,6 @@
-torch>=2.5
-transformers>=4.51,<5
-sentencepiece
-indictranstoolkit==1.1.1
-huggingface_hub
+ctranslate2>=4.0.0
+sentencepiece>=0.2.0
+indic-nlp-library-itt>=0.1.1
+sacremoses>=0.1.1
+huggingface_hub>=0.20.0
+psutil>=5.9.0
