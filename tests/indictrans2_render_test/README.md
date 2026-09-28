@@ -9,6 +9,33 @@ This directory contains an isolated, standalone prototype validation harness for
 >
 > In any future SpecWise multilingual integration, original procurement text must remain preserved alongside any translation for audit and validation purposes. This benchmark does not establish production multilingual accuracy, BIS approval, nationwide coverage, or legal compliance.
 
+## Render Deployment History
+
+| Commit | Status | Notes |
+|--------|--------|-------|
+| `51596c3` | ❌ Build failed | Original PyTorch/Transformers harness — too heavy |
+| `0cf00d7` | ❌ Build failed | Switched to lean CT2; executable-stack error with ct2 4.5.0 |
+| `39f711b` | ❌ Runtime error | ct2 4.6.0 loads; model download failed: `GatedRepoError: 401` — `HF_TOKEN` not set in Render env |
+| `df8a85b` | ❌ Runtime error | Fixed NameError `tgt_sp_file`; HF_TOKEN preflight + explicit auth added |
+| `HEAD` | 🔄 Pending | README update + auth documentation |
+
+### Gated Model Authentication
+
+`ai4bharat/indictrans2-indic-en-dist-200M` is a **gated Hugging Face repository**. The Render deployment will fail at model download with `GatedRepoError: 401` unless a valid token is configured.
+
+**To fix the 401 on Render:**
+1. Go to the Render service dashboard → **Environment** tab.
+2. Add a secret environment variable: `HF_TOKEN` = `<your Hugging Face User Access Token>`.
+3. Ensure your HF account has **requested and been granted access** to the gated repo at [huggingface.co/ai4bharat/indictrans2-indic-en-dist-200M](https://huggingface.co/ai4bharat/indictrans2-indic-en-dist-200M).
+4. The token must have at minimum **Read** permission.
+5. Redeploy.
+
+**Security constraints (enforced in code):**
+- `HF_TOKEN` is read from the environment at runtime — never committed to source, Dockerfile, or `requirements.txt`.
+- The harness prints only `HF_TOKEN_PRESENT=true` or `HF_TOKEN_PRESENT=false` — the token value is never logged, printed, or exposed.
+- If `HF_TOKEN` is absent, the harness exits immediately with `sys.exit(1)` before any network call.
+- All exception messages have the token value replaced with `[REDACTED]` via `safe_exception()`.
+
 ## True Lean CT2 INT8 Architecture
 
 The harness decouples completely from heavy machine learning wrappers:
