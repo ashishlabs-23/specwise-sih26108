@@ -30,7 +30,6 @@ for forbidden in FORBIDDEN_MODULES:
 # MEMORY INSTRUMENTATION (Linux /proc/self/status with psutil/resource fallback)
 # -----------------------------------------------------------------------------
 def get_current_rss_mb() -> float | None:
-    # Check Linux /proc/self/status for accurate unshared process RSS
     status_path = Path("/proc/self/status")
     if status_path.exists():
         try:
@@ -73,7 +72,27 @@ def get_peak_rss_mb() -> float | None:
 rss_before_imports = get_current_rss_mb()
 
 MODEL_ID = "ai4bharat/indictrans2-indic-en-dist-200M"
-HF_TOKEN = os.environ.get("HF_TOKEN")
+
+# -----------------------------------------------------------------------------
+# FAIL-CLOSED TOKEN PREFLIGHT CHECK
+# -----------------------------------------------------------------------------
+raw_token = os.environ.get("HF_TOKEN") or os.environ.get("HUGGING_FACE_HUB_TOKEN")
+HF_TOKEN = raw_token.strip() if raw_token else None
+
+if HF_TOKEN:
+    print("HF_TOKEN_PRESENT=true")
+    # Export explicitly so all sub-processes/internal hub calls inherit it
+    os.environ["HF_TOKEN"] = HF_TOKEN
+    os.environ["HUGGING_FACE_HUB_TOKEN"] = HF_TOKEN
+else:
+    print("HF_TOKEN_PRESENT=false")
+    print(
+        "FATAL: HF_TOKEN environment variable is not configured. "
+        "Please set HF_TOKEN in the Render service Environment settings with a valid "
+        "Hugging Face User Access Token authorized for ai4bharat/indictrans2-indic-en-dist-200M.",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 
 def safe_exception(exc: Exception) -> str:
@@ -102,17 +121,13 @@ def normalize_identifier(identifier: str) -> str:
     return re.sub(r"\s+", "", identifier).casefold()
 
 
-if not HF_TOKEN:
-    print("FATAL: HF_TOKEN environment variable is required for gated model access.", file=sys.stderr)
-    sys.exit(1)
-
 # -----------------------------------------------------------------------------
 # PREPROCESSING DEPENDENCIES (Import lightweight official modules)
 # -----------------------------------------------------------------------------
 try:
     import ctranslate2
     import sentencepiece as spm
-    from huggingface_hub import snapshot_download
+    from huggingface_hub import HfApi, login, snapshot_download
     from indicnlp.normalize.indic_normalize import IndicNormalizerFactory
     from indicnlp.tokenize.indic_tokenize import trivial_tokenize
     from indicnlp.transliterate.unicode_transliterate import UnicodeIndicTransliterator
@@ -122,6 +137,26 @@ except Exception as exc:
     sys.exit(1)
 
 rss_after_preproc_deps = get_current_rss_mb()
+
+# -----------------------------------------------------------------------------
+# SAFE AUTHENTICATION SMOKE TEST (Preflight gated model access check)
+# -----------------------------------------------------------------------------
+try:
+    # Set global session authentication in memory
+    login(token=HF_TOKEN, add_to_git_credential=False)
+    api = HfApi(token=HF_TOKEN)
+    # Lightweight metadata check to verify authorization without full download
+    _ = api.model_info(MODEL_ID, token=HF_TOKEN)
+    print("HF_AUTH_PREFLIGHT=PASS")
+except Exception as exc:
+    report_failure("Hugging Face model access authentication preflight", exc)
+    print(
+        f"FATAL: Access to {MODEL_ID} failed. "
+        f"Ensure your Hugging Face account has requested and been granted access to "
+        f"the gated repository and that HF_TOKEN has Read permissions.",
+        file=sys.stderr,
+    )
+    sys.exit(1)
 
 # -----------------------------------------------------------------------------
 # OFFICIAL AI4BHARAT PREPROCESSING ROUTINES
@@ -292,7 +327,7 @@ try:
     src_sp.load(str(src_spm_file))
 
     tgt_sp = spm.SentencePieceProcessor()
-    if tgt_sp_file and tgt_sp_file.exists() and tgt_sp_file != src_spm_file:
+    if tgt_spm_file and tgt_spm_file.exists() and tgt_spm_file != src_spm_file:
         tgt_sp.load(str(tgt_spm_file))
     else:
         tgt_sp = src_sp
@@ -338,7 +373,6 @@ def translate_sentence(text: str, src_lang: str, tgt_lang: str) -> tuple[str, fl
     subwords = src_sp.encode_as_pieces(preprocessed_text)
 
     # Step 7-8: Language tag routing and 256-token truncation
-    # Format: [src_lang] + tokens[:254] + ["</s>"]
     input_tokens = [src_lang] + subwords[:254] + ["</s>"]
 
     # Step 9: CTranslate2 INT8 translation
