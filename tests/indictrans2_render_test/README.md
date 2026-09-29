@@ -1,138 +1,64 @@
-# IndicTrans2 True Lean CT2 INT8 Validation Harness
+# IndicTrans2 ONNX INT8 Memory-Feasibility Test Harness
 
-## Prototype Validation Status
+## Active Experiment Status
 
-This directory contains an isolated, standalone prototype validation harness for evaluating the official **AI4Bharat IndicTrans2 CTranslate2 INT8 (`ct2_int8_model`)** runtime in a resource-constrained container environment.
+This directory contains an isolated, standalone prototype validation harness for evaluating the **third-party IndicTrans2 ONNX INT8 (`hari31416/indictrans2-indic-en-dist-200M-ONNX-int8`)** runtime in a resource-constrained container environment.
 
 > [!IMPORTANT]
-> **Independent Prototype — Not Production SpecWise**: IndicTrans2 is **not** integrated into the SpecWise production engine, API, or frontend. No multilingual capabilities are claimed or deployed in production. A successful test run verifies only isolated model-loading and translation accuracy for this specific harness.
->
-> In any future SpecWise multilingual integration, original procurement text must remain preserved alongside any translation for audit and validation purposes. This benchmark does not establish production multilingual accuracy, BIS approval, nationwide coverage, or legal compliance.
-
-## Render Deployment History
-
-| Commit | Status | Notes |
-|--------|--------|-------|
-| `51596c3` | ❌ Build failed | Original PyTorch/Transformers harness — too heavy |
-| `0cf00d7` | ❌ Build failed | Switched to lean CT2; executable-stack error with ct2 4.5.0 |
-| `39f711b` | ❌ Runtime error | ct2 4.6.0 loads; model download failed: `GatedRepoError: 401` — `HF_TOKEN` not set in Render env |
-| `df8a85b` | ❌ Runtime error | Fixed NameError `tgt_sp_file`; HF_TOKEN preflight + explicit auth added |
-| `HEAD` | 🔄 Pending | README update + auth documentation |
-
-### Gated Model Authentication
-
-`ai4bharat/indictrans2-indic-en-dist-200M` is a **gated Hugging Face repository**. The Render deployment will fail at model download with `GatedRepoError: 401` unless a valid token is configured.
-
-**To fix the 401 on Render:**
-1. Go to the Render service dashboard → **Environment** tab.
-2. Add a secret environment variable: `HF_TOKEN` = `<your Hugging Face User Access Token>`.
-3. Ensure your HF account has **requested and been granted access** to the gated repo at [huggingface.co/ai4bharat/indictrans2-indic-en-dist-200M](https://huggingface.co/ai4bharat/indictrans2-indic-en-dist-200M).
-4. The token must have at minimum **Read** permission.
-5. Redeploy.
-
-**Security constraints (enforced in code):**
-- `HF_TOKEN` is read from the environment at runtime — never committed to source, Dockerfile, or `requirements.txt`.
-- The harness prints only `HF_TOKEN_PRESENT=true` or `HF_TOKEN_PRESENT=false` — the token value is never logged, printed, or exposed.
-- If `HF_TOKEN` is absent, the harness exits immediately with `sys.exit(1)` before any network call.
-- All exception messages have the token value replaced with `[REDACTED]` via `safe_exception()`.
-
-## True Lean CT2 INT8 Architecture
-
-The harness decouples completely from heavy machine learning wrappers:
-
-- **Execution Engine**: Single instance of `ctranslate2.Translator(compute_type="int8", device="cpu")`.
-- **Completely Removed Frameworks**:
-  - `torch` / `torchvision`
-  - `transformers` / `tokenizers`
-  - `IndicTransToolkit`
-  - `sacrebleu`, `nltk`, `fairseq`, `tqdm`, `cython`, `pandas`, `lxml`, `sphinx`
-- **Pinned Validated Dependencies**:
-  ```txt
-  ctranslate2==4.6.0
-  sentencepiece==0.2.0
-  indic-nlp-library-itt==0.1.1
-  sacremoses==0.1.1
-  huggingface_hub==0.28.1
-  psutil==5.9.8
-  ```
-- **Render Compatibility Note**:
-  - `ctranslate2==4.5.0` failed in the Render Free Linux container environment with an executable-stack loader error (`ImportError: libctranslate2-bc15bf3f.so.4.5.0: cannot enable executable stack as shared object requires: Invalid argument`).
-  - `ctranslate2==4.6.0` is used because its upstream release notes indicate `-Wl,-z,noexecstack` linker flags were added to prevent executable-stack security denials on hardened Linux kernels.
-  - This is a Render compatibility test, not a production integration.
-
-## Official Preprocessing Order
-
-The harness strictly preserves the official AI4Bharat 5-stage Indic $\rightarrow$ English preprocessing pipeline:
-
-1. **Punctuation Normalization**: `punc_norm()` (official pure-Python normalization for quotes, dashes, non-breaking spaces).
-2. **Regex & Entity Normalization**: `normalize_regex()` (official AI4Bharat spacing rules around punctuation and alphanumeric tokens).
-3. **Indic Unicode Normalization**: `IndicNormalizerFactory().get_normalizer(lang)` for `hi` and `kn`.
-4. **Indic Trivial Tokenization**: `trivial_tokenize(text, lang=lang)`.
-5. **Script Transliteration**: `UnicodeIndicTransliterator.transliterate(text, "kn", "hi")` for Kannada $\rightarrow$ unified Devanagari vocabulary (identity for Hindi).
-6. **SentencePiece Encoding**: `src_sp.encode_as_pieces()`.
-7. **Framing & Truncation**: `[src_lang] + subwords[:254] + ["</s>"]`.
-8. **CTranslate2 INT8 Beam Search**: `beam_size=5`, target prefix `[tgt_lang]`.
-9. **SentencePiece Decoding**: `tgt_sp.decode_pieces()`.
-10. **English Target Postprocessing**: `MosesDetokenizer("en")` and punctuation cleanup.
-
-## Memory & Resource Target
-
-- **Observed Colab Benchmark**:
-  - Model load RSS: ~490.44 MiB
-  - Peak RSS: ~506.85 MiB
-  - Average inference latency: ~0.565 s
-- **Render Free Tier Notice**: While the 506.85 MiB peak RSS was measured in Colab, **Render Free tier (512 MiB ceiling) compatibility remains UNVERIFIED until an actual Render deployment executes**. Operating system container overhead and memory fragmentation on Render may differ.
-
-## Validation Cases & References
-
-The harness validates four procurement cases with deterministic parity checking:
-
-1. **Hindi**: `सिंचाई के लिए 5 HP ओपनवेल सबमर्सिबल पंपसेट की आपूर्ति करें।`
-   - Reference: `Supply 5 HP openwell submersible pumpsets for irrigation.`
-2. **Kannada**: `ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್ವೆಲ್ ಸಬ್ಮರ್ಸಿಬಲ್ ಪಂಪ್ಸೆಟ್ ಪೂರೈಸಬೇಕು.`
-   - Reference: `A 5 HP openwell submersible pumpset should be supplied for irrigation.`
-3. **Hindi technical**: `IS 14220:2018 के अनुसार सिंचाई के लिए 5 HP ओपनवेल पंपसेट और 25 mm पाइप दें।`
-   - Reference: `Give 5 HP open well pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.`
-4. **Kannada technical**: `IS 14220:2018 ಪ್ರಕಾರ ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್ವೆಲ್ ಪಂಪ್ಸೆಟ್ ಮತ್ತು 25 mm ಪೈಪ್ ಒದಗಿಸಿ.`
-   - Reference: `Provide a 5 HP openwell pumpset and 25 mm pipe for irrigation according to IS 14220:2018.`
-
-## Security & Secrets
-
-- `HF_TOKEN` is supplied strictly as a runtime environment variable for gated model access.
-- It is never logged, stored in images, or committed to source control. All exceptions mask tokens with `[REDACTED]`.
+> **Independent Experimental Prototype — Not Production SpecWise**:
+> - Current Runtime: **ONNX Runtime INT8 (`CPUExecutionProvider`)**
+> - Candidate Model: `hari31416/indictrans2-indic-en-dist-200M-ONNX-int8` (Third-party dynamic INT8 ONNX conversion of `ai4bharat/indictrans2-indic-en-dist-200M`).
+> - **Public Model — No `HF_TOKEN` Required**: Unlike gated PyTorch repositories, this ONNX model is public and requires no Hugging Face authentication tokens.
+> - **Not Integrated in Production**: IndicTrans2 is **not** integrated into the SpecWise production search engine, API, or frontend. No multilingual claims or production deployments are active.
+> - **Primary Objective**: Measure container RAM and runtime feasibility within the Render Free tier (512 MiB RAM limit).
 
 ---
 
-## ONNX INT8 Memory-Feasibility Experiment
+## Memory Architecture & Strategy
 
-> [!WARNING]
-> **Third-party ONNX INT8 conversion under evaluation; not yet accepted as production translation backend.**
+To stay strictly below the **460 MiB target threshold** (leaving 52 MiB headroom on the Render Free 512 MiB container ceiling), the harness implements an aggressive memory-reduction strategy:
 
-### Candidate Model
+1. **Sequential Session Lifetime**:
+   - **Phase 1**: Instantiate `encoder_model.onnx` session $\rightarrow$ run encoder on source tokens $\rightarrow$ capture `last_hidden_state` $\rightarrow$ explicitly delete session and invoke `gc.collect()`.
+   - **Phase 2**: Instantiate `decoder_model.onnx` session $\rightarrow$ run initial step 0 $\rightarrow$ capture initial KV-cache $\rightarrow$ delete session and invoke `gc.collect()`.
+   - **Phase 3**: Instantiate `decoder_with_past_model.onnx` session $\rightarrow$ run auto-regressive decoding loop $\rightarrow$ delete session and invoke `gc.collect()`.
+   - *Encoder and Decoder sessions never reside in memory concurrently.*
+2. **Execution Provider**: `CPUExecutionProvider` only.
+3. **Execution Mode**: `ORT_SEQUENTIAL`.
+4. **Threading**: `intra_op_num_threads = 1`, `inter_op_num_threads = 1`.
+5. **Memory Allocator Settings**:
+   - `enable_cpu_mem_arena = False` (memory freed immediately to OS).
+   - `enable_mem_pattern = False`.
+   - `enable_profiling = False`.
+6. **Graph Optimization**: `ORT_DISABLE_ALL`.
+7. **Inference Parameters**: Batch size 1, greedy decoding (`argmax`), bounded sequence length (`max_tokens = 64`).
+8. **Minimal File Downloads**: Filtered download pulling only `.onnx`, `.onnx.data`, and tokenizer JSON files (~219 MiB total model weights).
 
-[`hari31416/indictrans2-indic-en-dist-200M-ONNX-int8`](https://huggingface.co/hari31416/indictrans2-indic-en-dist-200M-ONNX-int8)
+---
 
-- Third-party ONNX INT8 dynamic quantization of `ai4bharat/indictrans2-indic-en-dist-200M`
-- **Not gated** — no `HF_TOKEN` required
-- Reported model disk size: ~319.7 MiB (encoder + decoder shared weights)
-- INT8 exact match vs FP32 oracle: 85.64% on general fixtures
+## Test Execution
 
-### Motivation
+### Default Sanity Run (1 Representative Case)
+For initial Render deployment validation, the harness evaluates one technical procurement case to confirm boot, loading, inference, and memory ceiling compliance:
 
-The CT2 harness (`test_indictrans2.py`) established that:
-1. `ai4bharat/indictrans2-indic-en-dist-200M` has **no `ct2_int8_model/`** in its HF repo.
-2. Pre-converted CT2 INT8 repos have model.bin files of 808–981 MiB, exceeding Render Free 512 MiB.
-3. ONNX INT8 separates the model into encoder (~114 MiB data) + decoder shared (~105 MiB data), totalling ~219 MiB of weights, which **may** fit within the 460 MiB feasibility threshold.
+- **Source (Hindi)**: `IS 14220:2018 के अनुसार सिंचाई के लिए 5 HP ओपनवेल पंपसेट और 25 mm पाइप दें।`
+- **Prefix Format**: `hin_Deva eng_Latn <text>`
+- **Expected Reference**: `Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.`
 
-### Harness Files
+```bash
+python test_onnx_harness.py
+```
 
-| File | Purpose |
-|------|---------|
-| `test_onnx_harness.py` | ONNX memory-feasibility benchmark |
-| `requirements_onnx.txt` | Pinned runtime for the ONNX harness |
+### Full Suite Run (Optional Benchmark)
+```bash
+python test_onnx_harness.py --full-suite
+```
 
-### Runtime
+---
 
+## Pinned Runtime Dependencies
+
+See [`requirements_onnx.txt`](requirements_onnx.txt):
 ```txt
 onnxruntime==1.19.2
 tokenizers==0.20.3
@@ -140,16 +66,19 @@ huggingface_hub==0.26.2
 psutil==5.9.8
 ```
 
-**Explicitly excluded**: `torch`, `transformers`, `ctranslate2`, `IndicTransToolkit`, `indic-nlp-library-itt`, `sacremoses`, `fairseq`
+*Explicitly Excluded Heavy Frameworks*: `torch`, `transformers`, `ctranslate2`, `IndicTransToolkit`, `indic-nlp-library-itt`, `sacremoses`, `fairseq`.
 
-### Feasibility Acceptance Condition
+---
 
-```
-peak RSS < 460 MiB
-```
+## Historical Context: Prior CTranslate2 (CT2) Experiment
 
-The 460 MiB threshold leaves 52 MiB headroom for FastAPI, Python runtime, and temporary allocations within Render Free 512 MiB. Results below 460 MiB = FEASIBLE; at or above = NOT FEASIBLE. No rounding of failing results.
+*(Archived — Superseded by ONNX INT8 experiment)*
 
-### Known Preprocessing Limitation
-
-Without `IndicTransToolkit` or `indic-nlp-library-itt`, Kannada script transliteration to Devanagari is approximated via a pure-Python character map. Hindi (Devanagari) input is processed exactly. Proper multi-script support would require one of the banned libraries.
+The repository previously evaluated official and converted CTranslate2 INT8 weights:
+1. `ai4bharat/indictrans2-indic-en-dist-200M` lacked official `ct2_int8_model/` files.
+2. Third-party converted CT2 INT8 models packaged weights in 808–981 MiB `model.bin` files, immediately exceeding the Render Free 512 MiB ceiling.
+3. Prior Render CT2 test deployment history:
+   - `51596c3`: PyTorch / Transformers harness — build failed (exceeded resource limits).
+   - `0cf00d7`: CTranslate2 4.5.0 — failed with container executable-stack denial (`libctranslate2.so: cannot enable executable stack`).
+   - `39f711b`: CTranslate2 4.6.0 — resolved executable-stack; failed with `GatedRepoError: 401` on gated HF repo.
+   - `df8a85b`: Fixed variable naming and added token preflight.

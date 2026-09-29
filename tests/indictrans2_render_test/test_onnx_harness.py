@@ -17,9 +17,9 @@ Aggressive Render-Only Memory Strategy:
   4. Memory arena: Disabled (so.enable_cpu_mem_arena = False)
   5. Memory pattern: Disabled (so.enable_mem_pattern = False)
   6. Profiling: Disabled (so.enable_profiling = False)
-  7. Graph Optimization: ORT_ENABLE_BASIC
+  7. Graph Optimization: ORT_DISABLE_ALL
   8. Batch size: 1
-  9. Bounded sequence length: max 64/100 tokens, greedy decoding
+  9. Bounded sequence length: max 64 tokens, greedy decoding
  10. Sequential Session Release:
      - Load Encoder Session -> Run encoder -> Delete & release Encoder Session -> gc.collect()
      - Load Initial Decoder Session -> Run step 0 -> Delete & release Initial Decoder Session -> gc.collect()
@@ -86,6 +86,7 @@ REPRESENTATIVE_CASE = {
     "label": "BL-03-Hindi-technical",
     "src_text": "IS 14220:2018 के अनुसार सिंचाई के लिए 5 HP ओपनवेल पंपसेट और 25 mm पाइप दें।",
     "src_lang": "hin_Deva",
+    "tgt_lang": "eng_Latn",
     "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
 }
 
@@ -153,17 +154,17 @@ _PUNC_NORM: dict[str, str] = {
 }
 
 
-def build_prefixed(text: str, src_lang: str) -> str:
-    """Format input text with language prefix tag expected by BPE tokenizer."""
+def build_prefixed(text: str, src_lang: str, tgt_lang: str) -> str:
+    """Format input text with source and target language prefix tags: '{src_lang} {tgt_lang} {text}'."""
     for s, t in _PUNC_NORM.items():
         text = text.replace(s, t)
     text = re.sub(r"[ \t]+", " ", text).strip()
     if src_lang == "kan_Knda":
         text = "".join(_KN_TO_HI.get(ch, ch) for ch in text)
-        lang_tag = "hin_Deva"
+        src_tag = "hin_Deva"
     else:
-        lang_tag = src_lang
-    return f"{lang_tag} {text}"
+        src_tag = src_lang
+    return f"{src_tag} {tgt_lang} {text}"
 
 
 def postprocess_target_text(raw_text: str) -> str:
@@ -216,7 +217,7 @@ def create_session_options(ort_module):
     so.enable_cpu_mem_arena = False
     so.enable_mem_pattern = False
     so.enable_profiling = False
-    so.graph_optimization_level = ort_module.GraphOptimizationLevel.ORT_ENABLE_BASIC
+    so.graph_optimization_level = ort_module.GraphOptimizationLevel.ORT_DISABLE_ALL
     return so
 
 
@@ -238,6 +239,7 @@ def translate_single_case(
     snap_dir: Path,
     src_text: str,
     src_lang: str,
+    tgt_lang: str = "eng_Latn",
     max_tokens: int = MAX_GEN_TOKENS,
 ) -> tuple[str, bool, dict[str, float]]:
     """
@@ -269,7 +271,7 @@ def translate_single_case(
     tgt_vocab_size = meta["tgt_dict_size"]
     unk_token_id = meta["unk_id"]
 
-    prefixed_input = build_prefixed(src_text, src_lang)
+    prefixed_input = build_prefixed(src_text, src_lang, tgt_lang)
     enc_encoded = src_tok.encode(prefixed_input)
     inp_ids = np.array([[i if i < src_vocab_size else unk_token_id for i in enc_encoded.ids]], dtype=np.int64)
     attn_mask = np.array([enc_encoded.attention_mask], dtype=np.int64)
@@ -448,7 +450,7 @@ def main() -> None:
     print(f"thread settings                    : intra_op_num_threads=1, inter_op_num_threads=1")
     print(f"CPU arena setting                  : False (disabled)")
     print(f"memory-pattern setting             : False (disabled)")
-    print(f"graph optimization setting         : ORT_ENABLE_BASIC")
+    print(f"graph optimization setting         : ORT_DISABLE_ALL")
     print(f"execution mode                     : ORT_SEQUENTIAL")
     print(f"RENDER_MEMORY_TARGET_MIB           : {RENDER_MEMORY_TARGET_MIB} MiB (Render Free = {RENDER_FREE_LIMIT_MIB} MiB)")
     print()
@@ -461,6 +463,7 @@ def main() -> None:
     print("\n--- SINGLE REPRESENTATIVE CASE ---")
     print(f"Label                              : {case['label']}")
     print(f"Source Text ({case['src_lang']})             : {case['src_text']}")
+    print(f"Target Language                    : {case.get('tgt_lang', 'eng_Latn')}")
     print(f"Expected Reference                 : {case['expected']}")
     print(flush=True)
 
@@ -470,6 +473,7 @@ def main() -> None:
             snap_dir=snap_dir,
             src_text=case["src_text"],
             src_lang=case["src_lang"],
+            tgt_lang=case.get("tgt_lang", "eng_Latn"),
         )
     except Exception as exc:
         print(f"\nFATAL: Translation failed during execution: {exc}", file=sys.stderr)
