@@ -40,6 +40,12 @@ import sys
 import time
 from pathlib import Path
 
+# Ensure UTF-8 output across environments (including Windows console)
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
 # ---------------------------------------------------------------------------
 # STATIC FRAMEWORK GUARDS — prevent accidental loading of heavy packages
 # ---------------------------------------------------------------------------
@@ -89,6 +95,14 @@ REPRESENTATIVE_CASE = {
     "tgt_lang": "eng_Latn",
     "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
 }
+
+REQUIRED_ENTITIES = [
+    "IS 14220:2018",
+    "5 HP",
+    "25 mm",
+    "openwell",
+    "irrigation",
+]
 
 # ---------------------------------------------------------------------------
 # MEMORY MONITORING HELPERS
@@ -167,11 +181,158 @@ def build_prefixed(text: str, src_lang: str, tgt_lang: str) -> str:
     return f"{src_tag} {tgt_lang} {text}"
 
 
-def postprocess_target_text(raw_text: str) -> str:
-    """Clean tokenization artifacts from generated translation."""
-    out = re.sub(r'\s*:\s*', ':', raw_text)
+def extract_source_is_references(text: str) -> list[str]:
+    """
+    Extract canonical IS references from text.
+    Matches 'IS <3-6 digits>:<4 digits>' with optional spacing around colon.
+    Returns canonical references e.g. ['IS 14220:2018'].
+    """
+    if not text:
+        return []
+    pattern = re.compile(r'\bIS\s*(\d{3,6})\s*:\s*(\d{4})\b', re.IGNORECASE)
+    matches = pattern.findall(text)
+    return [f"IS {num}:{yr}" for num, yr in matches]
+
+
+def extract_source_is_numbers(text: str) -> set[str]:
+    """Extract standard IS numbers (3-6 digits) from text."""
+    if not text:
+        return set()
+    return set(re.findall(r'\bIS\s*(\d{3,6})\b', text, re.IGNORECASE))
+
+
+def normalize_technical_reference(raw_text: str, source_text: str = "") -> str:
+    """
+    Deterministic source-aware postprocessing and technical reference normalization:
+      1. Strips tokenization artifacts (escaped colons, backslashes).
+      2. Normalizes decimal numbers (e.g. '7 . 5' -> '7.5').
+      3. Normalizes standard formatting (e.g. 'IS 14220 : 2018' -> 'IS 14220:2018').
+      4. Restores split standard prefix (e.g. 'IS 14220:Give ... as per 2018' -> 'Give ... as per IS 14220:2018')
+         ONLY when verified against source_text (or present in raw tokens if source_text is omitted).
+         Never fabricates or invents an IS reference not present in the source text.
+      5. Cleans whitespace before punctuation (e.g. '2018 .' -> '2018.').
+    """
+    out = raw_text.strip()
+    # 1. Remove escaped colons/slashes
+    out = re.sub(r'\\([:/-])', r'\1', out)
+    # 2. Fix decimals
     out = re.sub(r'(\d+)\s*\.\s*(\d+)', r'\1.\2', out)
-    return re.sub(r'\s+', ' ', out).strip()
+    # 3. Standard with internal whitespace around colon: IS 14220 : 2018 -> IS 14220:2018
+    out = re.sub(r'\bIS\s*(\d{3,6})\s*:\s*(\d{4})\b', r'IS \1:\2', out, flags=re.IGNORECASE)
+
+    # 4. Restore split IS standard prefix:
+    # Matches 'IS <number>[: ] <clause> <compliance_prep> <year>'
+    split_is_pattern = re.compile(
+        r'^\s*IS\s*(\d{3,6})\s*[:\s]\s*(.*?)\s+(as per|according to|conforming to|in accordance with|per)\s+(\d{4})\b(.*)$',
+        re.IGNORECASE | re.DOTALL
+    )
+    m = split_is_pattern.match(out)
+    if m:
+        is_num, main_clause, prep, yr, rest = m.groups()
+        canonical_ref = f"IS {is_num}:{yr}"
+
+        # Source verification: verify against source text when provided
+        should_reconstruct = False
+        if not source_text:
+            should_reconstruct = True
+        else:
+            source_refs = extract_source_is_references(source_text)
+            source_nums = extract_source_is_numbers(source_text)
+            if canonical_ref in source_refs or is_num in source_nums:
+                should_reconstruct = True
+
+        if should_reconstruct:
+            out = f"{main_clause.strip()} {prep} {canonical_ref}{rest}"
+
+    # 5. Remove whitespace before punctuation marks (. , ! ? ; :)
+    out = re.sub(r'\s+([.,!?;:])', r'\1', out)
+    # 6. Normalize multiple spaces
+    out = re.sub(r'\s+', ' ', out).strip()
+    return out
+
+
+def check_entity_preservation(text: str, entities: list[str]) -> dict[str, bool]:
+    """Verify presence of all mandatory technical entities in generated text."""
+    text_norm = re.sub(r"\s+", " ", text).casefold()
+    results = {}
+    for ent in entities:
+        ent_norm = re.sub(r"\s+", " ", ent).casefold()
+        results[ent] = (ent_norm in text_norm)
+    return results
+
+
+def run_normalization_regression_tests() -> tuple[bool, list[dict]]:
+    """
+    Validate normalization rules against key regression and adversarial cases:
+      1. Split IS standard with year (matching source)
+      2. Another standard number/year (matching source)
+      3. Intact IS standard with spacing
+      4. Ordinary numeric text (NOT an IS reference)
+      5. IS reference without year
+      6. Adversarial unmentioned IS standard (must NOT fabricate/reconstruct)
+      7. Omitted source_text fallback
+    """
+    test_cases = [
+        {
+            "desc": "Split IS 14220:2018 prefix pattern with verified source",
+            "raw": "IS 14220:Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per 2018 .",
+            "source": "IS 14220:2018 ಪ್ರಕಾರ ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್‌ವೆಲ್ ಪಂಪ್‌ಸೆಟ್‌ಗಳು ಮತ್ತು 25 mm ಪೈಪ್‌ಗಳನ್ನು ನೀಡಿ.",
+            "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
+        },
+        {
+            "desc": "Another IS standard number & year (IS 1520:2022)",
+            "raw": "IS 1520:Supply 10 pumps for water works according to 2022 .",
+            "source": "IS 1520:2022 ಪ್ರಕಾರ 10 ಪಂಪ್‌ಗಳನ್ನು ಸರಬರಾಜು ಮಾಡಿ.",
+            "expected": "Supply 10 pumps for water works according to IS 1520:2022.",
+        },
+        {
+            "desc": "Intact IS standard with space around colon",
+            "raw": "Give 5 HP pumps as per IS 14220 : 2018 .",
+            "source": "IS 14220:2018 ಪ್ರಕಾರ 5 HP ಪಂಪ್ ನೀಡಿ.",
+            "expected": "Give 5 HP pumps as per IS 14220:2018.",
+        },
+        {
+            "desc": "Ordinary numeric text (must NOT be modified as IS)",
+            "raw": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220 .",
+            "source": "2024 ರ ಇನ್‌ವಾಯ್ಸ್ 14220 ರಂತೆ 500 RPM ನಲ್ಲಿ 25 mm ನ 100 ಪೈಪ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.",
+            "expected": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220.",
+        },
+        {
+            "desc": "IS reference without year (must NOT fabricate year)",
+            "raw": "IS 14220 certified 5 HP pump .",
+            "source": "IS 14220 ಪ್ರಮಾಣೀಕೃತ 5 HP ಪಂಪ್.",
+            "expected": "IS 14220 certified 5 HP pump.",
+        },
+        {
+            "desc": "Adversarial: Spurious IS not in source (must NOT reconstruct unverified standard)",
+            "raw": "IS 99999:Order pumps for irrigation as per 2018 .",
+            "source": "ನೀರಾವರಿಗಾಗಿ ಪಂಪ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.",
+            "expected": "IS 99999:Order pumps for irrigation as per 2018.",
+        },
+        {
+            "desc": "Omitted source_text fallback",
+            "raw": "IS 14220:Give 5 HP openwell pumpsets as per 2018 .",
+            "source": "",
+            "expected": "Give 5 HP openwell pumpsets as per IS 14220:2018.",
+        },
+    ]
+
+    all_passed = True
+    results = []
+    for tc in test_cases:
+        actual = normalize_technical_reference(tc["raw"], tc.get("source", ""))
+        passed = (actual == tc["expected"])
+        if not passed:
+            all_passed = False
+        results.append({
+            "desc": tc["desc"],
+            "raw": tc["raw"],
+            "source": tc.get("source", ""),
+            "expected": tc["expected"],
+            "actual": actual,
+            "passed": passed,
+        })
+    return all_passed, results
 
 # ---------------------------------------------------------------------------
 # MODEL DOWNLOAD
@@ -241,12 +402,13 @@ def translate_single_case(
     src_lang: str,
     tgt_lang: str = "eng_Latn",
     max_tokens: int = MAX_GEN_TOKENS,
-) -> tuple[str, bool, dict[str, float]]:
+) -> tuple[str, str, bool, dict[str, float]]:
     """
     Executes single-sentence translation with sequential session lifetime:
       Phase 1: Load Encoder -> Encode -> Release Encoder -> gc.collect()
       Phase 2: Load Decoder (Initial) -> Step 0 -> Release Initial Decoder -> gc.collect()
       Phase 3: Load Decoder (with Past) -> Steps 1..N -> Release Decoder -> gc.collect()
+    Returns: (raw_decoded_output, normalized_output, success_bool, phase_metrics)
     """
     import numpy as np
     import onnxruntime as ort
@@ -409,10 +571,10 @@ def translate_single_case(
 
     # 4. Decode Output
     safe_ids = [i if i < tgt_vocab_size else unk_token_id for i in generated_ids]
-    decoded_raw = tgt_tok.decode(safe_ids, skip_special_tokens=True)
-    final_output = postprocess_target_text(decoded_raw)
+    raw_output = tgt_tok.decode(safe_ids, skip_special_tokens=True)
+    normalized_output = normalize_technical_reference(raw_output, src_text)
 
-    return final_output, True, metrics
+    return raw_output, normalized_output, True, metrics
 
 # ---------------------------------------------------------------------------
 # MAIN EXECUTION ENTRY POINT
@@ -469,7 +631,7 @@ def main() -> None:
 
     t_infer0 = time.perf_counter()
     try:
-        output_text, success, phase_metrics = translate_single_case(
+        raw_output, norm_output, success, phase_metrics = translate_single_case(
             snap_dir=snap_dir,
             src_text=case["src_text"],
             src_lang=case["src_lang"],
@@ -500,16 +662,39 @@ def main() -> None:
     print(f"PEAK_RSS_MiB                       : {_fmt_mib(peak_rss)}")
     print()
 
-    # 6. Translation Result
-    exact_match = (output_text.strip().casefold() == case["expected"].strip().casefold())
+    # 6. Translation Result & Normalization Verification
+    exact_match = (norm_output.strip().casefold() == case["expected"].strip().casefold())
+    ent_preservation = check_entity_preservation(norm_output, REQUIRED_ENTITIES)
+    all_ents_preserved = all(ent_preservation.values())
+
     print("--- TRANSLATION OUTCOME ---")
+    print(f"RAW_MODEL_OUTPUT                   : {raw_output}")
+    print(f"NORMALIZED_OUTPUT                  : {norm_output}")
     print(f"translation success                : {success}")
-    print(f"translation output                 : {output_text}")
     print(f"exact match                        : {'YES' if exact_match else 'NO (minor variation)'}")
     print(f"inference latency                  : {infer_latency:.3f} s")
     print()
 
-    # 7. Render Free Feasibility Verdict
+    # 7. Entity Preservation & Normalization Regression Results
+    print("--- ENTITY PRESERVATION & REGRESSION TESTS ---")
+    print(f"ENTITY_PRESERVATION_RESULT         : {'PASS (All preserved)' if all_ents_preserved else 'FAIL'}")
+    for ent, present in ent_preservation.items():
+        print(f"  - [{'\u2713' if present else '\u2717'}] {ent}")
+
+    reg_passed, reg_details = run_normalization_regression_tests()
+    passed_count = sum(1 for r in reg_details if r["passed"])
+    total_count = len(reg_details)
+    print(f"REGRESSION_RESULT                  : {'PASS (' + str(passed_count) + '/' + str(total_count) + ' cases)' if reg_passed else 'FAIL (' + str(passed_count) + '/' + str(total_count) + ')'}")
+    for r in reg_details:
+        status_icon = "\u2713" if r["passed"] else "\u2717"
+        print(f"  - [{status_icon}] {r['desc']}")
+        if not r["passed"]:
+            print(f"      RAW: {r['raw']}")
+            print(f"      EXP: {r['expected']}")
+            print(f"      ACT: {r['actual']}")
+    print()
+
+    # 8. Render Free Feasibility Verdict
     feasible = (peak_rss is not None and peak_rss < RENDER_MEMORY_TARGET_MIB)
     headroom = RENDER_FREE_LIMIT_MIB - (peak_rss if peak_rss else 0.0)
 
