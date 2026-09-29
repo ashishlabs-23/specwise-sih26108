@@ -408,7 +408,7 @@ export default function ResourcesPage() {
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-slate-900">
-                  Verified Indian Standards ({filteredStandards.length} of {summary.standards_count})
+                  {t.verifiedStandardsCount} ({filteredStandards.length} of {summary.standards_count})
                 </h2>
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-slate-500 font-medium hidden sm:inline">{t.roleFilter}:</span>
@@ -495,23 +495,23 @@ export default function ResourcesPage() {
                       {/* Metadata Footer */}
                       <div className="mt-4 pt-3 border-t border-slate-100 space-y-2 text-xs">
                         <div className="flex items-center justify-between text-slate-500">
-                          <span className="font-medium">Lifecycle / Status:</span>
+                          <span className="font-medium">{t.lifecycleStatus}:</span>
                           <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {lifecycleText}
                           </span>
                         </div>
 
                         <div className="flex items-center justify-between">
-                          <span className="text-slate-500 font-medium">Linked Evidence:</span>
+                          <span className="text-slate-500 font-medium">{t.linkedEvidence}:</span>
                           <span className="font-bold text-[#0A3871] bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
                             {std.evidence_ids.length} verified record{std.evidence_ids.length > 1 ? "s" : ""}
                           </span>
                         </div>
 
                         <div className="flex items-start justify-between">
-                          <span className="text-slate-500 font-medium">Related Standards ({relatedList.length}):</span>
+                          <span className="text-slate-500 font-medium">{t.relatedStandardsCount} ({relatedList.length}):</span>
                           <span className="font-mono text-slate-700 font-semibold text-right max-w-[60%] truncate">
-                            {relatedList.length > 0 ? relatedList.join(", ") : "Standalone"}
+                            {relatedList.length > 0 ? relatedList.join(", ") : t.standalone}
                           </span>
                         </div>
 
@@ -520,7 +520,7 @@ export default function ResourcesPage() {
                           onClick={() => setExpandedStandardId(isExpanded ? null : std.standard_id)}
                           className="w-full mt-2 inline-flex items-center justify-center gap-1 text-[11px] font-bold text-[#0B57D0] hover:text-[#0A47A8] py-1 bg-slate-50 hover:bg-blue-50/50 rounded-lg transition-colors cursor-pointer"
                         >
-                          <span>{isExpanded ? "Hide Technical Details" : "View Full Parameters & Provenance"}</span>
+                          <span>{isExpanded ? t.hideTechDetails : t.viewFullParams}</span>
                           {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
                         </button>
                       </div>
@@ -536,10 +536,10 @@ export default function ResourcesPage() {
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-slate-900">
-                  Grounded Evidence Records ({filteredEvidence.length} of {summary.evidence_count})
+                  {t.groundedEvidenceCount} ({filteredEvidence.length} of {summary.evidence_count})
                 </h2>
                 <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-                  Official BIS Publications & Guidelines
+                  {t.officialBisPublications}
                 </span>
               </div>
 
@@ -588,7 +588,7 @@ export default function ResourcesPage() {
 
                       <div className="mt-3 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs">
                         <div className="flex items-center gap-1.5">
-                          <span className="text-slate-500 font-medium">Linked Standard(s):</span>
+                          <span className="text-slate-500 font-medium">{t.linkedStandards}:</span>
                           <div className="flex items-center gap-1">
                             {linkedStds.length > 0 ? (
                               linkedStds.map((stdId, idx) => (
@@ -600,7 +600,7 @@ export default function ResourcesPage() {
                                 </span>
                               ))
                             ) : (
-                              <span className="font-mono text-slate-500 text-[11px]">General Corpus</span>
+                              <span className="font-mono text-slate-500 text-[11px]">{t.generalCorpus}</span>
                             )}
                           </div>
                         </div>
@@ -611,7 +611,7 @@ export default function ResourcesPage() {
                           rel="noreferrer"
                           className="inline-flex items-center gap-1 text-[#0B57D0] hover:underline font-mono text-[11px] font-semibold"
                         >
-                          <span>Official Source Link</span>
+                          <span>{t.officialSourceLink}</span>
                           <ExternalLink className="w-3 h-3" />
                         </a>
                       </div>
@@ -627,10 +627,10 @@ export default function ResourcesPage() {
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-slate-900">
-                  Standard Relationship Graph ({filteredRelationships.length} of {summary.relationships_count})
+                  {t.relationshipGraphCount} ({filteredRelationships.length} of {summary.relationships_count})
                 </h2>
                 <span className="text-xs font-semibold text-slate-500">
-                  Normative references, test acceptance codes, and codes of practice
+                  {t.normativeReferences}
                 </span>
               </div>
 
@@ -646,7 +646,7 @@ export default function ResourcesPage() {
                           {rel.relationship_type.replace(/_/g, " ")}
                         </span>
                         <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          Verified Link
+                          {t.verifiedLink}
                         </span>
                       </div>
 
@@ -677,7 +677,7 @@ export default function ResourcesPage() {
                     </div>
 
                     <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-                      <span className="text-slate-500 font-medium">Evidence Proof:</span>
+                      <span className="text-slate-500 font-medium">{t.evidenceProof}:</span>
                       <span className="font-mono text-[11px] font-bold text-slate-800">
                         {rel.evidence_ids.join(", ")}
                       </span>
@@ -694,14 +694,14 @@ export default function ResourcesPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-lg font-bold text-slate-900">
-                    Evaluation & Regression Benchmark Suite ({filteredCases.length} of {summary.benchmark_cases_count})
+                    {t.benchmarkSuiteCount} ({filteredCases.length} of {summary.benchmark_cases_count})
                   </h2>
                   <p className="text-xs text-slate-500 mt-0.5">
                     Internal regression benchmark test cases (tests reproducibility against the frozen corpus)
                   </p>
                 </div>
                 <span className="text-xs font-semibold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
-                  Internal Regression Benchmark
+                  {t.internalBenchmark}
                 </span>
               </div>
 
@@ -743,7 +743,7 @@ export default function ResourcesPage() {
 
                     <div className="mt-3">
                       <span className="text-[11px] uppercase font-bold text-slate-400 tracking-wider">
-                        Evaluation Query
+                        {t.evaluationQuery}
                       </span>
                       <p className="text-xs font-semibold text-slate-900 mt-0.5 bg-slate-50 p-2.5 rounded-lg border border-slate-200 font-mono">
                         "{c.query}"
@@ -751,7 +751,7 @@ export default function ResourcesPage() {
                     </div>
 
                     <p className="mt-2.5 text-xs text-slate-600 leading-relaxed">
-                      <strong className="text-slate-700">Assertion Rationale:</strong> {c.notes}
+                      <strong className="text-slate-700">{t.assertionRationale}:</strong> {c.notes}
                     </p>
                   </div>
                 ))}
@@ -764,10 +764,10 @@ export default function ResourcesPage() {
             <div className="mt-6 space-y-4">
               <div className="flex items-center justify-between">
                 <h2 className="text-lg font-bold text-slate-900">
-                  Verified BIS Source Documents & Provenance ({filteredSources.length} of {summary.sources_count})
+                  {t.sourceDocumentsCount} ({filteredSources.length} of {summary.sources_count})
                 </h2>
                 <span className="text-xs font-semibold text-slate-500">
-                  Official Bureau of Indian Standards Publications
+                  {t.officialBisSources}
                 </span>
               </div>
 

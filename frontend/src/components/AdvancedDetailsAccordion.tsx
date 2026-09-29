@@ -16,6 +16,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { AnalysisResponse } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AdvancedDetailsAccordionProps {
   response: AnalysisResponse;
@@ -26,6 +27,7 @@ export function AdvancedDetailsAccordion({
   response,
   onOpenReportModal,
 }: AdvancedDetailsAccordionProps) {
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<
     "requirements" | "applicability" | "lifecycle" | "graph" | "coverage" | "conflicts" | "evidence" | "timings"
@@ -43,6 +45,17 @@ export function AdvancedDetailsAccordion({
     timings_ms,
   } = response;
 
+  const tabs = [
+    { id: "requirements", label: `${t.tabRequirements} (${requirements.length})` },
+    { id: "applicability", label: `${t.tabApplicability} (${applicability.length})` },
+    { id: "lifecycle", label: `${t.tabLifecycle} (${lifecycle.length})` },
+    { id: "graph", label: `${t.tabGraph} (${related_standards.length})` },
+    { id: "coverage", label: `${t.tabCoverage} (${coverage.length + gaps.length})` },
+    { id: "conflicts", label: `${t.tabConflicts} (${conflicts.length})` },
+    { id: "evidence", label: `${t.tabEvidence} (${evidence.length})` },
+    { id: "timings", label: t.tabTimings },
+  ];
+
   return (
     <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden transition-all">
       {/* Header Toggle */}
@@ -57,16 +70,16 @@ export function AdvancedDetailsAccordion({
           </div>
           <div className="min-w-0 flex-1">
             <h3 className="text-xs sm:text-sm font-bold text-slate-900 break-words">
-              Detailed Procurement Audit & Technical Traceability
+              {t.auditTitle}
             </h3>
             <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 sm:line-clamp-none break-words">
-              Progressive disclosure of deterministic policy checks, graph hops, coverage matrix, and provenance
+              {t.auditSubtitle}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-1.5 text-xs font-semibold text-[#0B57D0] flex-shrink-0">
-          <span className="hidden sm:inline">{isOpen ? "Hide Details" : "Show Details"}</span>
+          <span className="hidden sm:inline">{isOpen ? t.hideDetails : t.showDetails}</span>
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </div>
       </button>
@@ -76,16 +89,7 @@ export function AdvancedDetailsAccordion({
         <div className="p-4 sm:p-6 border-t border-slate-200 min-w-0">
           {/* Sub-Tabs */}
           <div className="flex flex-wrap items-center gap-1.5 pb-4 border-b border-slate-200 min-w-0">
-            {[
-              { id: "requirements", label: `Requirements (${requirements.length})` },
-              { id: "applicability", label: `Applicability (${applicability.length})` },
-              { id: "lifecycle", label: `Lifecycle (${lifecycle.length})` },
-              { id: "graph", label: `Graph / Normative (${related_standards.length})` },
-              { id: "coverage", label: `Coverage & Gaps (${coverage.length + gaps.length})` },
-              { id: "conflicts", label: `Conflicts (${conflicts.length})` },
-              { id: "evidence", label: `Evidence Provenance (${evidence.length})` },
-              { id: "timings", label: `Performance Timings` },
-            ].map((tab) => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
@@ -104,7 +108,7 @@ export function AdvancedDetailsAccordion({
               className="mt-1 sm:mt-0 sm:ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-300 hover:bg-emerald-100 transition-colors cursor-pointer flex-shrink-0"
             >
               <FileCode className="w-3.5 h-3.5" />
-              <span>Audit HTML Report</span>
+              <span>{t.auditHtmlReport}</span>
             </button>
           </div>
 
@@ -112,18 +116,18 @@ export function AdvancedDetailsAccordion({
           {activeTab === "requirements" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Extracted Tender Requirements
+                {t.extractedRequirements}
               </h4>
               <div className="overflow-x-auto w-full">
                 <table className="w-full text-left text-xs border border-slate-200 rounded-lg overflow-hidden min-w-[500px]">
                   <thead className="bg-slate-100 text-slate-700 font-bold">
                     <tr>
-                      <th className="p-2.5">ID</th>
-                      <th className="p-2.5">Category</th>
-                      <th className="p-2.5">Extracted Text</th>
-                      <th className="p-2.5">Attribute / Value</th>
-                      <th className="p-2.5">Source / Page</th>
-                      <th className="p-2.5">Method</th>
+                      <th className="p-2.5">{t.colId}</th>
+                      <th className="p-2.5">{t.colCategory}</th>
+                      <th className="p-2.5">{t.colExtractedText}</th>
+                      <th className="p-2.5">{t.colAttributeValue}</th>
+                      <th className="p-2.5">{t.colSourcePage}</th>
+                      <th className="p-2.5">{t.colMethod}</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-200">
@@ -142,11 +146,11 @@ export function AdvancedDetailsAccordion({
                         <td className="p-2.5 text-slate-600 whitespace-nowrap">
                           {r.source_page ? (
                             <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-mono text-[10px] font-bold border border-purple-200">
-                              PDF Page {r.source_page}
+                              {t.pdfPage} {r.source_page}
                             </span>
                           ) : (
                             <span className="text-slate-400 font-mono text-[10px]">
-                              Text Input
+                              {t.textInput}
                             </span>
                           )}
                         </td>
@@ -165,7 +169,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "applicability" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Deterministic Applicability Assessment
+                {t.applicabilityTitle}
               </h4>
               <div className="space-y-2 min-w-0">
                 {applicability.map((a, i) => (
@@ -204,7 +208,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "lifecycle" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Lifecycle & Standard Edition Assessment
+                {t.lifecycleTitle}
               </h4>
               <div className="space-y-2 min-w-0">
                 {lifecycle.map((l, i) => (
@@ -236,7 +240,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "graph" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Normative Reference & Dependency Graph (Max 2 Hops)
+                {t.graphTitle}
               </h4>
               <div className="space-y-2 min-w-0">
                 {related_standards.map((rel, i) => (
@@ -253,11 +257,11 @@ export function AdvancedDetailsAccordion({
                     </div>
                     <div className="flex items-center gap-2 self-start sm:self-auto flex-shrink-0">
                       <span className="px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-semibold text-[10px]">
-                        Hop {rel.hop || 1}
+                        {t.hop} {rel.hop || 1}
                       </span>
                       {rel.verified && (
                         <span className="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold text-[10px]">
-                          Verified
+                          {t.verified}
                         </span>
                       )}
                     </div>
@@ -271,7 +275,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "coverage" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Specification Coverage Matrix
+                {t.coverageTitle}
               </h4>
               <div className="space-y-2 min-w-0">
                 {coverage.map((c, i) => (
@@ -300,12 +304,12 @@ export function AdvancedDetailsAccordion({
           {activeTab === "conflicts" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Conflict & Contradiction Detection
+                {t.conflictsTitle}
               </h4>
               {conflicts.length === 0 ? (
                 <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium flex items-center gap-2 min-w-0">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                  <span className="break-words">No conflicting standard citations or contradictory requirements detected.</span>
+                  <span className="break-words">{t.noConflicts}</span>
                 </div>
               ) : (
                 conflicts.map((conf, i) => (
@@ -322,7 +326,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "evidence" && (
             <div className="pt-4 space-y-3 min-w-0">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Full Evidence Provenance Records
+                {t.evidenceTitle}
               </h4>
               <div className="space-y-2 min-w-0">
                 {evidence.map((ev, i) => (
@@ -330,7 +334,7 @@ export function AdvancedDetailsAccordion({
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-bold text-slate-900 font-mono break-words">{ev.evidence_id}</span>
                       <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-semibold flex-shrink-0">
-                        {ev.verified ? "Verified Official BIS" : "Secondary Summary"}
+                        {ev.verified ? t.verifiedOfficial : t.secondarySummary}
                       </span>
                     </div>
                     <p className="text-slate-700 mt-1 font-medium break-words">{ev.source_name}</p>
@@ -354,7 +358,7 @@ export function AdvancedDetailsAccordion({
           {activeTab === "timings" && (
             <div className="pt-4 space-y-3">
               <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider">
-                Pipeline Execution Timings & Latency
+                {t.timingsTitle}
               </h4>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                 {Object.entries(timings_ms).map(([k, v]) => (
