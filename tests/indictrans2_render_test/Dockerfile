@@ -9,5 +9,6 @@ COPY requirements_onnx.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY test_onnx_harness.py .
+COPY kannada_transliterate.py .
 
 CMD ["python", "test_onnx_harness.py"]
