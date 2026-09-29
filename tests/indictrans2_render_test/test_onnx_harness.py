@@ -679,14 +679,15 @@ def main() -> None:
     print("--- ENTITY PRESERVATION & REGRESSION TESTS ---")
     print(f"ENTITY_PRESERVATION_RESULT         : {'PASS (All preserved)' if all_ents_preserved else 'FAIL'}")
     for ent, present in ent_preservation.items():
-        print(f"  - [{'\u2713' if present else '\u2717'}] {ent}")
+        status_icon = "✓" if present else "✗"
+        print(f"  - [{status_icon}] {ent}")
 
     reg_passed, reg_details = run_normalization_regression_tests()
     passed_count = sum(1 for r in reg_details if r["passed"])
     total_count = len(reg_details)
     print(f"REGRESSION_RESULT                  : {'PASS (' + str(passed_count) + '/' + str(total_count) + ' cases)' if reg_passed else 'FAIL (' + str(passed_count) + '/' + str(total_count) + ')'}")
     for r in reg_details:
-        status_icon = "\u2713" if r["passed"] else "\u2717"
+        status_icon = "✓" if r["passed"] else "✗"
         print(f"  - [{status_icon}] {r['desc']}")
         if not r["passed"]:
             print(f"      RAW: {r['raw']}")
