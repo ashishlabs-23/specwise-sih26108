@@ -43,6 +43,18 @@ import threading
 import time
 from pathlib import Path
 
+# Import lightweight Kannada→Devanagari transliterator (stdlib only, no external deps)
+# Algorithm mirrors UnicodeIndicTransliterator from indic_nlp_library
+# Reference: anoopkunchukuttan/indic_nlp_library src/indicnlp/transliterate/unicode_transliterate.py
+_HARNESS_DIR = Path(__file__).parent
+if str(_HARNESS_DIR) not in sys.path:
+    sys.path.insert(0, str(_HARNESS_DIR))
+from kannada_transliterate import (
+    transliterate_kannada_to_devanagari_safe,
+    run_preprocessing_tests as _run_kannada_preprocessing_tests,
+    verify_entities_preserved as _verify_kn_entities,
+)
+
 # Ensure UTF-8 output across environments (including Windows console)
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -343,21 +355,6 @@ def _fmt_mib(val: float | None) -> str:
 # ---------------------------------------------------------------------------
 # TEXT NORMALIZATION & PREPROCESSING
 # ---------------------------------------------------------------------------
-_KN_TO_HI: dict[str, str] = {
-    "ಅ": "अ", "ಆ": "आ", "ಇ": "इ", "ಈ": "ई", "ಉ": "उ", "ಊ": "ऊ",
-    "ಎ": "ए", "ಏ": "ए", "ಐ": "ऐ", "ಒ": "ओ", "ಓ": "ओ", "ಔ": "औ",
-    "ಾ": "ा", "ಿ": "ि", "ೀ": "ी", "ು": "ु", "ೂ": "ू",
-    "ೆ": "े", "ೇ": "े", "ೈ": "ै", "ೊ": "ो", "ೋ": "ो", "ೌ": "ौ",
-    "ಂ": "ं", "ಃ": "ः", "್": "्", "ಽ": "ऽ",
-    "ಕ": "क", "ಖ": "ख", "ಗ": "ग", "ಘ": "घ", "ಙ": "ङ",
-    "ಚ": "च", "ಛ": "छ", "ಜ": "ज", "ಝ": "झ", "ಞ": "ञ",
-    "ಟ": "ट", "ಠ": "ठ", "ಡ": "ड", "ಢ": "ढ", "ಣ": "ण",
-    "ತ": "त", "ಥ": "थ", "ದ": "द", "ಧ": "ध", "ನ": "न",
-    "ಪ": "प", "ಫ": "फ", "ಬ": "ब", "ಭ": "भ", "ಮ": "म",
-    "ಯ": "य", "ರ": "र", "ಲ": "ल", "ವ": "व", "ಶ": "श",
-    "ಷ": "ष", "ಸ": "स", "ಹ": "ह", "ಳ": "ळ", "ಱ": "र", "ೞ": "ल",
-}
-
 _PUNC_NORM: dict[str, str] = {
     "\r": "", "\u2026": "...", "\u200b": "", "\u200c": "", "\u200d": "",
     "\ufeff": "", "\u00a0": " ",
@@ -367,12 +364,25 @@ _PUNC_NORM: dict[str, str] = {
 
 
 def build_prefixed(text: str, src_lang: str, tgt_lang: str) -> str:
-    """Format input text with source and target language prefix tags: '{src_lang} {tgt_lang} {text}'."""
+    """
+    Format input text with source and target language prefix tags: '{src_lang} {tgt_lang} {text}'.
+
+    For Kannada (kan_Knda) input:
+      - Applies the official Unicode offset-based Kannada→Devanagari transliteration
+        (mirrors UnicodeIndicTransliterator from indic_nlp_library, as used by AI4Bharat
+        IndicTrans2 inference/engine.py and IndicTransToolkit IndicProcessor).
+      - Includes the official halant/virama spacing fix required for correct
+        SentencePiece tokenization.
+      - Passes src_tag as 'hin_Deva' after transliteration so the shared model
+        vocabulary applies the correct Hindi/Devanagari sentencepiece rules.
+      - ASCII technical entities (IS references, HP, mm, kV, etc.) are guaranteed
+        unchanged as all ASCII codepoints are outside the Kannada block [0x0C80-0x0CFF].
+    """
     for s, t in _PUNC_NORM.items():
         text = text.replace(s, t)
     text = re.sub(r"[ \t]+", " ", text).strip()
     if src_lang == "kan_Knda":
-        text = "".join(_KN_TO_HI.get(ch, ch) for ch in text)
+        text = transliterate_kannada_to_devanagari_safe(text)
         src_tag = "hin_Deva"
     else:
         src_tag = src_lang
@@ -489,14 +499,141 @@ def normalize_technical_reference(raw_text: str, source_text: str = "") -> str:
     return out
 
 
+# ---------------------------------------------------------------------------
+# CANONICAL ENTITY VARIANTS (for evaluation only — output is never altered)
+# ---------------------------------------------------------------------------
+# Maps known surface-level harmless variants. Applied ONLY during evaluation
+# to avoid counting British/American spelling or spacing differences as
+# critical entity failures. The raw output text is never changed.
+_ENTITY_SURFACE_VARIANTS: dict[str, list[str]] = {
+    # spacing variants
+    "50 mm":     ["50mm"],
+    "25 mm":     ["25mm"],
+    "100 mm":    ["100mm"],
+    "6 mm":      ["6mm"],
+    "1.1 kV":    ["1.1kV"],
+    "0.5 HP":    ["0.5HP"],
+    # British/American spelling variants
+    "armoured":  ["armored"],
+    "armored":   ["armoured"],
+    # compound variants
+    "hand pump": ["handpump", "hand-pump"],
+    "handpump":  ["hand pump", "hand-pump"],
+}
+
+
+def _entity_canonical_forms(entity: str) -> list[str]:
+    """Return all accepted surface forms of an entity (for evaluation only)."""
+    forms = [entity]
+    variants = _ENTITY_SURFACE_VARIANTS.get(entity.lower(), [])
+    forms.extend(variants)
+    # Also add spaceless form for unit entities like '50 mm' -> '50mm'
+    spaceless = re.sub(r'(\d+(?:\.\d+)?)\s+([a-zA-Z]+)', r'\1\2', entity)
+    if spaceless != entity:
+        forms.append(spaceless)
+    # And spaced form for spaceless entities
+    spaced = re.sub(r'(\d+(?:\.\d+)?)([a-zA-Z]+)', r'\1 \2', entity)
+    if spaced != entity:
+        forms.append(spaced)
+    return list(dict.fromkeys(forms))  # unique, preserve order
+
+
 def check_entity_preservation(text: str, entities: list[str]) -> dict[str, bool]:
-    """Verify presence of all mandatory technical entities in generated text."""
+    """
+    Verify presence of mandatory technical entities in generated text.
+
+    Uses canonical comparison to avoid false failures for harmless surface
+    variations (e.g. '50mm' vs '50 mm', 'armoured' vs 'armored', 'handpump'
+    vs 'hand pump'). The raw output text is never altered — only evaluation
+    matching is canonical.
+
+    Returns dict mapping each entity to True (found) / False (missing).
+    """
     text_norm = re.sub(r"\s+", " ", text).casefold()
     results = {}
     for ent in entities:
-        ent_norm = re.sub(r"\s+", " ", ent).casefold()
-        results[ent] = (ent_norm in text_norm)
+        found = False
+        for form in _entity_canonical_forms(ent):
+            form_norm = re.sub(r"\s+", " ", form).casefold()
+            if form_norm in text_norm:
+                found = True
+                break
+        results[ent] = found
     return results
+
+
+# Known "content drift" token patterns — words appearing in output with no
+# semantic basis in standard procurement source text. Detection is purely
+# lexical, deterministic, and additive (never removes output tokens).
+_CONTENT_DRIFT_TOKENS: frozenset[str] = frozenset([
+    "certification", "harwin", "certificate", "papillac", "galley",
+    "wrinkle", "paps",
+])
+
+
+def classify_output_quality(
+    source_text: str,
+    norm_output: str,
+    required_entities: list[str],
+) -> dict:
+    """
+    Deterministic quality classification for a single translation output.
+    Returns a dict with:
+      ref_consistency: MATCH | MISSING | CONFLICT | NONE
+      ent_detail: {entity: bool} from check_entity_preservation
+      critical_entity_failures: [entities found missing]
+      surface_variation_only: bool — all failures are benign surface variants
+      content_drift_tokens: [tokens indicating unsupported semantic drift]
+      quality_class: SURFACE_VARIATION | CRITICAL_ENTITY_FAILURE |
+                     UNSUPPORTED_CONTENT_DRIFT | CLEAN
+      safety: SAFE | UNSAFE_FOR_AUTOMATIC_USE
+    """
+    ref_consistency = classify_reference_consistency(source_text, norm_output)
+    ent_detail = check_entity_preservation(norm_output, required_entities)
+
+    missing_ents = [e for e, ok in ent_detail.items() if not ok]
+    critical_fails = []
+    surface_only_fails = []
+    for ent in missing_ents:
+        # Consider it surface-variation if entity was found under any canonical form
+        text_lower = norm_output.casefold()
+        found_under_variant = False
+        for form in _entity_canonical_forms(ent):
+            if re.sub(r"\s+", " ", form).casefold() in text_lower:
+                found_under_variant = True
+                break
+        if found_under_variant:
+            surface_only_fails.append(ent)
+        else:
+            critical_fails.append(ent)
+
+    out_lower = norm_output.casefold()
+    drift_tokens = [t for t in _CONTENT_DRIFT_TOKENS if t in out_lower]
+
+    if drift_tokens:
+        quality_class = "UNSUPPORTED_CONTENT_DRIFT"
+    elif critical_fails:
+        quality_class = "CRITICAL_ENTITY_FAILURE"
+    elif surface_only_fails or (not all(ent_detail.values())):
+        quality_class = "SURFACE_VARIATION"
+    else:
+        quality_class = "CLEAN"
+
+    unsafe = (
+        ref_consistency == "CONFLICT"
+        or quality_class in ("CRITICAL_ENTITY_FAILURE", "UNSUPPORTED_CONTENT_DRIFT")
+    )
+    safety = "UNSAFE_FOR_AUTOMATIC_USE" if unsafe else "SAFE"
+
+    return {
+        "ref_consistency": ref_consistency,
+        "ent_detail": ent_detail,
+        "critical_entity_failures": critical_fails,
+        "surface_variation_only": (len(surface_only_fails) > 0 and len(critical_fails) == 0),
+        "content_drift_tokens": drift_tokens,
+        "quality_class": quality_class,
+        "safety": safety,
+    }
 
 
 def run_normalization_regression_tests() -> tuple[bool, list[dict]]:
@@ -1021,9 +1158,13 @@ def main() -> None:
                 last_norm_output = norm_out
 
                 exact = (norm_out.strip().casefold() == case["expected"].strip().casefold())
-                ref_consistency = classify_reference_consistency(case["src_text"], norm_out)
-                ent_preservation = check_entity_preservation(norm_out, case.get("required_entities", []))
-                all_ents = all(ent_preservation.values()) if case.get("required_entities") else True
+                quality = classify_output_quality(
+                    case["src_text"], norm_out, case.get("required_entities", [])
+                )
+                ref_consistency = quality["ref_consistency"]
+                all_ents = not quality["critical_entity_failures"]
+                quality_class = quality["quality_class"]
+                safety = quality["safety"]
                 peak_after = _peak_rss_mib()
 
                 if not succ:
@@ -1035,12 +1176,17 @@ def main() -> None:
                     "exact_match": exact,
                     "reference_consistency": ref_consistency,
                     "technical_entity_preservation": all_ents,
+                    "quality_class": quality_class,
+                    "safety": safety,
+                    "content_drift": quality["content_drift_tokens"],
+                    "critical_entity_failures": quality["critical_entity_failures"],
                     "output_text": norm_out,
                     "latency": case_lat,
                     "peak_rss_after_case": peak_after,
                 })
 
-                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | {case_lat:.2f}s | exact={'YES' if exact else 'DIFF'} | ref={ref_consistency:<8} | ent={'PASS' if all_ents else 'FAIL'} | peak={peak_after:.1f}MiB | out: {norm_out}")
+                safe_icon = "SAFE" if safety == "SAFE" else "UNSAFE"
+                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | {case_lat:.2f}s | exact={'YES' if exact else 'DIFF'} | ref={ref_consistency:<8} | ent={'PASS' if all_ents else 'FAIL'} | {quality_class:<26} | {safe_icon} | peak={peak_after:.1f}MiB | out: {norm_out}")
             except Exception as exc:
                 all_successful = False
                 case_records.append({
@@ -1049,6 +1195,10 @@ def main() -> None:
                     "exact_match": False,
                     "reference_consistency": "CONFLICT",
                     "technical_entity_preservation": False,
+                    "quality_class": "CRITICAL_ENTITY_FAILURE",
+                    "safety": "UNSAFE_FOR_AUTOMATIC_USE",
+                    "content_drift": [],
+                    "critical_entity_failures": [],
                     "output_text": "",
                     "latency": 0.0,
                     "peak_rss_after_case": _peak_rss_mib(),
@@ -1132,8 +1282,14 @@ def main() -> None:
         ref_match_count = sum(1 for r in case_records if r["reference_consistency"] == "MATCH")
         ref_missing_count = sum(1 for r in case_records if r["reference_consistency"] == "MISSING")
         ref_conflict_count = sum(1 for r in case_records if r["reference_consistency"] == "CONFLICT")
+        ref_none_count = sum(1 for r in case_records if r["reference_consistency"] == "NONE")
         ent_pass_count = sum(1 for r in case_records if r["technical_entity_preservation"])
         ent_fail_count = total_cases - ent_pass_count
+        surface_var_count = sum(1 for r in case_records if r.get("quality_class") == "SURFACE_VARIATION")
+        crit_fail_count = sum(1 for r in case_records if r.get("quality_class") == "CRITICAL_ENTITY_FAILURE")
+        drift_count = sum(1 for r in case_records if r.get("quality_class") == "UNSUPPORTED_CONTENT_DRIFT")
+        safe_count = sum(1 for r in case_records if r.get("safety") == "SAFE")
+        unsafe_count = total_cases - safe_count
 
         print("=== FULL-SUITE QUALITY EVALUATION ===")
         print(f"TOTAL_CASES                        : {total_cases}")
@@ -1142,8 +1298,14 @@ def main() -> None:
         print(f"REFERENCE_MATCH_COUNT              : {ref_match_count}/{total_cases}")
         print(f"REFERENCE_MISSING_COUNT            : {ref_missing_count}/{total_cases}")
         print(f"REFERENCE_CONFLICT_COUNT           : {ref_conflict_count}/{total_cases}")
+        print(f"REFERENCE_NONE_COUNT               : {ref_none_count}/{total_cases}")
         print(f"ENTITY_PRESERVATION_PASS           : {ent_pass_count}/{total_cases}")
         print(f"ENTITY_PRESERVATION_FAIL           : {ent_fail_count}/{total_cases}")
+        print(f"SURFACE_VARIATION_ONLY             : {surface_var_count}/{total_cases}")
+        print(f"CRITICAL_ENTITY_FAILURE            : {crit_fail_count}/{total_cases}")
+        print(f"UNSUPPORTED_CONTENT_DRIFT          : {drift_count}/{total_cases}")
+        print(f"SAFE_FOR_AUTOMATIC_USE             : {safe_count}/{total_cases}")
+        print(f"UNSAFE_FOR_AUTOMATIC_USE           : {unsafe_count}/{total_cases}")
         print(f"TOTAL_LATENCY                      : {total_infer_latency:.3f} s")
         avg_lat = total_infer_latency / total_cases if total_cases > 0 else 0.0
         print(f"AVERAGE_LATENCY                    : {avg_lat:.3f} s/case")
@@ -1151,10 +1313,12 @@ def main() -> None:
         print("======================================")
 
     print()
+    # Run normalization regression tests
     reg_passed, reg_details = run_normalization_regression_tests()
     passed_count = sum(1 for r in reg_details if r["passed"])
     total_count = len(reg_details)
-    print(f"REGRESSION_RESULT                  : {'PASS (' + str(passed_count) + '/' + str(total_count) + ' cases)' if reg_passed else 'FAIL (' + str(passed_count) + '/' + str(total_count) + ')'}")
+    reg_label = f"PASS ({passed_count}/{total_count} cases)" if reg_passed else f"FAIL ({passed_count}/{total_count})"
+    print(f"REGRESSION_RESULT                  : {reg_label}")
     for r in reg_details:
         status_icon = "✓" if r["passed"] else "✗"
         print(f"  - [{status_icon}] [{r['id']}] {r['desc']} (ref: {r['actual_status']})")
@@ -1163,6 +1327,18 @@ def main() -> None:
             print(f"      SRC : {r['source']}")
             print(f"      EXP : {r['expected']} (status: {r['expected_status']})")
             print(f"      ACT : {r['actual']} (status: {r['actual_status']})")
+
+    # Run Kannada preprocessing tests
+    kn_passed, kn_details = _run_kannada_preprocessing_tests()
+    kn_pass_count = sum(1 for r in kn_details if r["passed"])
+    kn_total = len(kn_details)
+    kn_label = f"PASS ({kn_pass_count}/{kn_total})" if kn_passed else f"FAIL ({kn_pass_count}/{kn_total})"
+    print(f"KN_PREPROCESSING_TEST_RESULT       : {kn_label}")
+    for r in kn_details:
+        kn_icon = "✓" if r["passed"] else "✗"
+        print(f"  - [{kn_icon}] [{r['id']}] {r['desc']}")
+        if not r["passed"]:
+            print(f"      MISSING_ENTITIES: {r['missing_entities']}")
     print()
 
     # 8. Render Free Feasibility Verdict
