@@ -52,7 +52,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
   }, [showLangMenu]);
 
   return (
-    <header className="w-full bg-white border-b border-slate-200 sticky top-0 z-40 overflow-hidden">
+    <header className="w-full bg-white border-b border-slate-200 sticky top-0 z-40">
       {/* Top Government Disclaimer Banner */}
       <div className="bg-slate-900 text-slate-200 text-xs px-3 sm:px-4 py-1.5 flex items-center justify-between">
         <div className="flex items-center gap-2 max-w-7xl mx-auto w-full min-w-0">
@@ -164,7 +164,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
                 <div
                   role="listbox"
                   aria-labelledby="language-menu-button"
-                  className="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg border border-slate-200 py-1 text-xs z-50 animate-in fade-in zoom-in-95 duration-100"
+                  className="absolute right-0 mt-1.5 w-36 bg-white rounded-lg shadow-xl border border-slate-200 py-1.5 text-xs z-50 animate-in fade-in zoom-in-95 duration-100"
                 >
                   {languageList.map((item) => {
                     const isSelected = language === item.code;
@@ -177,11 +177,14 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
                           setLanguage(item.code);
                           setShowLangMenu(false);
                         }}
-                        className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors cursor-pointer ${
-                          isSelected ? "font-bold text-[#0B57D0] bg-blue-50/50" : "text-slate-700"
+                        className={`w-full text-left px-3.5 py-2 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer ${
+                          isSelected ? "font-bold text-[#0B57D0] bg-blue-50/60" : "text-slate-700"
                         }`}
                       >
-                        {item.label}
+                        <span>{item.label}</span>
+                        {isSelected && (
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#0B57D0]" />
+                        )}
                       </button>
                     );
                   })}
