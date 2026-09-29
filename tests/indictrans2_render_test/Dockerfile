@@ -5,9 +5,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /test
 
-COPY requirements.txt .
+COPY requirements_onnx.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY test_indictrans2.py .
+COPY test_onnx_harness.py .
 
-CMD ["python", "test_indictrans2.py"]
+CMD ["python", "test_onnx_harness.py"]

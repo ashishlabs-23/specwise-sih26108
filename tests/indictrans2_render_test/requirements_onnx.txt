@@ -1,0 +1,11 @@
+# IndicTrans2 ONNX INT8 Render harness — pinned runtime
+# Model: hari31416/indictrans2-indic-en-dist-200M-ONNX-int8
+#
+# Banned: torch, transformers, ctranslate2, IndicTransToolkit,
+#         indic-nlp-library-itt, sacremoses, fairseq
+#
+# NOTE: numpy is a transitive dependency of onnxruntime; not pinned separately.
+onnxruntime==1.19.2
+tokenizers==0.20.3
+huggingface_hub==0.26.2
+psutil==5.9.8

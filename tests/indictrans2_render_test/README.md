@@ -100,3 +100,56 @@ The harness validates four procurement cases with deterministic parity checking:
 
 - `HF_TOKEN` is supplied strictly as a runtime environment variable for gated model access.
 - It is never logged, stored in images, or committed to source control. All exceptions mask tokens with `[REDACTED]`.
+
+---
+
+## ONNX INT8 Memory-Feasibility Experiment
+
+> [!WARNING]
+> **Third-party ONNX INT8 conversion under evaluation; not yet accepted as production translation backend.**
+
+### Candidate Model
+
+[`hari31416/indictrans2-indic-en-dist-200M-ONNX-int8`](https://huggingface.co/hari31416/indictrans2-indic-en-dist-200M-ONNX-int8)
+
+- Third-party ONNX INT8 dynamic quantization of `ai4bharat/indictrans2-indic-en-dist-200M`
+- **Not gated** — no `HF_TOKEN` required
+- Reported model disk size: ~319.7 MiB (encoder + decoder shared weights)
+- INT8 exact match vs FP32 oracle: 85.64% on general fixtures
+
+### Motivation
+
+The CT2 harness (`test_indictrans2.py`) established that:
+1. `ai4bharat/indictrans2-indic-en-dist-200M` has **no `ct2_int8_model/`** in its HF repo.
+2. Pre-converted CT2 INT8 repos have model.bin files of 808–981 MiB, exceeding Render Free 512 MiB.
+3. ONNX INT8 separates the model into encoder (~114 MiB data) + decoder shared (~105 MiB data), totalling ~219 MiB of weights, which **may** fit within the 460 MiB feasibility threshold.
+
+### Harness Files
+
+| File | Purpose |
+|------|---------|
+| `test_onnx_harness.py` | ONNX memory-feasibility benchmark |
+| `requirements_onnx.txt` | Pinned runtime for the ONNX harness |
+
+### Runtime
+
+```txt
+onnxruntime==1.19.2
+tokenizers==0.20.3
+huggingface_hub==0.26.2
+psutil==5.9.8
+```
+
+**Explicitly excluded**: `torch`, `transformers`, `ctranslate2`, `IndicTransToolkit`, `indic-nlp-library-itt`, `sacremoses`, `fairseq`
+
+### Feasibility Acceptance Condition
+
+```
+peak RSS < 460 MiB
+```
+
+The 460 MiB threshold leaves 52 MiB headroom for FastAPI, Python runtime, and temporary allocations within Render Free 512 MiB. Results below 460 MiB = FEASIBLE; at or above = NOT FEASIBLE. No rounding of failing results.
+
+### Known Preprocessing Limitation
+
+Without `IndicTransToolkit` or `indic-nlp-library-itt`, Kannada script transliteration to Devanagari is approximated via a pure-Python character map. Hindi (Devanagari) input is processed exactly. Proper multi-script support would require one of the banned libraries.
