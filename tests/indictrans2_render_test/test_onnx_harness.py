@@ -1177,7 +1177,8 @@ def main() -> None:
     print(f"Observed Peak RSS                  : {_fmt_mib(peak_rss)}")
     print(f"Headroom vs 512 MiB                : {headroom:.1f} MiB")
     print()
-    print(f"RUNTIME_FEASIBILITY                : {'\u2705 PASS (Peak RSS < 460 MiB)' if runtime_feasible else '\u274c FAIL'}")
+    runtime_status = "✅ PASS (Peak RSS < 460 MiB)" if runtime_feasible else "❌ FAIL"
+    print(f"RUNTIME_FEASIBILITY                : {runtime_status}")
     print("TRANSLATION_QUALITY_EVIDENCE       : Evaluated separately (see quality report above)")
     print()
     print("DISCLAIMER: Third-party ONNX INT8 conversion under evaluation;")
