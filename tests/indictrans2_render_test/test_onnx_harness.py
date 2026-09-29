@@ -114,6 +114,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Supply 5 HP openwell submersible pumpsets for irrigation.",
+        "required_entities": ["5 HP", "openwell", "submersible", "irrigation"],
     },
     {
         "label": "BL-02-Kannada-plain",
@@ -121,6 +122,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "A 5 HP openwell submersible pumpset should be supplied for irrigation.",
+        "required_entities": ["5 HP", "openwell", "submersible", "irrigation"],
     },
     {
         "label": "BL-03-Hindi-technical",
@@ -128,6 +130,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
+        "required_entities": ["IS 14220:2018", "5 HP", "25 mm", "openwell", "irrigation"],
     },
     {
         "label": "BL-04-Kannada-technical",
@@ -135,6 +138,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Provide a 5 HP openwell pumpset and 25 mm pipe for irrigation according to IS 14220:2018.",
+        "required_entities": ["IS 14220:2018", "5 HP", "25 mm", "openwell", "irrigation"],
     },
     {
         "label": "BL-05-Hindi-borewell-submersible",
@@ -142,6 +146,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "A 3 HP submersible pump for 100 mm borewell is required under IS 8034:2018.",
+        "required_entities": ["IS 8034:2018", "100 mm", "3 HP", "submersible", "borewell"],
     },
     {
         "label": "BL-06-Kannada-borewell-submersible",
@@ -149,6 +154,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "A 3 HP submersible pump is required for 100 mm borewell under IS 8034:2018.",
+        "required_entities": ["IS 8034:2018", "100 mm", "3 HP", "submersible", "borewell"],
     },
     {
         "label": "BL-07-Hindi-centrifugal-monoset",
@@ -156,6 +162,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Provide monoset pumps for agricultural use according to IS 9079:2018.",
+        "required_entities": ["IS 9079:2018", "monoset", "pump"],
     },
     {
         "label": "BL-08-Kannada-centrifugal-monoset",
@@ -163,6 +170,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Provide monoset pump for agricultural use according to IS 9079:2018.",
+        "required_entities": ["IS 9079:2018", "monoset", "pump"],
     },
     {
         "label": "BL-09-Hindi-solar-pv-water-pump",
@@ -170,6 +178,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "A 5 HP solar photovoltaic water pumping system is needed as per IS 14536:2018 standard.",
+        "required_entities": ["IS 14536:2018", "5 HP", "solar", "pumping"],
     },
     {
         "label": "BL-10-Kannada-solar-pv-water-pump",
@@ -177,6 +186,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "A 5 HP solar photovoltaic water pumping system is needed according to IS 14536:2018 standard.",
+        "required_entities": ["IS 14536:2018", "5 HP", "solar", "pumping"],
     },
     {
         "label": "BL-11-Hindi-submersible-motors",
@@ -184,6 +194,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Procure submersible motors conforming to IS 9283:2024.",
+        "required_entities": ["IS 9283:2024", "submersible", "motor"],
     },
     {
         "label": "BL-12-Kannada-submersible-motors",
@@ -191,6 +202,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Purchase submersible motor in accordance with IS 9283:2024.",
+        "required_entities": ["IS 9283:2024", "submersible", "motor"],
     },
     {
         "label": "BL-13-Hindi-steel-tubes",
@@ -198,6 +210,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Supply of 50 mm galvanized steel pipes according to IS 1239:1990.",
+        "required_entities": ["IS 1239:1990", "50 mm", "steel", "pipe"],
     },
     {
         "label": "BL-14-Kannada-steel-tubes",
@@ -205,6 +218,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Supply of 50 mm galvanized steel pipes according to IS 1239:1990.",
+        "required_entities": ["IS 1239:1990", "50 mm", "steel", "pipe"],
     },
     {
         "label": "BL-15-Hindi-pvc-cables",
@@ -212,6 +226,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "3 core 4 sq mm copper cable as per IS 694:2010.",
+        "required_entities": ["IS 694:2010", "3 core", "4 sq mm", "cable"],
     },
     {
         "label": "BL-16-Kannada-pvc-cables",
@@ -219,6 +234,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "3 core 4 sq mm copper cable according to IS 694:2010.",
+        "required_entities": ["IS 694:2010", "3 core", "4 sq mm", "cable"],
     },
     {
         "label": "BL-17-Hindi-armoured-cables",
@@ -226,6 +242,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "1.1 kV grade armoured cable as per IS 1554:1988.",
+        "required_entities": ["IS 1554:1988", "1.1 kV", "armoured", "cable"],
     },
     {
         "label": "BL-18-Kannada-armoured-cables",
@@ -233,6 +250,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "1.1 kV grade armoured cable according to IS 1554:1988.",
+        "required_entities": ["IS 1554:1988", "1.1 kV", "armoured", "cable"],
     },
     {
         "label": "BL-19-Hindi-handpumps",
@@ -240,6 +258,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "India Mark II handpump set as per IS 15500:2004.",
+        "required_entities": ["IS 15500:2004", "mark ii", "handpump"],
     },
     {
         "label": "BL-20-Kannada-handpumps",
@@ -247,6 +266,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "India Mark II handpump set according to IS 15500:2004.",
+        "required_entities": ["IS 15500:2004", "mark ii", "handpump"],
     },
     {
         "label": "BL-21-Hindi-pump-testing",
@@ -254,6 +274,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Code for acceptance tests for submersible pumpsets as per IS 11346:2002.",
+        "required_entities": ["IS 11346:2002", "submersible", "pumpset"],
     },
     {
         "label": "BL-22-Kannada-pump-testing",
@@ -261,6 +282,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Acceptance and test code for submersible pumpset according to IS 11346:2002.",
+        "required_entities": ["IS 11346:2002", "submersible", "pumpset"],
     },
     {
         "label": "BL-23-Hindi-flow-measurement",
@@ -268,6 +290,7 @@ FULL_SUITE_CASES = [
         "src_lang": "hin_Deva",
         "tgt_lang": "eng_Latn",
         "expected": "Test the pump flow rate as per IS 10572:1983.",
+        "required_entities": ["IS 10572:1983", "flow", "rate"],
     },
     {
         "label": "BL-24-Kannada-flow-measurement",
@@ -275,6 +298,7 @@ FULL_SUITE_CASES = [
         "src_lang": "kan_Knda",
         "tgt_lang": "eng_Latn",
         "expected": "Test the pump flow rate according to IS 10572:1983.",
+        "required_entities": ["IS 10572:1983", "flow", "rate"],
     },
 ]
 
@@ -375,15 +399,57 @@ def extract_source_is_numbers(text: str) -> set[str]:
     return set(re.findall(r'\bIS\s*(\d{3,6})\b', text, re.IGNORECASE))
 
 
+def classify_reference_consistency(source_text: str, output_text: str) -> str:
+    """
+    Deterministically classify reference consistency between source and normalized output:
+      - MATCH: Every output IS reference corresponds to a source IS reference with exact same number and year,
+               and all source IS references are preserved.
+      - MISSING: Source contains IS reference(s) but output contains none.
+      - CONFLICT: Output contains IS reference not in source, OR same IS number with different year,
+                  OR output contains an unmatched split IS reference.
+      - NONE: Neither source nor output contains any IS reference.
+    """
+    src_refs = set(extract_source_is_references(source_text))
+    out_refs = set(extract_source_is_references(output_text))
+
+    src_nums = extract_source_is_numbers(source_text)
+    out_nums = extract_source_is_numbers(output_text)
+
+    # Check for split IS standard pattern left un-reconstructed (e.g. "IS 14220...2018")
+    split_is_pattern = re.compile(
+        r'^\s*IS\s*(\d{3,6})\s*[:\s]\s*(.*?)\s+(as per|according to|conforming to|in accordance with|per)\s+(\d{4})\b',
+        re.IGNORECASE | re.DOTALL
+    )
+    has_unrepaired_split = bool(split_is_pattern.search(output_text))
+
+    if not src_refs and not out_refs and not src_nums and not out_nums and not has_unrepaired_split:
+        return "NONE"
+
+    if src_refs and not out_refs:
+        if out_nums or has_unrepaired_split:
+            return "CONFLICT"
+        return "MISSING"
+
+    if not src_refs and (out_refs or out_nums or has_unrepaired_split):
+        return "CONFLICT"
+
+    # Both have references
+    if out_refs != src_refs or src_nums != out_nums or has_unrepaired_split:
+        return "CONFLICT"
+
+    return "MATCH"
+
+
 def normalize_technical_reference(raw_text: str, source_text: str = "") -> str:
     """
     Deterministic source-aware postprocessing and technical reference normalization:
       1. Strips tokenization artifacts (escaped colons, backslashes).
       2. Normalizes decimal numbers (e.g. '7 . 5' -> '7.5').
-      3. Normalizes standard formatting (e.g. 'IS 14220 : 2018' -> 'IS 14220:2018').
+      3. Canonicalizes intact standard formatting 'IS 14220 : 2018' -> 'IS 14220:2018'
+         ONLY when supported by source_text.
       4. Restores split standard prefix (e.g. 'IS 14220:Give ... as per 2018' -> 'Give ... as per IS 14220:2018')
-         ONLY when verified against source_text (or present in raw tokens if source_text is omitted).
-         Never fabricates or invents an IS reference not present in the source text.
+         ONLY when the exact IS number AND exact IS year match a source reference in source_text.
+         NEVER reconstructs when source_text is empty or contains a different year / different standard.
       5. Cleans whitespace before punctuation (e.g. '2018 .' -> '2018.').
     """
     out = raw_text.strip()
@@ -391,11 +457,18 @@ def normalize_technical_reference(raw_text: str, source_text: str = "") -> str:
     out = re.sub(r'\\([:/-])', r'\1', out)
     # 2. Fix decimals
     out = re.sub(r'(\d+)\s*\.\s*(\d+)', r'\1.\2', out)
-    # 3. Standard with internal whitespace around colon: IS 14220 : 2018 -> IS 14220:2018
-    out = re.sub(r'\bIS\s*(\d{3,6})\s*:\s*(\d{4})\b', r'IS \1:\2', out, flags=re.IGNORECASE)
 
-    # 4. Restore split IS standard prefix:
-    # Matches 'IS <number>[: ] <clause> <compliance_prep> <year>'
+    source_refs = extract_source_is_references(source_text) if source_text else []
+
+    # 3. Canonicalize intact standard formatting when supported by source
+    if source_refs:
+        def _replace_intact(m):
+            num, yr = m.group(1), m.group(2)
+            can = f"IS {num}:{yr}"
+            return can if can in source_refs else m.group(0)
+        out = re.sub(r'\bIS\s*(\d{3,6})\s*:\s*(\d{4})\b', _replace_intact, out, flags=re.IGNORECASE)
+
+    # 4. Restore split IS standard prefix ONLY when exact IS number + year exist in source_text
     split_is_pattern = re.compile(
         r'^\s*IS\s*(\d{3,6})\s*[:\s]\s*(.*?)\s+(as per|according to|conforming to|in accordance with|per)\s+(\d{4})\b(.*)$',
         re.IGNORECASE | re.DOTALL
@@ -405,17 +478,8 @@ def normalize_technical_reference(raw_text: str, source_text: str = "") -> str:
         is_num, main_clause, prep, yr, rest = m.groups()
         canonical_ref = f"IS {is_num}:{yr}"
 
-        # Source verification: verify against source text when provided
-        should_reconstruct = False
-        if not source_text:
-            should_reconstruct = True
-        else:
-            source_refs = extract_source_is_references(source_text)
-            source_nums = extract_source_is_numbers(source_text)
-            if canonical_ref in source_refs or is_num in source_nums:
-                should_reconstruct = True
-
-        if should_reconstruct:
+        # Strict safety check: exact number AND exact year must exist in source_refs
+        if source_text and canonical_ref in source_refs:
             out = f"{main_clause.strip()} {prep} {canonical_ref}{rest}"
 
     # 5. Remove whitespace before punctuation marks (. , ! ? ; :)
@@ -437,57 +501,98 @@ def check_entity_preservation(text: str, entities: list[str]) -> dict[str, bool]
 
 def run_normalization_regression_tests() -> tuple[bool, list[dict]]:
     """
-    Validate normalization rules against key regression and adversarial cases:
-      1. Split IS standard with year (matching source)
-      2. Another standard number/year (matching source)
-      3. Intact IS standard with spacing
-      4. Ordinary numeric text (NOT an IS reference)
-      5. IS reference without year
-      6. Adversarial unmentioned IS standard (must NOT fabricate/reconstruct)
-      7. Omitted source_text fallback
+    Validate normalization rules against key regression and adversarial cases (A through J):
+      A. Exact matching number + year (must repair + MATCH)
+      B. Same number, wrong year (must NOT repair + CONFLICT)
+      C. Completely different standard (must NOT repair + CONFLICT)
+      D. Source has no IS reference, raw contains IS (must NOT reconstruct + CONFLICT)
+      E. Source has IS reference, raw omits it (no fabrication + MISSING)
+      F. Exact intact reference with spacing (canonicalize only when supported by source + MATCH)
+      G. Ordinary numbers (must remain untouched + NONE)
+      H. Multiple source IS references (verify individually + MATCH)
+      I. No IS references anywhere (mark NONE)
+      J. Omitted source_text fallback (must NOT reconstruct without source evidence)
     """
     test_cases = [
         {
-            "desc": "Split IS 14220:2018 prefix pattern with verified source",
-            "raw": "IS 14220:Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per 2018 .",
+            "id": "A",
+            "desc": "Exact matching number + year (must repair)",
             "source": "IS 14220:2018 ಪ್ರಕಾರ ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್‌ವೆಲ್ ಪಂಪ್‌ಸೆಟ್‌ಗಳು ಮತ್ತು 25 mm ಪೈಪ್‌ಗಳನ್ನು ನೀಡಿ.",
+            "raw": "IS 14220:Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per 2018 .",
             "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
+            "expected_status": "MATCH",
         },
         {
-            "desc": "Another IS standard number & year (IS 1520:2022)",
-            "raw": "IS 1520:Supply 10 pumps for water works according to 2022 .",
-            "source": "IS 1520:2022 ಪ್ರಕಾರ 10 ಪಂಪ್‌ಗಳನ್ನು ಸರಬರಾಜು ಮಾಡಿ.",
-            "expected": "Supply 10 pumps for water works according to IS 1520:2022.",
+            "id": "B",
+            "desc": "Same number, wrong year (must NOT repair, mark CONFLICT)",
+            "source": "IS 14220:2024 ಪ್ರಕಾರ 5 HP ಪಂಪ್ ನೀಡಿ.",
+            "raw": "IS 14220:Give 5 HP pumps as per 2018 .",
+            "expected": "IS 14220:Give 5 HP pumps as per 2018.",
+            "expected_status": "CONFLICT",
         },
         {
-            "desc": "Intact IS standard with space around colon",
-            "raw": "Give 5 HP pumps as per IS 14220 : 2018 .",
-            "source": "IS 14220:2018 ಪ್ರಕಾರ 5 HP ಪಂಪ್ ನೀಡಿ.",
-            "expected": "Give 5 HP pumps as per IS 14220:2018.",
+            "id": "C",
+            "desc": "Completely different standard (must NOT repair, mark CONFLICT)",
+            "source": "IS 1239:1990 ಪ್ರಕಾರ 50 mm ಪೈಪ್ ನೀಡಿ.",
+            "raw": "IS 14220:Give 5 HP pumps as per 2018 .",
+            "expected": "IS 14220:Give 5 HP pumps as per 2018.",
+            "expected_status": "CONFLICT",
         },
         {
-            "desc": "Ordinary numeric text (must NOT be modified as IS)",
-            "raw": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220 .",
-            "source": "2024 ರ ಇನ್‌ವಾಯ್ಸ್ 14220 ರಂತೆ 500 RPM ನಲ್ಲಿ 25 mm ನ 100 ಪೈಪ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.",
-            "expected": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220.",
-        },
-        {
-            "desc": "IS reference without year (must NOT fabricate year)",
-            "raw": "IS 14220 certified 5 HP pump .",
-            "source": "IS 14220 ಪ್ರಮಾಣೀಕೃತ 5 HP ಪಂಪ್.",
-            "expected": "IS 14220 certified 5 HP pump.",
-        },
-        {
-            "desc": "Adversarial: Spurious IS not in source (must NOT reconstruct unverified standard)",
-            "raw": "IS 99999:Order pumps for irrigation as per 2018 .",
+            "id": "D",
+            "desc": "Source has no IS reference, raw contains IS (must NOT reconstruct, mark CONFLICT)",
             "source": "ನೀರಾವರಿಗಾಗಿ ಪಂಪ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.",
+            "raw": "IS 99999:Order pumps for irrigation as per 2018 .",
             "expected": "IS 99999:Order pumps for irrigation as per 2018.",
+            "expected_status": "CONFLICT",
         },
         {
-            "desc": "Omitted source_text fallback",
-            "raw": "IS 14220:Give 5 HP openwell pumpsets as per 2018 .",
+            "id": "E",
+            "desc": "Source has IS reference, raw omits it (no fabrication, mark MISSING)",
+            "source": "IS 14220:2018 ಪ್ರಕಾರ 5 HP ಪಂಪ್ ನೀಡಿ.",
+            "raw": "Give 5 HP openwell pump for irrigation .",
+            "expected": "Give 5 HP openwell pump for irrigation.",
+            "expected_status": "MISSING",
+        },
+        {
+            "id": "F",
+            "desc": "Exact intact reference with spacing (canonicalize only when supported by source, mark MATCH)",
+            "source": "IS 14220:2018 ಪ್ರಕಾರ 5 HP ಪಂಪ್ ನೀಡಿ.",
+            "raw": "Give 5 HP pumps as per IS 14220 : 2018 .",
+            "expected": "Give 5 HP pumps as per IS 14220:2018.",
+            "expected_status": "MATCH",
+        },
+        {
+            "id": "G",
+            "desc": "Ordinary numbers (must remain untouched, mark NONE)",
+            "source": "2024 ರ ಇನ್‌ವಾಯ್ಸ್ 14220 ರಂತೆ 500 RPM ನಲ್ಲಿ 25 mm ನ 100 ಪೈಪ್‌ಗಳನ್ನು ಆರ್ಡರ್ ಮಾಡಿ.",
+            "raw": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220 .",
+            "expected": "Order 100 pipes of 25 mm at 500 RPM for 2024 as per invoice 14220.",
+            "expected_status": "NONE",
+        },
+        {
+            "id": "H",
+            "desc": "Multiple source IS references (verify individually, mark MATCH)",
+            "source": "IS 1239:1990 ಮತ್ತು IS 694:2010 ಪ್ರಕಾರ ಪೈಪ್ ಮತ್ತು ಕೇಬಲ್ ಪೂರೈಸಿ.",
+            "raw": "Supply pipes as per IS 1239 : 1990 and cables as per IS 694 : 2010 .",
+            "expected": "Supply pipes as per IS 1239:1990 and cables as per IS 694:2010.",
+            "expected_status": "MATCH",
+        },
+        {
+            "id": "I",
+            "desc": "No IS references anywhere (mark NONE)",
+            "source": "ಕೃಷಿಗಾಗಿ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಪಂಪ್‌ಸೆಟ್ ನೀಡಿ.",
+            "raw": "Provide high quality pumpset for agriculture .",
+            "expected": "Provide high quality pumpset for agriculture.",
+            "expected_status": "NONE",
+        },
+        {
+            "id": "J",
+            "desc": "Omitted source_text fallback (must NOT reconstruct without source evidence)",
             "source": "",
-            "expected": "Give 5 HP openwell pumpsets as per IS 14220:2018.",
+            "raw": "IS 14220:Give 5 HP openwell pumpsets as per 2018 .",
+            "expected": "IS 14220:Give 5 HP openwell pumpsets as per 2018.",
+            "expected_status": "CONFLICT",
         },
     ]
 
@@ -495,15 +600,21 @@ def run_normalization_regression_tests() -> tuple[bool, list[dict]]:
     results = []
     for tc in test_cases:
         actual = normalize_technical_reference(tc["raw"], tc.get("source", ""))
-        passed = (actual == tc["expected"])
+        actual_status = classify_reference_consistency(tc.get("source", ""), actual)
+        passed_norm = (actual == tc["expected"])
+        passed_status = (actual_status == tc["expected_status"])
+        passed = passed_norm and passed_status
         if not passed:
             all_passed = False
         results.append({
+            "id": tc["id"],
             "desc": tc["desc"],
             "raw": tc["raw"],
             "source": tc.get("source", ""),
             "expected": tc["expected"],
             "actual": actual,
+            "expected_status": tc["expected_status"],
+            "actual_status": actual_status,
             "passed": passed,
         })
     return all_passed, results
@@ -888,10 +999,10 @@ def main() -> None:
 
     suite_t0 = time.perf_counter()
     last_phase_metrics = {}
-    success_count = 0
     all_successful = True
     last_raw_output = ""
     last_norm_output = ""
+    case_records = []
 
     if is_full_suite:
         print(f"\n--- FULL {len(cases)}-CASE BENCHMARK EXECUTION ---")
@@ -908,14 +1019,40 @@ def main() -> None:
                 last_phase_metrics = p_metrics
                 last_raw_output = raw_out
                 last_norm_output = norm_out
-                if succ:
-                    success_count += 1
-                else:
-                    all_successful = False
+
                 exact = (norm_out.strip().casefold() == case["expected"].strip().casefold())
-                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | {case_lat:.2f}s | exact={'YES' if exact else 'DIFF'} | out: {norm_out}")
+                ref_consistency = classify_reference_consistency(case["src_text"], norm_out)
+                ent_preservation = check_entity_preservation(norm_out, case.get("required_entities", []))
+                all_ents = all(ent_preservation.values()) if case.get("required_entities") else True
+                peak_after = _peak_rss_mib()
+
+                if not succ:
+                    all_successful = False
+
+                case_records.append({
+                    "case_id": case["label"],
+                    "inference_success": succ,
+                    "exact_match": exact,
+                    "reference_consistency": ref_consistency,
+                    "technical_entity_preservation": all_ents,
+                    "output_text": norm_out,
+                    "latency": case_lat,
+                    "peak_rss_after_case": peak_after,
+                })
+
+                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | {case_lat:.2f}s | exact={'YES' if exact else 'DIFF'} | ref={ref_consistency:<8} | ent={'PASS' if all_ents else 'FAIL'} | peak={peak_after:.1f}MiB | out: {norm_out}")
             except Exception as exc:
                 all_successful = False
+                case_records.append({
+                    "case_id": case["label"],
+                    "inference_success": False,
+                    "exact_match": False,
+                    "reference_consistency": "CONFLICT",
+                    "technical_entity_preservation": False,
+                    "output_text": "",
+                    "latency": 0.0,
+                    "peak_rss_after_case": _peak_rss_mib(),
+                })
                 print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | ERROR: {exc}", file=sys.stderr)
     else:
         case = REPRESENTATIVE_CASE
@@ -937,9 +1074,7 @@ def main() -> None:
             last_phase_metrics = phase_metrics
             last_raw_output = raw_output
             last_norm_output = norm_output
-            if success:
-                success_count = 1
-            else:
+            if not success:
                 all_successful = False
         except Exception as exc:
             print(f"\nFATAL: Translation failed during execution: {exc}", file=sys.stderr)
@@ -972,12 +1107,14 @@ def main() -> None:
         exact_match = (last_norm_output.strip().casefold() == REPRESENTATIVE_CASE["expected"].strip().casefold())
         ent_preservation = check_entity_preservation(last_norm_output, REQUIRED_ENTITIES)
         all_ents_preserved = all(ent_preservation.values())
+        ref_consistency = classify_reference_consistency(REPRESENTATIVE_CASE["src_text"], last_norm_output)
 
         print("--- TRANSLATION OUTCOME ---")
         print(f"RAW_MODEL_OUTPUT                   : {last_raw_output}")
         print(f"NORMALIZED_OUTPUT                  : {last_norm_output}")
         print(f"translation success                : {all_successful}")
         print(f"exact match                        : {'YES' if exact_match else 'NO (minor variation)'}")
+        print(f"reference consistency              : {ref_consistency}")
         print(f"inference latency                  : {total_infer_latency:.3f} s")
         print()
 
@@ -987,29 +1124,49 @@ def main() -> None:
         for ent, present in ent_preservation.items():
             status_icon = "✓" if present else "✗"
             print(f"  - [{status_icon}] {ent}")
+        print(f"REFERENCE_CONSISTENCY_RESULT       : {ref_consistency}")
     else:
-        print("--- FULL SUITE BENCHMARK SUMMARY ---")
-        print(f"TOTAL_CASES_EXECUTED               : {len(cases)}")
-        print(f"SUCCESSFUL_CASES                   : {success_count}/{len(cases)}")
-        avg_lat = total_infer_latency / len(cases) if len(cases) > 0 else 0.0
-        print(f"TOTAL_LATENCY                      : {total_infer_latency:.3f} s (avg {avg_lat:.2f} s/case)")
-        print()
+        total_cases = len(cases)
+        inf_succ_count = sum(1 for r in case_records if r["inference_success"])
+        exact_match_count = sum(1 for r in case_records if r["exact_match"])
+        ref_match_count = sum(1 for r in case_records if r["reference_consistency"] == "MATCH")
+        ref_missing_count = sum(1 for r in case_records if r["reference_consistency"] == "MISSING")
+        ref_conflict_count = sum(1 for r in case_records if r["reference_consistency"] == "CONFLICT")
+        ent_pass_count = sum(1 for r in case_records if r["technical_entity_preservation"])
+        ent_fail_count = total_cases - ent_pass_count
 
+        print("=== FULL-SUITE QUALITY EVALUATION ===")
+        print(f"TOTAL_CASES                        : {total_cases}")
+        print(f"INFERENCE_SUCCESS                  : {inf_succ_count}/{total_cases}")
+        print(f"EXACT_MATCH_COUNT                  : {exact_match_count}/{total_cases}")
+        print(f"REFERENCE_MATCH_COUNT              : {ref_match_count}/{total_cases}")
+        print(f"REFERENCE_MISSING_COUNT            : {ref_missing_count}/{total_cases}")
+        print(f"REFERENCE_CONFLICT_COUNT           : {ref_conflict_count}/{total_cases}")
+        print(f"ENTITY_PRESERVATION_PASS           : {ent_pass_count}/{total_cases}")
+        print(f"ENTITY_PRESERVATION_FAIL           : {ent_fail_count}/{total_cases}")
+        print(f"TOTAL_LATENCY                      : {total_infer_latency:.3f} s")
+        avg_lat = total_infer_latency / total_cases if total_cases > 0 else 0.0
+        print(f"AVERAGE_LATENCY                    : {avg_lat:.3f} s/case")
+        print(f"PEAK_RSS_MiB                       : {_fmt_mib(peak_rss)}")
+        print("======================================")
+
+    print()
     reg_passed, reg_details = run_normalization_regression_tests()
     passed_count = sum(1 for r in reg_details if r["passed"])
     total_count = len(reg_details)
     print(f"REGRESSION_RESULT                  : {'PASS (' + str(passed_count) + '/' + str(total_count) + ' cases)' if reg_passed else 'FAIL (' + str(passed_count) + '/' + str(total_count) + ')'}")
     for r in reg_details:
         status_icon = "✓" if r["passed"] else "✗"
-        print(f"  - [{status_icon}] {r['desc']}")
+        print(f"  - [{status_icon}] [{r['id']}] {r['desc']} (ref: {r['actual_status']})")
         if not r["passed"]:
-            print(f"      RAW: {r['raw']}")
-            print(f"      EXP: {r['expected']}")
-            print(f"      ACT: {r['actual']}")
+            print(f"      RAW : {r['raw']}")
+            print(f"      SRC : {r['source']}")
+            print(f"      EXP : {r['expected']} (status: {r['expected_status']})")
+            print(f"      ACT : {r['actual']} (status: {r['actual_status']})")
     print()
 
     # 8. Render Free Feasibility Verdict
-    feasible = (peak_rss is not None and peak_rss < RENDER_MEMORY_TARGET_MIB and all_successful)
+    runtime_feasible = (peak_rss is not None and peak_rss < RENDER_MEMORY_TARGET_MIB and all_successful)
     headroom = RENDER_FREE_LIMIT_MIB - (peak_rss if peak_rss else 0.0)
 
     print("=" * 72)
@@ -1020,14 +1177,15 @@ def main() -> None:
     print(f"Observed Peak RSS                  : {_fmt_mib(peak_rss)}")
     print(f"Headroom vs 512 MiB                : {headroom:.1f} MiB")
     print()
+    print(f"RUNTIME_FEASIBILITY                : {'\u2705 PASS (Peak RSS < 460 MiB)' if runtime_feasible else '\u274c FAIL'}")
+    print("TRANSLATION_QUALITY_EVIDENCE       : Evaluated separately (see quality report above)")
+    print()
     print("DISCLAIMER: Third-party ONNX INT8 conversion under evaluation;")
     print("            not yet accepted as production translation backend.")
     print()
 
-    if feasible:
+    if runtime_feasible:
         BENCHMARK_STATE.set_completed(success=True)
-        print(f"VERDICT: \u2705 FEASIBLE  (Peak RSS {peak_rss:.1f} MiB < {RENDER_MEMORY_TARGET_MIB} MiB target)")
-        print("=" * 72)
         print("BENCHMARK_COMPLETED=true")
         print()
         print("=== RENDER SERVICE STATE ===")
@@ -1046,8 +1204,7 @@ def main() -> None:
             sys.exit(0)
     else:
         BENCHMARK_STATE.set_completed(success=False)
-        print(f"VERDICT: \u274c NOT FEASIBLE  (Peak RSS {peak_rss:.1f} MiB >= {RENDER_MEMORY_TARGET_MIB} MiB target)")
-        print("=" * 72)
+        print("BENCHMARK_COMPLETED=false")
         print()
         print("=== RENDER SERVICE STATE ===")
         print("BENCHMARK_COMPLETED: False")
