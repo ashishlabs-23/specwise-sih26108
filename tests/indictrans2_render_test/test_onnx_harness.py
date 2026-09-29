@@ -33,10 +33,13 @@ from __future__ import annotations
 
 import argparse
 import gc
+import http.server
 import json
 import os
 import re
+import socketserver
 import sys
+import threading
 import time
 from pathlib import Path
 
@@ -86,7 +89,7 @@ IGNORE_PATTERNS = [
 ]
 
 # ---------------------------------------------------------------------------
-# REPRESENTATIVE TEST CASE (Render sanity deployment)
+# REPRESENTATIVE & BENCHMARK SUITE TEST CASES
 # ---------------------------------------------------------------------------
 REPRESENTATIVE_CASE = {
     "label": "BL-03-Hindi-technical",
@@ -102,6 +105,177 @@ REQUIRED_ENTITIES = [
     "25 mm",
     "openwell",
     "irrigation",
+]
+
+FULL_SUITE_CASES = [
+    {
+        "label": "BL-01-Hindi-plain",
+        "src_text": "सिंचाई के लिए 5 HP ओपनवेल सबमर्सिबल पंपसेट की आपूर्ति करें।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Supply 5 HP openwell submersible pumpsets for irrigation.",
+    },
+    {
+        "label": "BL-02-Kannada-plain",
+        "src_text": "ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್‌ವೆಲ್ ಸಬ್‌ಮರ್ಸಿಬಲ್ ಪಂಪ್‌ಸೆಟ್ ಪೂರೈಸಬೇಕು.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "A 5 HP openwell submersible pumpset should be supplied for irrigation.",
+    },
+    {
+        "label": "BL-03-Hindi-technical",
+        "src_text": "IS 14220:2018 के अनुसार सिंचाई के लिए 5 HP ओपनवेल पंपसेट और 25 mm पाइप दें।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Give 5 HP openwell pumpsets and 25 mm pipes for irrigation as per IS 14220:2018.",
+    },
+    {
+        "label": "BL-04-Kannada-technical",
+        "src_text": "IS 14220:2018 ಪ್ರಕಾರ ನೀರಾವರಿಗಾಗಿ 5 HP ಓಪನ್‌ವೆಲ್ ಪಂಪ್‌ಸೆಟ್‌ಗಳು ಮತ್ತು 25 mm ಪೈಪ್‌ಗಳನ್ನು ನೀಡಿ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Provide a 5 HP openwell pumpset and 25 mm pipe for irrigation according to IS 14220:2018.",
+    },
+    {
+        "label": "BL-05-Hindi-borewell-submersible",
+        "src_text": "IS 8034:2018 के तहत 100 mm बोरवेल के लिए 3 HP सबमर्सिबल पंप की आवश्यकता है।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "A 3 HP submersible pump for 100 mm borewell is required under IS 8034:2018.",
+    },
+    {
+        "label": "BL-06-Kannada-borewell-submersible",
+        "src_text": "IS 8034:2018 ಅಡಿಯಲ್ಲಿ 100 mm ಬೋರ್‌ವೆಲ್‌ಗಾಗಿ 3 HP ಸಬ್‌ಮರ್ಸಿಬಲ್ ಪಂಪ್ ಅಗತ್ಯವಿದೆ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "A 3 HP submersible pump is required for 100 mm borewell under IS 8034:2018.",
+    },
+    {
+        "label": "BL-07-Hindi-centrifugal-monoset",
+        "src_text": "IS 9079:2018 के अनुसार कृषि उपयोग हेतु मोनोसेट पंप उपलब्ध कराएं।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Provide monoset pumps for agricultural use according to IS 9079:2018.",
+    },
+    {
+        "label": "BL-08-Kannada-centrifugal-monoset",
+        "src_text": "IS 9079:2018 ಪ್ರಕಾರ ಕೃಷಿ ಬಳಕೆಗಾಗಿ ಮೊನೊಸೆಟ್ ಪಂಪ್ ಒದಗಿಸಿ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Provide monoset pump for agricultural use according to IS 9079:2018.",
+    },
+    {
+        "label": "BL-09-Hindi-solar-pv-water-pump",
+        "src_text": "IS 14536:2018 मानक के अनुसार 5 HP सौर फोटोवोल्टिक वाटर पंपिंग सिस्टम चाहिए।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "A 5 HP solar photovoltaic water pumping system is needed as per IS 14536:2018 standard.",
+    },
+    {
+        "label": "BL-10-Kannada-solar-pv-water-pump",
+        "src_text": "IS 14536:2018 ಮಾನದಂಡದ ಪ್ರಕಾರ 5 HP ಸೌರ ಫೋಟೊವೋಲ್ಟಾಯಿಕ್ ವಾಟರ್ ಪಂಪಿಂಗ್ ಸಿಸ್ಟಮ್ ಬೇಕು.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "A 5 HP solar photovoltaic water pumping system is needed according to IS 14536:2018 standard.",
+    },
+    {
+        "label": "BL-11-Hindi-submersible-motors",
+        "src_text": "IS 9283:2024 के अनुरूप सबमर्सिबल मोटर की खरीद करें।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Procure submersible motors conforming to IS 9283:2024.",
+    },
+    {
+        "label": "BL-12-Kannada-submersible-motors",
+        "src_text": "IS 9283:2024 ಗೆ ಅನುಗುಣವಾಗಿ ಸಬ್‌ಮರ್ಸಿಬಲ್ ಮೋಟಾರ್ ಖರೀದಿಸಿ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Purchase submersible motor in accordance with IS 9283:2024.",
+    },
+    {
+        "label": "BL-13-Hindi-steel-tubes",
+        "src_text": "IS 1239:1990 के अनुसार 50 mm जस्तीकृत स्टील पाइप की आपूर्ति।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Supply of 50 mm galvanized steel pipes according to IS 1239:1990.",
+    },
+    {
+        "label": "BL-14-Kannada-steel-tubes",
+        "src_text": "IS 1239:1990 ಪ್ರಕಾರ 50 mm ಕಲಾಯಿ ಉಕ್ಕಿನ ಪೈಪ್‌ಗಳ ಪೂರೈಕೆ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Supply of 50 mm galvanized steel pipes according to IS 1239:1990.",
+    },
+    {
+        "label": "BL-15-Hindi-pvc-cables",
+        "src_text": "IS 694:2010 के अनुसार 3 कोर 4 sq mm कॉपर केबल।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "3 core 4 sq mm copper cable as per IS 694:2010.",
+    },
+    {
+        "label": "BL-16-Kannada-pvc-cables",
+        "src_text": "IS 694:2010 ಪ್ರಕಾರ 3 ಕೋರ್ 4 sq mm ತಾಮ್ರದ ಕೇಬಲ್.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "3 core 4 sq mm copper cable according to IS 694:2010.",
+    },
+    {
+        "label": "BL-17-Hindi-armoured-cables",
+        "src_text": "IS 1554:1988 के अनुसार 1.1 kV ग्रेड आर्मर्ड केबल।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "1.1 kV grade armoured cable as per IS 1554:1988.",
+    },
+    {
+        "label": "BL-18-Kannada-armoured-cables",
+        "src_text": "IS 1554:1988 ಪ್ರಕಾರ 1.1 kV ಗ್ರೇಡ್ ಆರ್ಮರ್ಡ್ ಕೇಬಲ್.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "1.1 kV grade armoured cable according to IS 1554:1988.",
+    },
+    {
+        "label": "BL-19-Hindi-handpumps",
+        "src_text": "IS 15500:2004 के अनुसार इंडिया मार्क II हैंडपंप सेट।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "India Mark II handpump set as per IS 15500:2004.",
+    },
+    {
+        "label": "BL-20-Kannada-handpumps",
+        "src_text": "IS 15500:2004 ಪ್ರಕಾರ ಇಂಡಿಯಾ ಮಾರ್ಕ್ II ಹ್ಯಾಂಡ್‌ಪಂಪ್ ಸೆಟ್.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "India Mark II handpump set according to IS 15500:2004.",
+    },
+    {
+        "label": "BL-21-Hindi-pump-testing",
+        "src_text": "IS 11346:2002 के अनुसार सबमर्सिबल पंपसेट की स्वीकृति और परीक्षण कोड।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Code for acceptance tests for submersible pumpsets as per IS 11346:2002.",
+    },
+    {
+        "label": "BL-22-Kannada-pump-testing",
+        "src_text": "IS 11346:2002 ಪ್ರಕಾರ ಸಬ್‌ಮರ್ಸಿಬಲ್ ಪಂಪ್‌ಸೆಟ್‌ನ ಸ್ವೀಕಾರ ಮತ್ತು ಪರೀಕ್ಷಾ ಕೋಡ್.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Acceptance and test code for submersible pumpset according to IS 11346:2002.",
+    },
+    {
+        "label": "BL-23-Hindi-flow-measurement",
+        "src_text": "IS 10572:1983 के अनुसार पंप प्रवाह दर का परीक्षण करें।",
+        "src_lang": "hin_Deva",
+        "tgt_lang": "eng_Latn",
+        "expected": "Test the pump flow rate as per IS 10572:1983.",
+    },
+    {
+        "label": "BL-24-Kannada-flow-measurement",
+        "src_text": "IS 10572:1983 ಪ್ರಕಾರ ಪಂಪ್ ಹರಿವಿನ ಪ್ರಮಾಣವನ್ನು ಪರೀಕ್ಷಿಸಿ.",
+        "src_lang": "kan_Knda",
+        "tgt_lang": "eng_Latn",
+        "expected": "Test the pump flow rate according to IS 10572:1983.",
+    },
 ]
 
 # ---------------------------------------------------------------------------
@@ -577,12 +751,96 @@ def translate_single_case(
     return raw_output, normalized_output, True, metrics
 
 # ---------------------------------------------------------------------------
+# THREAD-SAFE BENCHMARK STATE & MINIMAL HTTP HEALTH SERVER
+# ---------------------------------------------------------------------------
+class BenchmarkState:
+    def __init__(self) -> None:
+        self._lock = threading.Lock()
+        self._status = "running"  # "running", "completed", "failed"
+        self._completed = False
+
+    def set_completed(self, success: bool = True) -> None:
+        with self._lock:
+            self._completed = True
+            self._status = "completed" if success else "failed"
+
+    def get_response(self) -> dict[str, str]:
+        with self._lock:
+            if self._status == "failed":
+                return {"status": "error", "benchmark": "failed"}
+            elif self._status == "completed":
+                return {"status": "ok", "benchmark": "completed"}
+            else:
+                return {"status": "ok", "benchmark": "running"}
+
+    @property
+    def status_str(self) -> str:
+        with self._lock:
+            return self._status
+
+    @property
+    def is_completed(self) -> bool:
+        with self._lock:
+            return self._completed
+
+
+BENCHMARK_STATE = BenchmarkState()
+
+
+class HealthHandler(http.server.BaseHTTPRequestHandler):
+    """Minimal HTTP RequestHandler serving /health and / endpoints."""
+
+    def do_GET(self) -> None:
+        if self.path in ("/health", "/health/"):
+            data = BENCHMARK_STATE.get_response()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.end_headers()
+            payload = json.dumps(data).encode("utf-8")
+            self.wfile.write(payload)
+        elif self.path in ("/", ""):
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"SpecWise IndicTrans2 ONNX INT8 Benchmark Service Running\n")
+        else:
+            self.send_response(404)
+            self.send_header("Content-Type", "text/plain; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(b"Not Found\n")
+
+    def log_message(self, format: str, *args: object) -> None:
+        # Keep logs clean; suppress noisy standard HTTP access logs
+        pass
+
+
+def start_health_server_background(port: int) -> tuple[socketserver.TCPServer, threading.Thread]:
+    """Start minimal single-threaded HTTP health server in background daemon thread."""
+    socketserver.TCPServer.allow_reuse_address = True
+    server_address = ("0.0.0.0", port)
+    httpd = socketserver.TCPServer(server_address, HealthHandler)
+    server_thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    server_thread.start()
+    print(f"[HTTP SERVER] Started background listener on http://0.0.0.0:{port} (health endpoint: /health)", flush=True)
+    return httpd, server_thread
+
+
+# ---------------------------------------------------------------------------
 # MAIN EXECUTION ENTRY POINT
 # ---------------------------------------------------------------------------
 def main() -> None:
     parser = argparse.ArgumentParser(description="IndicTrans2 ONNX INT8 Render Free Feasibility Harness")
     parser.add_argument("--full-suite", action="store_true", help="Run full 24-case benchmark instead of single sanity case")
     args = parser.parse_args()
+
+    is_full_suite = args.full_suite or os.environ.get("FULL_SUITE", "").strip().lower() in ("true", "1", "yes")
+    port = int(os.environ.get("PORT", "10000"))
+
+    if is_full_suite:
+        print("FULL_SUITE_ENABLED=true")
+
+    # Start the HTTP health server in background daemon thread BEFORE beginning benchmark
+    httpd, server_thread = start_health_server_background(port)
 
     # 1. Phase 1: START RSS
     start_rss = _rss_mib()
@@ -599,6 +857,7 @@ def main() -> None:
         from tokenizers import Tokenizer
     except Exception as exc:
         print(f"FATAL: Required dependencies failed to import: {exc}", file=sys.stderr)
+        BENCHMARK_STATE.set_completed(success=False)
         sys.exit(1)
     t_imp = time.perf_counter() - t_imp0
     after_imports_rss = _rss_mib()
@@ -615,35 +874,81 @@ def main() -> None:
     print(f"graph optimization setting         : ORT_DISABLE_ALL")
     print(f"execution mode                     : ORT_SEQUENTIAL")
     print(f"RENDER_MEMORY_TARGET_MIB           : {RENDER_MEMORY_TARGET_MIB} MiB (Render Free = {RENDER_FREE_LIMIT_MIB} MiB)")
+    print(f"FULL_SUITE_MODE                    : {is_full_suite}")
     print()
 
     # 3. Model Download
-    snap_dir, disk_mib = download_model_files()
-
-    # 4. Execute Translation (Single Representative Case by Default)
-    case = REPRESENTATIVE_CASE
-    print("\n--- SINGLE REPRESENTATIVE CASE ---")
-    print(f"Label                              : {case['label']}")
-    print(f"Source Text ({case['src_lang']})             : {case['src_text']}")
-    print(f"Target Language                    : {case.get('tgt_lang', 'eng_Latn')}")
-    print(f"Expected Reference                 : {case['expected']}")
-    print(flush=True)
-
-    t_infer0 = time.perf_counter()
     try:
-        raw_output, norm_output, success, phase_metrics = translate_single_case(
-            snap_dir=snap_dir,
-            src_text=case["src_text"],
-            src_lang=case["src_lang"],
-            tgt_lang=case.get("tgt_lang", "eng_Latn"),
-        )
+        snap_dir, disk_mib = download_model_files()
     except Exception as exc:
-        print(f"\nFATAL: Translation failed during execution: {exc}", file=sys.stderr)
-        peak_err = _peak_rss_mib()
-        print(f"PEAK_RSS_MiB                       : {_fmt_mib(peak_err)}")
+        BENCHMARK_STATE.set_completed(success=False)
         sys.exit(1)
 
-    infer_latency = time.perf_counter() - t_infer0
+    cases = FULL_SUITE_CASES if is_full_suite else [REPRESENTATIVE_CASE]
+
+    suite_t0 = time.perf_counter()
+    last_phase_metrics = {}
+    success_count = 0
+    all_successful = True
+    last_raw_output = ""
+    last_norm_output = ""
+
+    if is_full_suite:
+        print(f"\n--- FULL {len(cases)}-CASE BENCHMARK EXECUTION ---")
+        for idx, case in enumerate(cases, 1):
+            t_case0 = time.perf_counter()
+            try:
+                raw_out, norm_out, succ, p_metrics = translate_single_case(
+                    snap_dir=snap_dir,
+                    src_text=case["src_text"],
+                    src_lang=case["src_lang"],
+                    tgt_lang=case.get("tgt_lang", "eng_Latn"),
+                )
+                case_lat = time.perf_counter() - t_case0
+                last_phase_metrics = p_metrics
+                last_raw_output = raw_out
+                last_norm_output = norm_out
+                if succ:
+                    success_count += 1
+                else:
+                    all_successful = False
+                exact = (norm_out.strip().casefold() == case["expected"].strip().casefold())
+                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | {case_lat:.2f}s | exact={'YES' if exact else 'DIFF'} | out: {norm_out}")
+            except Exception as exc:
+                all_successful = False
+                print(f"[{idx:02d}/{len(cases):02d}] {case['label']:<32} | ERROR: {exc}", file=sys.stderr)
+    else:
+        case = REPRESENTATIVE_CASE
+        print("\n--- SINGLE REPRESENTATIVE CASE ---")
+        print(f"Label                              : {case['label']}")
+        print(f"Source Text ({case['src_lang']})             : {case['src_text']}")
+        print(f"Target Language                    : {case.get('tgt_lang', 'eng_Latn')}")
+        print(f"Expected Reference                 : {case['expected']}")
+        print(flush=True)
+
+        t_infer0 = time.perf_counter()
+        try:
+            raw_output, norm_output, success, phase_metrics = translate_single_case(
+                snap_dir=snap_dir,
+                src_text=case["src_text"],
+                src_lang=case["src_lang"],
+                tgt_lang=case.get("tgt_lang", "eng_Latn"),
+            )
+            last_phase_metrics = phase_metrics
+            last_raw_output = raw_output
+            last_norm_output = norm_output
+            if success:
+                success_count = 1
+            else:
+                all_successful = False
+        except Exception as exc:
+            print(f"\nFATAL: Translation failed during execution: {exc}", file=sys.stderr)
+            peak_err = _peak_rss_mib()
+            print(f"PEAK_RSS_MiB                       : {_fmt_mib(peak_err)}")
+            BENCHMARK_STATE.set_completed(success=False)
+            sys.exit(1)
+
+    total_infer_latency = time.perf_counter() - suite_t0
     final_rss = _rss_mib()
     peak_rss = _peak_rss_mib()
 
@@ -651,36 +956,44 @@ def main() -> None:
     print("\n--- PHASE-LEVEL RSS LOGGING ---")
     print(f"START_RSS_MiB                      : {_fmt_mib(start_rss)}")
     print(f"AFTER_IMPORTS_RSS_MiB              : {_fmt_mib(after_imports_rss)}")
-    print(f"BEFORE_ENCODER_SESSION_RSS_MiB     : {_fmt_mib(phase_metrics.get('BEFORE_ENCODER_SESSION_RSS_MiB'))}")
-    print(f"AFTER_ENCODER_SESSION_RSS_MiB      : {_fmt_mib(phase_metrics.get('AFTER_ENCODER_SESSION_RSS_MiB'))}")
-    print(f"AFTER_ENCODER_RUN_RSS_MiB          : {_fmt_mib(phase_metrics.get('AFTER_ENCODER_RUN_RSS_MiB'))}")
-    print(f"AFTER_ENCODER_RELEASE_RSS_MiB      : {_fmt_mib(phase_metrics.get('AFTER_ENCODER_RELEASE_RSS_MiB'))}")
-    print(f"BEFORE_DECODER_SESSION_RSS_MiB     : {_fmt_mib(phase_metrics.get('BEFORE_DECODER_SESSION_RSS_MiB'))}")
-    print(f"AFTER_DECODER_SESSION_RSS_MiB      : {_fmt_mib(phase_metrics.get('AFTER_DECODER_SESSION_RSS_MiB'))}")
-    print(f"AFTER_DECODER_RUN_RSS_MiB          : {_fmt_mib(phase_metrics.get('AFTER_DECODER_RUN_RSS_MiB'))}")
+    print(f"BEFORE_ENCODER_SESSION_RSS_MiB     : {_fmt_mib(last_phase_metrics.get('BEFORE_ENCODER_SESSION_RSS_MiB'))}")
+    print(f"AFTER_ENCODER_SESSION_RSS_MiB      : {_fmt_mib(last_phase_metrics.get('AFTER_ENCODER_SESSION_RSS_MiB'))}")
+    print(f"AFTER_ENCODER_RUN_RSS_MiB          : {_fmt_mib(last_phase_metrics.get('AFTER_ENCODER_RUN_RSS_MiB'))}")
+    print(f"AFTER_ENCODER_RELEASE_RSS_MiB      : {_fmt_mib(last_phase_metrics.get('AFTER_ENCODER_RELEASE_RSS_MiB'))}")
+    print(f"BEFORE_DECODER_SESSION_RSS_MiB     : {_fmt_mib(last_phase_metrics.get('BEFORE_DECODER_SESSION_RSS_MiB'))}")
+    print(f"AFTER_DECODER_SESSION_RSS_MiB      : {_fmt_mib(last_phase_metrics.get('AFTER_DECODER_SESSION_RSS_MiB'))}")
+    print(f"AFTER_DECODER_RUN_RSS_MiB          : {_fmt_mib(last_phase_metrics.get('AFTER_DECODER_RUN_RSS_MiB'))}")
     print(f"FINAL_RSS_MiB                      : {_fmt_mib(final_rss)}")
     print(f"PEAK_RSS_MiB                       : {_fmt_mib(peak_rss)}")
     print()
 
     # 6. Translation Result & Normalization Verification
-    exact_match = (norm_output.strip().casefold() == case["expected"].strip().casefold())
-    ent_preservation = check_entity_preservation(norm_output, REQUIRED_ENTITIES)
-    all_ents_preserved = all(ent_preservation.values())
+    if not is_full_suite:
+        exact_match = (last_norm_output.strip().casefold() == REPRESENTATIVE_CASE["expected"].strip().casefold())
+        ent_preservation = check_entity_preservation(last_norm_output, REQUIRED_ENTITIES)
+        all_ents_preserved = all(ent_preservation.values())
 
-    print("--- TRANSLATION OUTCOME ---")
-    print(f"RAW_MODEL_OUTPUT                   : {raw_output}")
-    print(f"NORMALIZED_OUTPUT                  : {norm_output}")
-    print(f"translation success                : {success}")
-    print(f"exact match                        : {'YES' if exact_match else 'NO (minor variation)'}")
-    print(f"inference latency                  : {infer_latency:.3f} s")
-    print()
+        print("--- TRANSLATION OUTCOME ---")
+        print(f"RAW_MODEL_OUTPUT                   : {last_raw_output}")
+        print(f"NORMALIZED_OUTPUT                  : {last_norm_output}")
+        print(f"translation success                : {all_successful}")
+        print(f"exact match                        : {'YES' if exact_match else 'NO (minor variation)'}")
+        print(f"inference latency                  : {total_infer_latency:.3f} s")
+        print()
 
-    # 7. Entity Preservation & Normalization Regression Results
-    print("--- ENTITY PRESERVATION & REGRESSION TESTS ---")
-    print(f"ENTITY_PRESERVATION_RESULT         : {'PASS (All preserved)' if all_ents_preserved else 'FAIL'}")
-    for ent, present in ent_preservation.items():
-        status_icon = "✓" if present else "✗"
-        print(f"  - [{status_icon}] {ent}")
+        # 7. Entity Preservation & Normalization Regression Results
+        print("--- ENTITY PRESERVATION & REGRESSION TESTS ---")
+        print(f"ENTITY_PRESERVATION_RESULT         : {'PASS (All preserved)' if all_ents_preserved else 'FAIL'}")
+        for ent, present in ent_preservation.items():
+            status_icon = "✓" if present else "✗"
+            print(f"  - [{status_icon}] {ent}")
+    else:
+        print("--- FULL SUITE BENCHMARK SUMMARY ---")
+        print(f"TOTAL_CASES_EXECUTED               : {len(cases)}")
+        print(f"SUCCESSFUL_CASES                   : {success_count}/{len(cases)}")
+        avg_lat = total_infer_latency / len(cases) if len(cases) > 0 else 0.0
+        print(f"TOTAL_LATENCY                      : {total_infer_latency:.3f} s (avg {avg_lat:.2f} s/case)")
+        print()
 
     reg_passed, reg_details = run_normalization_regression_tests()
     passed_count = sum(1 for r in reg_details if r["passed"])
@@ -696,7 +1009,7 @@ def main() -> None:
     print()
 
     # 8. Render Free Feasibility Verdict
-    feasible = (peak_rss is not None and peak_rss < RENDER_MEMORY_TARGET_MIB)
+    feasible = (peak_rss is not None and peak_rss < RENDER_MEMORY_TARGET_MIB and all_successful)
     headroom = RENDER_FREE_LIMIT_MIB - (peak_rss if peak_rss else 0.0)
 
     print("=" * 72)
@@ -712,12 +1025,37 @@ def main() -> None:
     print()
 
     if feasible:
+        BENCHMARK_STATE.set_completed(success=True)
         print(f"VERDICT: \u2705 FEASIBLE  (Peak RSS {peak_rss:.1f} MiB < {RENDER_MEMORY_TARGET_MIB} MiB target)")
         print("=" * 72)
-        sys.exit(0)
+        print("BENCHMARK_COMPLETED=true")
+        print()
+        print("=== RENDER SERVICE STATE ===")
+        print("BENCHMARK_COMPLETED: True")
+        print(f"BENCHMARK_STATUS: {BENCHMARK_STATE.status_str}")
+        print(f"SERVER_PORT: {port}")
+        print("HEALTH_ENDPOINT: /health")
+        print(f"FULL_SUITE: {is_full_suite}")
+        print("============================")
+        print("[SERVICE] Benchmark complete. Keep-alive active (serving /health on background thread)...", flush=True)
+        try:
+            while True:
+                time.sleep(3600)
+        except KeyboardInterrupt:
+            print("\n[SERVICE] Exiting on SIGINT/SIGTERM...", flush=True)
+            sys.exit(0)
     else:
+        BENCHMARK_STATE.set_completed(success=False)
         print(f"VERDICT: \u274c NOT FEASIBLE  (Peak RSS {peak_rss:.1f} MiB >= {RENDER_MEMORY_TARGET_MIB} MiB target)")
         print("=" * 72)
+        print()
+        print("=== RENDER SERVICE STATE ===")
+        print("BENCHMARK_COMPLETED: False")
+        print(f"BENCHMARK_STATUS: {BENCHMARK_STATE.status_str}")
+        print(f"SERVER_PORT: {port}")
+        print("HEALTH_ENDPOINT: /health")
+        print(f"FULL_SUITE: {is_full_suite}")
+        print("============================")
         sys.exit(2)
 
 
