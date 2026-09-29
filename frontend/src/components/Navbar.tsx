@@ -1,23 +1,55 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { User, ChevronDown, ExternalLink } from "lucide-react";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage, Language } from "@/context/LanguageContext";
 
 export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
   const pathname = usePathname();
   const { language, setLanguage, t } = useLanguage();
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
 
-  const langLabels: Record<string, string> = {
+  const langLabels: Record<Language, string> = {
     en: "English",
     hi: "हिन्दी",
     kn: "ಕನ್ನಡ",
     ta: "தமிழ்",
     te: "తెలుగు",
   };
+
+  const languageList: Array<{ code: Language; label: string }> = [
+    { code: "en", label: "English" },
+    { code: "hi", label: "हिन्दी" },
+    { code: "kn", label: "ಕನ್ನಡ" },
+    { code: "ta", label: "தமிழ்" },
+    { code: "te", label: "తెలుగు" },
+  ];
+
+  // Close dropdown on click outside or Escape key
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (langMenuRef.current && !langMenuRef.current.contains(event.target as Node)) {
+        setShowLangMenu(false);
+      }
+    }
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setShowLangMenu(false);
+      }
+    }
+
+    if (showLangMenu) {
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showLangMenu]);
 
   return (
     <header className="w-full bg-white border-b border-slate-200 sticky top-0 z-40 overflow-hidden">
@@ -43,7 +75,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
         </div>
       </div>
 
-        {/* Main Header */}
+      {/* Main Header */}
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-2">
         {/* Left: BIS Emblem + SpecWise Brand */}
         <div className="flex items-center gap-2.5 sm:gap-4 lg:gap-6 min-w-0">
@@ -58,23 +90,23 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
 
           {/* SpecWise Brand */}
           <div className="flex flex-col min-w-0">
-            <div className="flex items-center gap-1.5 sm:gap-3">
-              <span className="text-xl sm:text-2xl font-bold tracking-tight text-[#0A3871] whitespace-nowrap">
-                Spec<span className="text-[#0B57D0]">Wise</span>
+            <Link href="/" className="group flex items-center gap-1.5 focus:outline-none">
+              <span className="text-xl sm:text-2xl font-black tracking-tight text-[#0A3871] group-hover:text-[#0B57D0] transition-colors truncate">
+                {t.siteTitle}
               </span>
-              <span className="hidden sm:inline-flex items-center text-[10px] sm:text-xs font-medium text-slate-600 bg-slate-50 px-2 py-0.5 rounded border border-slate-200 flex-shrink-0">
-                SIH26108 Prototype
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-blue-100 text-[#0B57D0] tracking-wider uppercase flex-shrink-0 hidden xs:inline-block">
+                BIS
               </span>
-            </div>
-            <span className="text-xs text-slate-500 font-medium hidden md:inline whitespace-nowrap">
+            </Link>
+            <span className="text-[10px] sm:text-xs text-slate-500 font-medium tracking-tight truncate hidden md:inline-block">
               {t.tagline}
             </span>
           </div>
         </div>
 
-        {/* Center & Right Navigation */}
+        {/* Right Side: Navigation & Actions */}
         <div className="flex items-center gap-2 sm:gap-6 flex-shrink-0">
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-700 whitespace-nowrap">
+          <nav className="hidden md:flex items-center gap-5 text-sm font-medium">
             <Link
               href="/"
               className={`transition-colors ${
@@ -115,38 +147,44 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
 
           <div className="flex items-center gap-3 pl-2 sm:border-l sm:border-slate-200">
             {/* Language Selector */}
-            <div className="relative">
+            <div className="relative" ref={langMenuRef}>
               <button
                 type="button"
+                id="language-menu-button"
+                aria-haspopup="listbox"
+                aria-expanded={showLangMenu}
+                aria-label={t.language || "Select Language"}
                 onClick={() => setShowLangMenu(!showLangMenu)}
-                className="flex items-center gap-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 px-2.5 py-1.5 rounded-md border border-slate-200 transition-colors"
+                className="flex items-center gap-1.5 text-xs font-medium text-slate-700 bg-slate-50 hover:bg-slate-100 px-2.5 py-1.5 rounded-md border border-slate-200 transition-colors cursor-pointer"
               >
                 <span>{langLabels[language] || "English"}</span>
-                <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+                <ChevronDown className={`w-3.5 h-3.5 text-slate-500 transition-transform ${showLangMenu ? "rotate-180" : ""}`} />
               </button>
               {showLangMenu && (
-                <div className="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg border border-slate-200 py-1 text-xs z-50">
-                  <button
-                    onClick={() => {
-                      setLanguage("en");
-                      setShowLangMenu(false);
-                    }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "en" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}
-                  >
-                    English
-                  </button>
-                  <button
-                    onClick={() => {
-                      setLanguage("hi");
-                      setShowLangMenu(false);
-                    }}
-                    className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "hi" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}
-                  >
-                    हिन्दी
-                  </button>
-                  <button onClick={() => { setLanguage("kn"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "kn" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>ಕನ್ನಡ</button>
-                  <button onClick={() => { setLanguage("ta"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "ta" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>தமிழ்</button>
-                  <button onClick={() => { setLanguage("te"); setShowLangMenu(false); }} className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 ${language === "te" ? "font-bold text-[#0B57D0]" : "text-slate-700"}`}>తెలుగు</button>
+                <div
+                  role="listbox"
+                  aria-labelledby="language-menu-button"
+                  className="absolute right-0 mt-1 w-32 bg-white rounded-md shadow-lg border border-slate-200 py-1 text-xs z-50 animate-in fade-in zoom-in-95 duration-100"
+                >
+                  {languageList.map((item) => {
+                    const isSelected = language === item.code;
+                    return (
+                      <button
+                        key={item.code}
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={() => {
+                          setLanguage(item.code);
+                          setShowLangMenu(false);
+                        }}
+                        className={`w-full text-left px-3 py-1.5 hover:bg-slate-50 transition-colors cursor-pointer ${
+                          isSelected ? "font-bold text-[#0B57D0] bg-blue-50/50" : "text-slate-700"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -174,7 +212,7 @@ export function Navbar({ onAboutClick }: { onAboutClick?: () => void }) {
             </div>
           </div>
         </div>
-        </div>
+      </div>
 
       {/* Subtle prototype disclosure below header */}
       <div className="bg-white border-t border-slate-100">

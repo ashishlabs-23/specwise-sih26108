@@ -504,3 +504,58 @@ def test_16_firestore_live_contract_and_field_match(browser_context):
     page.close()
 
 
+def test_17_language_selection_and_persistence(browser_context):
+    """
+    Verify language selection across all 5 UI languages:
+    - Default is English
+    - Selecting Hindi, Kannada, Tamil, Telugu updates UI text and html[lang]
+    - Language selection persists across page refresh via localStorage (specwise_lang)
+    - Fallback to English occurs when localStorage contains an invalid value
+    """
+    page = browser_context.new_page()
+    page.goto(FRONTEND_URL, wait_until="networkidle")
+
+    # 1. Verify default language is English
+    expect(page.locator("html")).to_have_attribute("lang", "en")
+    expect(page.locator("h1")).to_contain_text("Indian Standard")
+
+    # 2. Select Hindi
+    lang_btn = page.locator("#language-menu-button")
+    lang_btn.click()
+    page.locator("role=option[name='हिन्दी']").click()
+    expect(page.locator("html")).to_have_attribute("lang", "hi")
+    expect(page.locator("h1")).to_contain_text("भारतीय मानक")
+
+    # 3. Verify persistence across page reload
+    page.reload(wait_until="networkidle")
+    expect(page.locator("html")).to_have_attribute("lang", "hi")
+    expect(page.locator("h1")).to_contain_text("भारतीय मानक")
+
+    # 4. Select Kannada
+    lang_btn = page.locator("#language-menu-button")
+    lang_btn.click()
+    page.locator("role=option[name='ಕನ್ನಡ']").click()
+    expect(page.locator("html")).to_have_attribute("lang", "kn")
+    expect(page.locator("h1")).to_contain_text("ಮಾನದಂಡ")
+
+    # 5. Select Tamil
+    lang_btn = page.locator("#language-menu-button")
+    lang_btn.click()
+    page.locator("role=option[name='தமிழ்']").click()
+    expect(page.locator("html")).to_have_attribute("lang", "ta")
+    expect(page.locator("h1")).to_contain_text("தரநிலை")
+
+    # 6. Select Telugu
+    lang_btn = page.locator("#language-menu-button")
+    lang_btn.click()
+    page.locator("role=option[name='తెలుగు']").click()
+    expect(page.locator("html")).to_have_attribute("lang", "te")
+    expect(page.locator("h1")).to_contain_text("ప్రమాణం")
+
+    # 7. Fallback to English on invalid localStorage value
+    page.evaluate("localStorage.setItem('specwise_lang', 'invalid_xyz')")
+    page.reload(wait_until="networkidle")
+    expect(page.locator("html")).to_have_attribute("lang", "en")
+    expect(page.locator("h1")).to_contain_text("Indian Standard")
+
+    page.close()
