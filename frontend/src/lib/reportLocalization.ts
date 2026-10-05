@@ -37,6 +37,33 @@ export function generateLocalizedAuditHtml(
   const requirements = response.requirements || [];
   const related = response.related_standards || [];
 
+  // Localized table headers — fall through to English only if key is missing
+  const hdrId        = t.colId        || "ID";
+  const hdrCategory  = t.colCategory  || "Category";
+  const hdrReqText   = t.requirementText || "Requirement Text";
+  const hdrMethod    = t.colMethod    || "Method";
+  const hdrConf      = t.confidence   || "Confidence";
+
+  const hdrStdNum    = t.standardNumber  || "Standard Number";
+  const hdrTitle     = t.title          || "Title";
+  const hdrApplic    = t.applicability  || "Applicability";
+  const hdrLifecycle = t.lifecycle      || "Lifecycle";
+  const hdrRetrieval = t.retrievalPaths || "Retrieval Paths";
+
+  const hdrFromStd   = t.sourceStandard || "From Standard";
+  const hdrToStd     = t.targetStandard || "To Standard";
+  const hdrRelType   = t.relationship   || "Relationship";
+  const hdrVerified  = t.verified       || "Verified";
+
+  const primaryBadge = t.primaryBadge   || "Primary";
+  const verifiedStr  = t.reportVerified   || "✅ Verified";
+  const unverifiedStr = t.reportUnverified || "⚠️ Unverified";
+
+  const generatedOnLabel = t.generatedOn   || "Generated on";
+  const analysisIdLabel  = t.analysisId    || "Analysis ID";
+  const latencyLabel     = t.latency       || "Latency";
+  const bisIntel         = t.bisIntelligence || "Bureau of Indian Standards Intelligence";
+
   return `<!DOCTYPE html>
 <html lang="${language}">
 <head>
@@ -155,7 +182,7 @@ export function generateLocalizedAuditHtml(
   <div class="header">
     <div>
       <h1>SpecWise — ${t.auditReport || "BIS Audit Report"}</h1>
-      <p>${t.tagline || "Right Standards. Safer Procurement."} · Bureau of Indian Standards Intelligence</p>
+      <p>${t.tagline || "Right Standards. Safer Procurement."} · ${bisIntel}</p>
     </div>
     <div>
       <span class="badge" style="background: ${currentDecColor.bg}; color: ${currentDecColor.text};">
@@ -166,15 +193,15 @@ export function generateLocalizedAuditHtml(
 
   <div class="meta-grid">
     <div class="meta-item">
-      <div class="meta-label">Analysis ID</div>
+      <div class="meta-label">${analysisIdLabel}</div>
       <div class="meta-value font-mono">${analysisId}</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">${t.primaryMatch || "Primary Recommendation"}</div>
+      <div class="meta-label">${t.primaryMatch || t.primaryStandard || "Primary Recommendation"}</div>
       <div class="meta-value">${primaryId}</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">${t.decisionState || "Decision"}</div>
+      <div class="meta-label">${t.decisionState || t.evaluationResult || "Decision"}</div>
       <div class="meta-value">${decision}</div>
     </div>
     <div class="meta-item">
@@ -182,13 +209,13 @@ export function generateLocalizedAuditHtml(
       <div class="meta-value">${language.toUpperCase()}</div>
     </div>
     <div class="meta-item">
-      <div class="meta-label">Latency</div>
+      <div class="meta-label">${latencyLabel}</div>
       <div class="meta-value">${totalMs}</div>
     </div>
   </div>
 
   <div class="summary-box">
-    <strong>${t.summary || "Summary"}:</strong> ${(response.decision_reasons || []).join("; ") || response.input_text || "—"}
+    <strong>${t.summary || t.whyDecision || "Summary"}:</strong> ${(response.decision_reasons || []).join("; ") || response.input_text || "—"}
   </div>
 
   <h2>1. ${t.extractedRequirements || "Extracted Tender Requirements"}</h2>
@@ -197,11 +224,11 @@ export function generateLocalizedAuditHtml(
       ? `<table>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Category</th>
-              <th>Requirement Text</th>
-              <th>Method</th>
-              <th>Confidence</th>
+              <th>${hdrId}</th>
+              <th>${hdrCategory}</th>
+              <th>${hdrReqText}</th>
+              <th>${hdrMethod}</th>
+              <th>${hdrConf}</th>
             </tr>
           </thead>
           <tbody>
@@ -227,11 +254,11 @@ export function generateLocalizedAuditHtml(
       ? `<table>
           <thead>
             <tr>
-              <th>Standard Number</th>
-              <th>Title</th>
-              <th>Applicability</th>
-              <th>Lifecycle</th>
-              <th>Retrieval Paths</th>
+              <th>${hdrStdNum}</th>
+              <th>${hdrTitle}</th>
+              <th>${hdrApplic}</th>
+              <th>${hdrLifecycle}</th>
+              <th>${hdrRetrieval}</th>
             </tr>
           </thead>
           <tbody>
@@ -241,7 +268,7 @@ export function generateLocalizedAuditHtml(
                 const lc = response.lifecycle?.find((l) => l.standard_id === c.standard_id);
                 const isPrimary = c.standard_id === primaryId;
                 return `<tr style="${isPrimary ? "background: #f0fdf4; font-weight: 600;" : ""}">
-                  <td>${c.standard_id} ${isPrimary ? "★ (Primary)" : ""}</td>
+                  <td>${c.standard_id} ${isPrimary ? `★ (${primaryBadge})` : ""}</td>
                   <td>${c.title}</td>
                   <td>${appl ? appl.result.toUpperCase() : "—"}</td>
                   <td>${lc ? lc.state.toUpperCase() : "—"}</td>
@@ -254,16 +281,16 @@ export function generateLocalizedAuditHtml(
       : `<p style="font-size: 12px; color: #64748b;">${t.noCandidatesFound || "No candidates found."}</p>`
   }
 
-  <h2>3. ${t.normativeReferences || "Normative References & Companion Specifications"}</h2>
+  <h2>3. ${t.normativeReferences || "Normative References &amp; Companion Specifications"}</h2>
   ${
     related.length > 0
       ? `<table>
           <thead>
             <tr>
-              <th>From Standard</th>
-              <th>To Standard</th>
-              <th>Relationship</th>
-              <th>Verified</th>
+              <th>${hdrFromStd}</th>
+              <th>${hdrToStd}</th>
+              <th>${hdrRelType}</th>
+              <th>${hdrVerified}</th>
             </tr>
           </thead>
           <tbody>
@@ -273,7 +300,7 @@ export function generateLocalizedAuditHtml(
                   <td>${rel.from_standard}</td>
                   <td style="font-weight: 600;">${rel.to_standard}</td>
                   <td>${rel.relationship_type.replace(/_/g, " ")}</td>
-                  <td>${rel.verified ? "✅ Verified" : "⚠️ Unverified"}</td>
+                  <td>${rel.verified ? verifiedStr : unverifiedStr}</td>
                 </tr>`
               )
               .join("")}
@@ -283,8 +310,8 @@ export function generateLocalizedAuditHtml(
   }
 
   <div class="footer">
-    <p>SpecWise Decision Engine · Bureau of Indian Standards Grounded Intelligence · ${t.prototypeNotice || "Prototype · Grounded in official BIS committee evidence"}</p>
-    <p>Generated on ${new Date().toISOString()} · Analysis ID: ${analysisId}</p>
+    <p>SpecWise Decision Engine · ${bisIntel} · ${t.prototypeNotice || "Prototype · Grounded in official BIS committee evidence"}</p>
+    <p>${generatedOnLabel} ${new Date().toISOString()} · ${analysisIdLabel}: ${analysisId}</p>
   </div>
 </body>
 </html>`;
