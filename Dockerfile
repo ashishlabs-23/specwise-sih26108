@@ -2,9 +2,11 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install curl for healthchecks
+# Install curl for healthchecks and tesseract-ocr runtime for OCR
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
+    tesseract-ocr \
+    tesseract-ocr-eng \
     && rm -rf /var/lib/apt/lists/*
 
 # Install python dependencies
@@ -21,6 +23,7 @@ ENV PYTHONUNBUFFERED=1
 ENV PORT=8000
 ENV DATA_BACKEND=LOCAL_DATA
 ENV DATA_DIR=data
+ENV TESSDATA_PREFIX=/app/data/tessdata
 
 EXPOSE 8000
 

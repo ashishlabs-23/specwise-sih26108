@@ -17,6 +17,8 @@ try:
 except Exception:
     FITZ_AVAILABLE = False
 
+from app.extraction.ocr import get_tessdata_path
+
 app = FastAPI(
     title="SIH26108 BIS Standards Recommendation Engine",
     version="0.1.0",
@@ -38,6 +40,7 @@ _MAX_PDF_BYTES = 25 * 1024 * 1024  # 25 MB hard cap
 @app.get("/api/v1/health")
 def health():
     summary = engine.repo.get_health_summary()
+    tess_path = get_tessdata_path() if FITZ_AVAILABLE else None
     return {
         "status": "ok",
         "data_source": summary["data_source"],
@@ -49,6 +52,8 @@ def health():
         "dense_enabled": engine.dense.model is not None,
         "reranker_enabled": engine.reranker.model is not None,
         "pdf_runtime": FITZ_AVAILABLE,
+        "ocr_available": bool(FITZ_AVAILABLE and tess_path),
+        "ocr_language": "eng" if (FITZ_AVAILABLE and tess_path) else None,
     }
 
 @app.get("/api/v1/resources")
