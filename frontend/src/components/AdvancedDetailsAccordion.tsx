@@ -155,7 +155,13 @@ export function AdvancedDetailsAccordion({
                           )}
                         </td>
                         <td className="p-2.5 text-slate-500 font-mono text-[11px] whitespace-nowrap">
-                          {r.extraction_method}
+                          {r.extraction_method === "ocr" ? (
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-indigo-50 text-indigo-700 font-mono text-[10px] font-bold border border-indigo-200">
+                              OCR
+                            </span>
+                          ) : (
+                            r.extraction_method
+                          )}
                         </td>
                       </tr>
                     ))}

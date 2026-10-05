@@ -34,6 +34,14 @@ export function DecisionBanner({
   const { decision, decision_reasons, applicability, candidates } = response;
   const theme = getDecisionTheme(decision);
 
+  const isOcrUsed =
+    response.decision_reasons?.some((r) => r.toLowerCase().includes("ocr used: true")) ||
+    response.requirements?.some((r) => r.extraction_method === "ocr");
+
+  const hasOcrWarning =
+    response.decision_reasons?.some((r) => r.toLowerCase().includes("confidence:") || r.toLowerCase().includes("warning:")) ||
+    response.requirements?.some((r) => r.extraction_method === "ocr" && r.extraction_confidence > 0 && r.extraction_confidence < 0.75);
+
   // Find strong primary standard ID
   const strongApp = applicability.find((a) => a.result === "strong");
   const hasStrongPrimary = (decision === "RECOMMEND" || decision === "REVIEW") && !!strongApp;
@@ -113,6 +121,31 @@ export function DecisionBanner({
           </button>
         </div>
       </div>
+
+      {/* Scanned Document / OCR Status Notification */}
+      {isOcrUsed && (
+        <div className="p-3 sm:p-3.5 rounded-xl bg-blue-50/90 border border-blue-200 text-xs text-blue-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs animate-in fade-in duration-200">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="px-2 py-0.5 rounded-md bg-[#0B57D0] text-white font-extrabold text-[10px] tracking-wider uppercase flex-shrink-0">
+              {t.scannedDocBadge}
+            </span>
+            <span className="font-semibold text-slate-800 break-words">
+              {t.ocrSuccessMessage}
+            </span>
+          </div>
+          <span className="text-[11px] text-blue-700 font-medium sm:text-right flex-shrink-0">
+            {t.ocrVerifyValues}
+          </span>
+        </div>
+      )}
+
+      {/* Low-Confidence / Warning Alert */}
+      {hasOcrWarning && (
+        <div className="p-3 sm:p-3.5 rounded-xl bg-amber-50 border border-amber-300 text-xs text-amber-900 flex items-start gap-2 shadow-xs animate-in fade-in duration-200">
+          <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+          <p className="font-semibold">{t.ocrLowConfidenceWarning}</p>
+        </div>
+      )}
 
       {/* Main Decision Card */}
       <div

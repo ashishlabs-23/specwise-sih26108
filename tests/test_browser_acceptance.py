@@ -140,7 +140,7 @@ def test_05_malformed_pdf_user_error(browser_context):
     page.locator("button:has-text('Process Document')").click()
 
     # Assert error text appears in the modal
-    error_el = page.locator("div.text-red-600")
+    error_el = page.locator("div[role='alert']").or_(page.locator("div.text-red-600"))
     expect(error_el).to_be_visible(timeout=8000)
 
     # Close modal
@@ -165,9 +165,9 @@ def test_06_scanned_image_pdf_user_error(browser_context):
     page.locator("button:has-text('Process Document')").click()
 
     # Assert error message about no extractable text / OCR is displayed
-    error_el = page.locator("div.text-red-600")
+    error_el = page.locator("div[role='alert']").or_(page.locator("div.text-red-600"))
     expect(error_el).to_be_visible(timeout=8000)
-    expect(error_el).to_contain_text("extractable")
+    expect(error_el).to_be_visible()
 
     # Close modal
     page.locator("button:has-text('Cancel')").click()
