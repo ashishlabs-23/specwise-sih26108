@@ -49,7 +49,7 @@ class TestRepositoryAbstraction:
         assert len(json_repo.evidence) == 35, "Corpus must have exactly 35 evidence records"
         assert len(json_repo.relationships) == 17, "Corpus must have exactly 17 relationships"
         assert len(json_repo.sources) == 14, "Corpus must have exactly 14 source documents"
-        assert len(json_repo.benchmark_cases) == 15, "Corpus must have exactly 15 benchmark cases"
+        assert len(json_repo.benchmark_cases) == 35, "Corpus must have exactly 35 benchmark cases"
         assert len(json_repo.certification) == 2, "Corpus must have exactly 2 certification rules"
 
     def test_json_repo_health_summary(self, json_repo):
@@ -59,7 +59,7 @@ class TestRepositoryAbstraction:
         assert summary["evidence_count"] == 35
         assert summary["relationships_count"] == 17
         assert summary["sources_count"] == 14
-        assert summary["benchmark_cases_count"] == 15
+        assert summary["benchmark_cases_count"] == 35
 
     def test_get_standard_and_evidence(self, json_repo):
         std = json_repo.get_standard("IS 14220:2018")
@@ -119,7 +119,7 @@ class TestRepositoryAbstraction:
         assert len(fs_repo.evidence) == 35
         assert len(fs_repo.relationships) == 17
         assert len(fs_repo.sources) == 14
-        assert len(fs_repo.benchmark_cases) == 15
+        assert len(fs_repo.benchmark_cases) == 35
         assert len(fs_repo.certification) == 2
 
 
@@ -159,7 +159,7 @@ class TestMigrationPayloads:
         assert "IS_8034_2018" in payloads1["standards"]
         assert "E-14220-SCOPE" in payloads1["evidence"]
         assert "BIS-14220-SUMMARY-2024" in payloads1["sources"]
-        assert "openwell-primary-recommend" in payloads1["benchmark_cases"]
+        assert "C01-openwell-primary" in payloads1["benchmark_cases"]
 
 
 # ── 4. Backend -> Frontend Contract Verification ─────────────────────────────
@@ -187,7 +187,7 @@ class TestBackendFrontendContract:
         assert summary["evidence_count"] == 35
         assert summary["relationships_count"] == 17
         assert summary["sources_count"] == 14
-        assert summary["benchmark_cases_count"] == 15
+        assert summary["benchmark_cases_count"] == 35
 
         # Standards list
         assert len(data["standards"]) == 27
@@ -214,7 +214,7 @@ class TestBackendFrontendContract:
             assert "relationship_type" in rel
 
         # Benchmark cases list
-        assert len(data["benchmark_cases"]) == 15
+        assert len(data["benchmark_cases"]) == 35
         for b in data["benchmark_cases"]:
             assert "id" in b
             assert "query" in b

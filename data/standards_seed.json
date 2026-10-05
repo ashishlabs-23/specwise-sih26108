@@ -305,7 +305,7 @@
       "source_name": "BIS Technical Committee MED 20 Official Work Programme",
       "url": "https://www.bis.gov.in/",
       "page": 1,
-      "text": "IS 12225:2019 specifies technical requirements for centrifugal jet pumpsets used for clear, cold water supply from deep wells and shallow wells in domestic and agricultural settings.",
+      "text": "IS 12225:2025 (Second Revision) specifies technical requirements for centrifugal jet pumpsets used for clear, cold water supply from deep wells and shallow wells in domestic and agricultural settings.",
       "verified": true
     },
     {
@@ -554,7 +554,7 @@
       "description": "Code of acceptance for hydraulic performance testing of regenerative pumps."
     },
     {
-      "from_standard": "IS 12225:2019",
+      "from_standard": "IS 12225:2025",
       "to_standard": "IS 11346:2002",
       "relationship_type": "test_method",
       "evidence_ids": [
@@ -1005,16 +1005,24 @@
       ]
     },
     {
-      "standard_id": "IS 12225:2019",
+      "standard_id": "IS 12225:2025",
       "title": "Centrifugal Jet Pumpsets for Clear, Cold Water for Agricultural and Domestic Water Supply — Specification",
       "scope": "Specification for centrifugal jet pumpsets used for clear, cold water supply from deep wells and shallow wells in domestic and agricultural settings.",
       "category": "pumps",
       "domain": "mechanical",
       "standard_role": "PRIMARY_PRODUCT_STANDARD",
       "versions": [
-        "2019"
+        "1987",
+        "1997",
+        "2025"
       ],
-      "lifecycle_events": [],
+      "lifecycle_events": [
+        {
+          "event": "revision",
+          "date": "2025-01-01",
+          "description": "Second Revision published as IS 12225:2025, superseding IS 12225:1997 and IS 12225:1987."
+        }
+      ],
       "keywords": [
         "jet pump",
         "jet pumpset",

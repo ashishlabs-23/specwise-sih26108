@@ -133,6 +133,7 @@ class SourceRecord(BaseModel):
 class BenchmarkCase(BaseModel):
     id: str
     query: str
+    category: Optional[str] = None
     expected_contains: list[str] = Field(default_factory=list)
     expected_decision: Optional[Decision] = None
     expected_cert: Optional[dict[str, str]] = None

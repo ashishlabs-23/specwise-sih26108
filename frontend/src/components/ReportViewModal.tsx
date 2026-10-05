@@ -4,6 +4,7 @@ import React from "react";
 import { X, Download, Printer, FileText } from "lucide-react";
 import { AnalysisResponse } from "@/types/api";
 import { useLanguage } from "@/context/LanguageContext";
+import { generateLocalizedAuditHtml } from "@/lib/reportLocalization";
 
 interface ReportViewModalProps {
   isOpen: boolean;
@@ -12,10 +13,10 @@ interface ReportViewModalProps {
 }
 
 export function ReportViewModal({ isOpen, onClose, response }: ReportViewModalProps) {
-  const { t } = useLanguage();
+  const { language, t } = useLanguage();
   if (!isOpen) return null;
 
-  const htmlContent = response.report_html || `<p>${t.noReport}</p>`;
+  const htmlContent = generateLocalizedAuditHtml(response, language, t);
 
   const handleDownloadHtml = () => {
     const blob = new Blob([htmlContent], { type: "text/html" });

@@ -207,3 +207,27 @@ class TestISNumberLookup:
         cert = r.certification.get("IS 8034:2018")
         assert cert is not None
         assert cert.state == "not_verified_in_prototype_corpus"
+
+
+# ── IS 12225 edition currency & regression ───────────────────────────────────
+
+class TestIS12225EditionCurrency:
+    def test_is_12225_2025_is_current_in_corpus(self, repo):
+        ids = {s.standard_id for s in repo.standards}
+        assert "IS 12225:2025" in ids, "IS 12225:2025 (Second Revision) must be the current edition in corpus."
+        assert "IS 12225:2019" not in ids, "IS 12225:2019 was an invalid edition and must not exist in corpus."
+
+    def test_is_12225_provenance_and_versions(self, repo):
+        std = repo.get_standard("IS 12225:2025")
+        assert std is not None
+        assert "2025" in std.versions
+        assert any("revision" in str(ev) for ev in std.lifecycle_events)
+
+    def test_jet_pump_query_recommends_2025_edition(self, engine):
+        r = engine.analyze(
+            AnalysisRequest(text="centrifugal jet pump for domestic deep well water supply")
+        )
+        assert r.decision == "RECOMMEND"
+        assert r.candidates[0].standard_id == "IS 12225:2025"
+        assert any(a.standard_id == "IS 12225:2025" and a.result == "strong" for a in r.applicability)
+

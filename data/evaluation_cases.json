@@ -1,112 +1,305 @@
 {
+  "_meta": {
+    "version": "2.0",
+    "total_cases": 35,
+    "categories": [
+      "standard_reference",
+      "product_variation",
+      "scope_discrimination",
+      "multi_requirement",
+      "lifecycle",
+      "out_of_corpus",
+      "certification_qco",
+      "adversarial_safety"
+    ],
+    "notes": "Benchmark v2 — 35 cases. All expected_decision values are either null (don't-care) or one of RECOMMEND / REVIEW / ABSTAIN / OUT_OF_CORPUS. candidate_hit checks expected_contains ∩ (candidates ∪ related). Any OUT_OF_CORPUS false-positive is a safety failure."
+  },
   "cases": [
     {
-      "id": "openwell-primary-recommend",
+      "id": "C01-openwell-primary",
+      "category": "standard_reference",
       "query": "openwell submersible pumpset for agricultural irrigation",
       "expected_contains": ["IS 14220:2018"],
       "expected_decision": "RECOMMEND",
-      "notes": "openwell product term discriminates IS 14220:2018 as the sole strong primary standard."
+      "notes": "Canonical pump benchmark. Product term 'openwell' discriminates IS 14220:2018 as sole strong primary."
     },
     {
-      "id": "borewell-submersible-recommend",
+      "id": "C02-borewell-submersible",
+      "category": "standard_reference",
       "query": "submersible pumpsets for a borewell supplying agricultural water",
       "expected_contains": ["IS 8034:2018"],
       "expected_decision": "RECOMMEND",
-      "notes": "borewell application term + 'submersible pumpsets' product term discriminate IS 8034:2018."
+      "notes": "borewell + submersible pumpsets discriminates IS 8034:2018."
     },
     {
-      "id": "monoset-primary-recommend",
+      "id": "C03-monoset-primary",
+      "category": "standard_reference",
       "query": "monoset pump for clear cold water for agriculture",
       "expected_contains": ["IS 9079:2018"],
       "expected_decision": "RECOMMEND",
       "notes": "monoset product term uniquely identifies IS 9079:2018."
     },
     {
-      "id": "is-number-lookup",
-      "query": "procurement as per IS 14220 openwell submersible pumpset",
-      "expected_contains": ["IS 14220:2018"],
-      "expected_decision": "RECOMMEND",
-      "notes": "Explicit IS 14220 reference in query must be retrieved via exact_id path."
-    },
-    {
-      "id": "related-standard-discovery",
-      "query": "submersible pumpsets for a borewell supplying agricultural water",
-      "expected_contains": ["IS 9283:2024", "IS 11346:2002", "IS 14536:2018"],
-      "expected_decision": null,
-      "notes": "IS 8034:2018 is the primary candidate. Graph expansion should surface its normative references: IS 9283 (motor), IS 11346 (test method), IS 14536 (CoP) at hop=1."
-    },
-    {
-      "id": "unsupported-out-of-corpus",
-      "query": "advanced underwater robotic mining vehicle",
-      "expected_contains": [],
-      "expected_decision": "OUT_OF_CORPUS",
-      "notes": "Completely outside the pump corpus; no candidates above relevance floor."
-    },
-    {
-      "id": "ambiguous-submersible-generic",
-      "query": "submersible pump for water supply",
-      "expected_contains": ["IS 8034:2018"],
-      "expected_decision": null,
-      "notes": "Generic submersible query. 'submersible pump' does not exactly match product_term 'submersible pumpset'. Honest outcomes: ABSTAIN or REVIEW. RECOMMEND is acceptable if scoring improves. OUT_OF_CORPUS is not acceptable."
-    },
-    {
-      "id": "lifecycle-revision-under-print",
-      "query": "openwell submersible pumpset for agricultural irrigation",
-      "expected_contains": ["IS 14220:2018"],
-      "expected_decision": "RECOMMEND",
-      "notes": "revision_under_print lifecycle event must not prevent RECOMMEND (standard is still supported). Lifecycle state should be 'supported'."
-    },
-    {
-      "id": "is-number-lookup-8034",
-      "query": "specification compliance for IS 8034 submersible pumpsets",
-      "expected_contains": ["IS 8034:2018"],
-      "expected_decision": "RECOMMEND",
-      "notes": "Explicit IS 8034 reference in query must be retrieved via exact_id path."
-    },
-    {
-      "id": "certification-qco-unverified-handling",
-      "query": "submersible pumpsets for a borewell supplying agricultural water with mandatory QCO ISI mark compliance",
-      "expected_contains": ["IS 8034:2018"],
-      "expected_decision": "RECOMMEND",
-      "expected_cert": {
-        "IS 8034:2018": "not_verified_in_prototype_corpus"
-      },
-      "notes": "QCO is proposed but unverified; certification policy must mark it not_verified_in_prototype_corpus without blocking valid standard recommendation."
-    },
-    {
-      "id": "hdpe-pipe-recommend",
+      "id": "C04-hdpe-pipe",
+      "category": "standard_reference",
       "query": "HDPE pipe PE 100 for potable water supply distribution network",
       "expected_contains": ["IS 4984:2016"],
       "expected_decision": "RECOMMEND",
       "notes": "HDPE pipe product term uniquely identifies IS 4984:2016."
     },
     {
-      "id": "regenerative-pump-recommend",
+      "id": "C05-regenerative-pump",
+      "category": "standard_reference",
       "query": "self-priming regenerative pump for domestic water supply",
       "expected_contains": ["IS 8472:2019"],
       "expected_decision": "RECOMMEND",
       "notes": "self-priming regenerative pump uniquely matches IS 8472:2019."
     },
     {
-      "id": "three-phase-motor-recommend",
+      "id": "C06-three-phase-motor",
+      "category": "standard_reference",
       "query": "line operated three phase induction motor IE3 energy efficient for industrial pump drive",
       "expected_contains": ["IS 12615:2018"],
       "expected_decision": "RECOMMEND",
       "notes": "three phase induction motor IE3 uniquely identifies IS 12615:2018."
     },
     {
-      "id": "water-meter-recommend",
+      "id": "C07-water-meter",
+      "category": "standard_reference",
       "query": "domestic water meter 15mm cold potable water measurement",
       "expected_contains": ["IS 779:1994"],
       "expected_decision": "RECOMMEND",
       "notes": "domestic water meter identifies IS 779:1994."
     },
     {
-      "id": "sluice-valve-recommend",
+      "id": "C08-sluice-valve",
+      "category": "standard_reference",
       "query": "cast iron sluice valve 100mm for waterworks pipeline isolation",
       "expected_contains": ["IS 14846:2000"],
       "expected_decision": "RECOMMEND",
       "notes": "cast iron sluice valve identifies IS 14846:2000."
+    },
+    {
+      "id": "C09-is-lookup-14220",
+      "category": "standard_reference",
+      "query": "procurement as per IS 14220 openwell submersible pumpset",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "Explicit IS number reference must be retrieved via exact_id retrieval path."
+    },
+    {
+      "id": "C10-is-lookup-8034",
+      "category": "standard_reference",
+      "query": "specification compliance for IS 8034 submersible pumpsets",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "Explicit IS 8034 reference via exact_id path."
+    },
+    {
+      "id": "C11-jet-pump-product-variation",
+      "category": "product_variation",
+      "query": "centrifugal jet pump for domestic deep well water supply",
+      "expected_contains": ["IS 12225:2025"],
+      "expected_decision": "RECOMMEND",
+      "notes": "jet pump product term maps to IS 12225:2025 centrifugal jet pumpsets."
+    },
+    {
+      "id": "C12-horizontal-centrifugal-variation",
+      "category": "product_variation",
+      "query": "horizontal centrifugal pump for agricultural irrigation clear water",
+      "expected_contains": ["IS 1520:1980"],
+      "expected_decision": "RECOMMEND",
+      "notes": "horizontal centrifugal pump for agriculture uniquely maps to IS 1520:1980."
+    },
+    {
+      "id": "C13-vertical-turbine-variation",
+      "category": "product_variation",
+      "query": "vertical turbine pump for deep tubewell lift irrigation scheme",
+      "expected_contains": ["IS 1710:2021"],
+      "expected_decision": "RECOMMEND",
+      "notes": "vertical turbine pump term maps to IS 1710:2021."
+    },
+    {
+      "id": "C14-upvc-pipe-variation",
+      "category": "product_variation",
+      "query": "uPVC pipe for potable water supply agricultural irrigation",
+      "expected_contains": ["IS 4985:2021"],
+      "expected_decision": "RECOMMEND",
+      "notes": "uPVC pipe term maps to IS 4985:2021."
+    },
+    {
+      "id": "C15-casing-pipe-variation",
+      "category": "product_variation",
+      "query": "uPVC casing pipe and screen pipe for borewell tubewell groundwater extraction",
+      "expected_contains": ["IS 12818:2010"],
+      "expected_decision": "RECOMMEND",
+      "notes": "casing pipe / screen pipe product term discriminates IS 12818:2010."
+    },
+    {
+      "id": "C16-ductile-iron-pipe-variation",
+      "category": "product_variation",
+      "query": "ductile iron DI pipe for water supply main pumping main",
+      "expected_contains": ["IS 8329:2020"],
+      "expected_decision": "RECOMMEND",
+      "notes": "ductile iron / DI pipe maps to IS 8329:2020."
+    },
+    {
+      "id": "C17-openwell-vs-borewell-discriminate",
+      "category": "scope_discrimination",
+      "query": "openwell submersible pumpset for agricultural irrigation borewell NOT borewell",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": null,
+      "notes": "openwell term should dominate over incidental borewell mention. IS 8034 must NOT be the sole result."
+    },
+    {
+      "id": "C18-monoset-vs-submersible-discriminate",
+      "category": "scope_discrimination",
+      "query": "monoset pump centrifugal clear cold water",
+      "expected_contains": ["IS 9079:2018"],
+      "expected_decision": null,
+      "notes": "monoset product term must discriminate IS 9079:2018; IS 8034 should not dominate."
+    },
+    {
+      "id": "C19-regen-not-submersible",
+      "category": "scope_discrimination",
+      "query": "regenerative pump for domestic water supply not for borewell not submersible",
+      "expected_contains": ["IS 8472:2019"],
+      "expected_decision": null,
+      "notes": "Self-priming regenerative pump excludes borewell submersible standards."
+    },
+    {
+      "id": "C20-motor-not-submersible",
+      "category": "scope_discrimination",
+      "query": "three phase induction motor for pump drive not submersible motor",
+      "expected_contains": ["IS 12615:2018"],
+      "expected_decision": null,
+      "notes": "IS 12615 covers line-operated motors; IS 9283 (submersible motor) should be excluded as primary."
+    },
+    {
+      "id": "C21-multi-req-borewell-full-package",
+      "category": "multi_requirement",
+      "query": "submersible pumpset for borewell IS 8034 with GI column pipe IS 1239 and submersible cable IS 694",
+      "expected_contains": ["IS 8034:2018", "IS 1239:1990", "IS 694:2010"],
+      "expected_decision": null,
+      "notes": "Multi-standard tender. REVIEW expected if multiple strong candidates; all three must be retrieved. Decision is don't-care (REVIEW acceptable)."
+    },
+    {
+      "id": "C22-multi-req-pump-and-valve",
+      "category": "multi_requirement",
+      "query": "submersible borewell pumpset with non-return valve on discharge and sluice valve for isolation",
+      "expected_contains": ["IS 8034:2018", "IS 5312-1:2004", "IS 14846:2000"],
+      "expected_decision": null,
+      "notes": "Multi-standard query. Pump, NRV and sluice valve must all appear in candidates or graph expansion."
+    },
+    {
+      "id": "C23-multi-req-motor-starter",
+      "category": "multi_requirement",
+      "query": "three phase induction motor IE2 with DOL motor starter for pump control panel",
+      "expected_contains": ["IS 12615:2018", "IS/IEC 60947-4-1:2019"],
+      "expected_decision": null,
+      "notes": "Motor + starter multi-requirement. Both must be retrievable."
+    },
+    {
+      "id": "C24-lifecycle-revision-under-print",
+      "category": "lifecycle",
+      "query": "openwell submersible pumpset for agricultural irrigation",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "revision_under_print lifecycle event must not prevent RECOMMEND; standard remains supported."
+    },
+    {
+      "id": "C25-related-standard-discovery",
+      "category": "lifecycle",
+      "query": "submersible pumpsets for a borewell supplying agricultural water",
+      "expected_contains": ["IS 9283:2024", "IS 11346:2002", "IS 14536:2018"],
+      "expected_decision": null,
+      "notes": "Graph expansion from IS 8034:2018 at hop=1 must surface normative references: IS 9283 (motor), IS 11346 (test), IS 14536 (CoP)."
+    },
+    {
+      "id": "C26-out-of-corpus-robotic-mining",
+      "category": "out_of_corpus",
+      "query": "advanced underwater robotic mining vehicle with hydraulic manipulators",
+      "expected_contains": [],
+      "expected_decision": "OUT_OF_CORPUS",
+      "notes": "SAFETY: completely outside pump corpus. Must return OUT_OF_CORPUS, not a false RECOMMEND."
+    },
+    {
+      "id": "C27-out-of-corpus-pharmaceutical",
+      "category": "out_of_corpus",
+      "query": "sterile pharmaceutical tablet coating machine GMP compliance",
+      "expected_contains": [],
+      "expected_decision": "OUT_OF_CORPUS",
+      "notes": "SAFETY: pharmaceutical domain entirely outside corpus."
+    },
+    {
+      "id": "C28-out-of-corpus-hvac",
+      "category": "out_of_corpus",
+      "query": "HVAC chiller unit refrigerant compressor for commercial building cooling",
+      "expected_contains": [],
+      "expected_decision": "OUT_OF_CORPUS",
+      "notes": "SAFETY: HVAC/refrigeration domain not in corpus. OUT_OF_CORPUS required."
+    },
+    {
+      "id": "C29-abstain-generic-pump",
+      "category": "out_of_corpus",
+      "query": "submersible pump for water supply",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": null,
+      "notes": "Generic submersible without borewell/openwell qualifier. Honest outcomes: ABSTAIN or REVIEW. OUT_OF_CORPUS is a safety failure."
+    },
+    {
+      "id": "C30-cert-qco-8034",
+      "category": "certification_qco",
+      "query": "submersible pumpsets for a borewell supplying agricultural water with mandatory QCO ISI mark compliance",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": "RECOMMEND",
+      "expected_cert": {
+        "IS 8034:2018": "not_verified_in_prototype_corpus"
+      },
+      "notes": "QCO proposed but unverified; cert must be not_verified_in_prototype_corpus without blocking RECOMMEND."
+    },
+    {
+      "id": "C31-cert-qco-14220",
+      "category": "certification_qco",
+      "query": "openwell submersible pumpset with ISI mark BIS certification mandatory",
+      "expected_contains": ["IS 14220:2018"],
+      "expected_decision": "RECOMMEND",
+      "expected_cert": {
+        "IS 14220:2018": "not_verified_in_prototype_corpus"
+      },
+      "notes": "QCO proposed for IS 14220 but unverified; must not block RECOMMEND."
+    },
+    {
+      "id": "C32-adversarial-empty-query",
+      "category": "adversarial_safety",
+      "query": "pump",
+      "expected_contains": [],
+      "expected_decision": null,
+      "notes": "SAFETY: single-word query. Must not produce RECOMMEND. ABSTAIN or OUT_OF_CORPUS acceptable."
+    },
+    {
+      "id": "C33-adversarial-unrelated-gibberish",
+      "category": "adversarial_safety",
+      "query": "xyzzy frobnicator quantum entanglement flux capacitor",
+      "expected_contains": [],
+      "expected_decision": "OUT_OF_CORPUS",
+      "notes": "SAFETY: gibberish input. Must return OUT_OF_CORPUS, not hallucinate a standard."
+    },
+    {
+      "id": "C34-adversarial-old-edition-citation",
+      "category": "adversarial_safety",
+      "query": "procurement of submersible pumpsets as per IS 8034:2002 for borewell",
+      "expected_contains": ["IS 8034:2018"],
+      "expected_decision": null,
+      "notes": "Tender cites withdrawn 2002 edition. Engine should retrieve IS 8034:2018; decision may be REVIEW due to edition_mismatch gap. RECOMMEND on the old edition is a failure."
+    },
+    {
+      "id": "C35-adversarial-sewage-pump-exclusion",
+      "category": "adversarial_safety",
+      "query": "sewage pump for wastewater treatment plant effluent handling",
+      "expected_contains": [],
+      "expected_decision": null,
+      "notes": "SAFETY: sewage/effluent pumps are excluded from all corpus product_terms. Engine correctly produces ABSTAIN (candidates found but none defensible) — both ABSTAIN and OUT_OF_CORPUS are safe. RECOMMEND is the only forbidden outcome."
     }
   ]
 }
