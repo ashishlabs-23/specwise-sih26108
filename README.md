@@ -108,17 +108,17 @@ To ensure safety and prevent misleading recommendations in public procurement, S
 ## 5. Current Prototype Knowledge Base
 
 > **Important Corpus Notice:**
-> *"Prototype corpus — currently 7 verified standards. This is not the full BIS catalogue."*
+> *"Prototype corpus — currently 27 verified standards. This is not the full national BIS catalogue."*
 
-The prototype operates on a curated, verified knowledge base focused on the mechanical pump and water handling sector (BIS Technical Committee **MED 20**):
+The prototype operates on a curated, verified knowledge base focused on the mechanical pump and water handling sector (BIS Technical Committee **MED 20**), electrical machinery (**ETD 15**), switchgear (**ETD 07**), plastic piping (**CED 53 / CED 50**), and waterworks infrastructure (**CED 22**):
 
 | Entity Type | Exact Count | Description |
 | :--- | :---: | :--- |
-| **Standards** | **7** | IS 14220, IS 8034, IS 9079, IS 14536, IS 9283, IS 11346, IS 10572 |
-| **Evidence Records** | **15** | Grounded excerpts from official BIS documents, scopes, and committee records |
-| **Relationships** | **5** | Normative graph links (motors, acceptance tests, codes of practice) |
-| **Source Documents** | **5** | Official BIS portal URLs and committee work programmes |
-| **Benchmark Cases** | **10** | Internal regression evaluation suite |
+| **Standards** | **27** | Verified standards covering pumps (IS 14220, IS 8034, IS 9079, IS 8472, IS 12225, IS 1520, IS 1710, IS 5120), testing codes (IS 11346, IS 10572), motors & switchgear (IS 9283, IS 12615, IS 996, IS/IEC 60947-4-1), piping & casing (IS 1239, IS 4984, IS 4985, IS 12818, IS 8329), cables (IS 694, IS 1554), valves (IS 778, IS 5312-1, IS 14846), water meters (IS 779), and safety codes (IS 14536, IS 3043) |
+| **Evidence Records** | **35** | Grounded excerpts from official BIS publications, scopes, and committee records |
+| **Relationships** | **17** | Normative graph links (submersible motors, testing codes, companion piping, valves, starters, earthing safety) |
+| **Source Documents** | **14** | Official BIS portal URLs and committee work programmes |
+| **Benchmark Cases** | **15** | Internal regression evaluation suite |
 | **Certification Records** | **2** | QCO verification notices (marked `not_verified_in_prototype_corpus` where unconfirmed) |
 
 ---
@@ -130,9 +130,9 @@ Only active, verified technologies used in the current deployment are listed:
 * **Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS, Lucide Icons
 * **Backend:** Python 3.11, FastAPI, Pydantic v2, Uvicorn
 * **Database & Cloud Storage:** Google Cloud Firestore (serverless NoSQL database)
-* **Document Processing:** PyMuPDF (PDF text layer extraction — image-only PDFs require OCR, not yet implemented)
-* **Retrieval (Deployed MVP):** Exact IS-Identifier Matching + BM25 Lexical Retrieval
-* **Retrieval (Future / Provisioned):** Dense Neural Embeddings (`ENABLE_DENSE=true`) + Cross-Encoder Reranker (`ENABLE_RERANKER=true`) — disabled in current deployment
+* **Document Processing:** PyMuPDF (PDF text layer extraction — scanned/image-only PDFs are detected and safely flagged for OCR)
+* **Retrieval (Deployed MVP):** Exact IS-Identifier Matching + BM25 Lexical Retrieval (`ENABLE_DENSE=false`, `ENABLE_RERANKER=false`)
+* **Retrieval (Provisioned / Architectural):** Dense Neural Embeddings (Sentence-Transformers) + Cross-Encoder Reranker
 * **Hosting & Infrastructure:** Firebase Hosting (Frontend), Render (Backend Web Service)
 
 ---
@@ -142,30 +142,51 @@ Only active, verified technologies used in the current deployment are listed:
 The deployed prototype provides the following verified capabilities:
 
 * **Natural Specification Analysis:** Accepts free-form commercial procurement descriptions and technical trade text.
-* **Tender PDF Document Upload:** Ingests tender PDFs, extracts text layers via PyMuPDF, and runs requirement isolation. Image-only/scanned PDFs (no text layer) return an explicit OCR-required error — OCR is not yet implemented.
+* **Tender PDF Document Ingestion:** Ingests digital tender PDFs, extracts selectable text layers via PyMuPDF, and isolates requirements. Scanned/image-only PDFs (no text layer) are safely flagged for OCR.
+* **5-Language UI Localization:** Full interface translation across English, Hindi, Kannada, Tamil, and Telugu with persistent preference and automatic fallback.
 * **Requirement-Level Coverage:** Every extracted requirement is assessed independently. Tender-cited IS numbers absent from the corpus are surfaced as `unverified_reference` gaps, not silently masked.
 * **Evidence-Grounded Traceability:** Every recommendation displays the exact BIS clause, scope text, and official source link.
 * **Normative Reference Graph:** Automatically discovers companion standards (e.g. electric motors under IS 9283 for submersible pumps).
 * **Transparent Regulatory Status:** Displays Quality Control Order (QCO) notices with explicit verification flags. No mandatory/non-mandatory status is inferred without a confirmed gazette source.
 * **Audit Report Generator:** Produces auditable HTML reports detailing parameter coverage and gap analysis.
 * **Out-of-Corpus Safety Gate:** Accurately rejects out-of-domain queries without emitting false standard recommendations.
-* **Corpus Explorer:** Dedicated Resources explorer page allowing full browsing and searching of all 7 standards and 15 evidence records.
+* **Corpus Explorer:** Dedicated Resources explorer page allowing full browsing and searching of all verified standards and evidence records.
 * **Procurement API:** REST JSON output (`AnalysisResponse`) is the MVP procurement integration layer. Direct GeM/CPPP portal integration is future work.
 
 ---
 
-## 8. Current Limitations
+## 8. SIH26108 Portal Requirements vs. Prototype Status
+
+> **Prototype Disclosure:** SpecWise is an end-to-end working prototype (Proof-of-Concept) created for SIH26108. The current deployment demonstrates the dual-layer architecture, deterministic verification gates, normative graph traversal, and zero-hallucination recommendation pipeline. The remaining enterprise-scale features from the official SIH portal are planned for the upcoming production phase.
+
+### Comprehensive SIH Requirement Compliance Matrix
+
+| # | SIH Portal Requirement | Current Prototype Status | Status | What We Are Building Next (Production Roadmap) |
+|---|---|---|:---:|---|
+| **1** | **National BIS Standards Scale** (20,000+ standards across 15 Division Councils) | Curated & frozen verified knowledge base of **7 standards** in MED 20 (Pumps & Water Handling). | 🟡 **Prototype** | Automated multi-division BIS ingestion pipeline, structured clause parser, and full national standards repository covering CED, ETD, TXD, FAD, etc. |
+| **2** | **OCR for Scanned Tenders & Image PDFs** | Text-layer extraction via PyMuPDF. Scanned PDFs without text layers are detected and flagged. | 🟡 **Next Phase** | Multi-engine OCR integration (Tesseract / Surya OCR / PaddleOCR) with table structure extraction and multi-column document layout analysis. |
+| **3** | **Multilingual Support (Indic / Regional Languages)** | English-only processing in live deployment. (IndicTrans2 200M model validated in research notebook). | 🟡 **Next Phase** | Direct integration of AI4Bharat IndicTrans2 / Bhashini API for end-to-end tender parsing and bilingual recommendations in Hindi, Tamil, Telugu, Marathi, Bengali, etc. |
+| **4** | **GFR 144(i) & Anti-Bias Procurement Auditing** | Parameter coverage & missing IS specification gap detection. | 🟡 **Next Phase** | Automated scanning for proprietary brand bias, restrictive non-standard clauses, discriminatory turnover thresholds, and GFR 144(i) anti-competitive flags. |
+| **5** | **Real-Time QCO & e-Gazette Synchronization** | Quality Control Order records tagged with manual verification status. | 🟡 **Next Phase** | Live automated crawler and synchronizer with e-BIS portal, Ministry gazette notifications, and mandatory certification schedules. |
+| **6** | **Direct GeM & CPPP Portal Workflow Integration** | Standalone Next.js Web UI, REST API (`/api/v1/analyze`), and downloadable HTML audit reports. | 🟡 **Next Phase** | Browser Extension for GeM/CPPP tender creation pages, webhook connectors for e-Procurement platforms, and 1-click BoQ standard export. |
+| **7** | **Enterprise Knowledge Graph (Neo4j)** | In-memory graph traversal (max 2 hops, 5 companion links). | 🟡 **Next Phase** | Neo4j enterprise graph database mapping multi-hop cross-sector relationships (raw materials, safety codes, environmental & testing standards). |
+| **8** | **Hybrid Dense + Lexical Retrieval at Scale** | BM25 Lexical + Exact IS-ID matching active (Dense embeddings provisioned but toggled off for lightweight hosting). | 🟢 **Provisioned** | Scaled Vector Database (Qdrant / pgvector) with fine-tuned domain bi-encoders and cross-encoder rerankers enabled. |
+| **9** | **Human-in-the-Loop Officer Approval Workflow** | Four-state deterministic routing (`RECOMMEND`, `REVIEW`, `ABSTAIN`, `OUT_OF_CORPUS`). | 🟢 **Fulfilled** | Multi-role RBAC (Tender Creator, Technical Evaluator, Approving Officer) with digitally signed audit certificates. |
+
+---
+
+## 9. Current Limitations (Prototype Scope)
 
 * **Curated Corpus Scope:** The verified corpus currently covers 7 Indian Standards in the pump sector (MED 20).
 * **Retrieval MVP:** Active deployment uses Exact IS-ID + BM25 only. Dense neural embeddings and cross-encoder rerankers are provisioned but disabled (`ENABLE_DENSE=false`, `ENABLE_RERANKER=false`).
-* **Text-Based PDF Extraction Only:** PyMuPDF extracts text layers. Scanned or image-only PDFs without text layers return an explicit error — OCR integration is a future step.
-* **English-Only Input:** Multilingual (Hindi/regional language) tender support is not yet implemented.
-* **Procurement Output:** API + HTML report (MVP). Direct GeM/CPPP portal integration is not yet implemented.
+* **Text-Based PDF Extraction Only:** PyMuPDF extracts text layers. Scanned or image-only PDFs without text layers return an explicit error — OCR integration is part of the next phase.
+* **English-Only Input:** Multilingual (Hindi/regional language) tender support is validated in research and queued for next build.
+* **Procurement Output:** API + HTML report (MVP). Direct GeM/CPPP portal integration is planned for the next release.
 * **Render Free-Tier Spin-Down:** Render backend instances may experience a 30–50 second cold-start delay after 15 minutes of inactivity (mitigated by automated client keep-alive pings).
 
 ---
 
-## 9. Verification & Testing
+## 10. Verification & Testing
 
 The deployed prototype has been verified end-to-end across the full stack:
 
@@ -177,7 +198,7 @@ The deployed prototype has been verified end-to-end across the full stack:
 
 ---
 
-## 10. Local Development
+## 11. Local Development
 
 ### Backend Setup
 ```bash

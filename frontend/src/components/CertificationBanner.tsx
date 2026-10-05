@@ -32,12 +32,12 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
     description = t.noPrimaryDescription;
   } else if (decision === "REVIEW" && !hasStrongPrimary) {
     badgeLabel = t.reviewRequired;
-    description = "Mandatory certification / QCO applicability depends on the specific standard confirmed during technical review.";
+    description = t.certReviewBody;
   } else if (certData) {
     const isProposed =
       certData.rule_type === "QCO_PROPOSED" ||
       certData.state === "not_verified_in_prototype_corpus";
-    badgeLabel = isProposed ? "QCO Proposed / Unconfirmed" : "Regulatory Notice";
+    badgeLabel = isProposed ? t.qcoProposedBadge : t.regulatoryNotice;
     description = certData.description || description;
   }
 
@@ -90,10 +90,10 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
               </div>
               <div>
                 <h3 className="text-base font-bold text-slate-900">
-                  Regulatory & QCO Verification Notice
+                  {t.certModalTitle}
                 </h3>
                 <p className="text-xs text-slate-500 font-medium">
-                  Bureau of Indian Standards / DPIIT Quality Control Order
+                  {t.certModalSubtitle}
                 </p>
               </div>
             </div>
@@ -101,19 +101,20 @@ export function CertificationBanner({ response }: CertificationBannerProps) {
             <div className="mt-4 space-y-3 text-xs sm:text-sm text-slate-700 leading-relaxed">
               <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl">
                 <span className="font-bold text-amber-900 block mb-1">
-                  Source Access & Evidence Policy:
+                  {t.sourceAccessPolicyLabel}
                 </span>
                 <p className="text-amber-800 text-xs">
-                  The prototype corpus strictly enforces evidence grounding. Unconfirmed gazette numbers or secondary reports are marked as <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">not_verified_in_prototype_corpus</code>.
+                  {t.sourceAccessPolicyBody}{" "}
+                  <code className="bg-amber-100 px-1 py-0.5 rounded font-mono font-bold">not_verified_in_prototype_corpus</code>.
                 </p>
               </div>
 
               <p>
-                <strong>Covered Standards:</strong> Proposed DPIIT Pumps QCO 2023 was cited to encompass submersible pumpsets (IS 8034) and openwell submersible pumpsets (IS 14220) under BIS Certification Scheme-I (ISI Mark).
+                <strong>{t.coveredStandardsLabel}</strong> {t.coveredStandardsBody}
               </p>
 
               <p>
-                <strong>Current Status:</strong> The definitive enforcement date and official Gazette of India publication should be confirmed through official portals (dpiit.gov.in or bis.gov.in) prior to commercial procurement.
+                <strong>{t.currentStatusLabel}</strong> {t.currentStatusBody}
               </p>
             </div>
 

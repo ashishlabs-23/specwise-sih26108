@@ -72,6 +72,41 @@
         "IS 8034:2018": "not_verified_in_prototype_corpus"
       },
       "notes": "QCO is proposed but unverified; certification policy must mark it not_verified_in_prototype_corpus without blocking valid standard recommendation."
+    },
+    {
+      "id": "hdpe-pipe-recommend",
+      "query": "HDPE pipe PE 100 for potable water supply distribution network",
+      "expected_contains": ["IS 4984:2016"],
+      "expected_decision": "RECOMMEND",
+      "notes": "HDPE pipe product term uniquely identifies IS 4984:2016."
+    },
+    {
+      "id": "regenerative-pump-recommend",
+      "query": "self-priming regenerative pump for domestic water supply",
+      "expected_contains": ["IS 8472:2019"],
+      "expected_decision": "RECOMMEND",
+      "notes": "self-priming regenerative pump uniquely matches IS 8472:2019."
+    },
+    {
+      "id": "three-phase-motor-recommend",
+      "query": "line operated three phase induction motor IE3 energy efficient for industrial pump drive",
+      "expected_contains": ["IS 12615:2018"],
+      "expected_decision": "RECOMMEND",
+      "notes": "three phase induction motor IE3 uniquely identifies IS 12615:2018."
+    },
+    {
+      "id": "water-meter-recommend",
+      "query": "domestic water meter 15mm cold potable water measurement",
+      "expected_contains": ["IS 779:1994"],
+      "expected_decision": "RECOMMEND",
+      "notes": "domestic water meter identifies IS 779:1994."
+    },
+    {
+      "id": "sluice-valve-recommend",
+      "query": "cast iron sluice valve 100mm for waterworks pipeline isolation",
+      "expected_contains": ["IS 14846:2000"],
+      "expected_decision": "RECOMMEND",
+      "notes": "cast iron sluice valve identifies IS 14846:2000."
     }
   ]
 }

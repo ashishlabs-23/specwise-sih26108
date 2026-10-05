@@ -140,7 +140,7 @@ export function KeyDetailsCard({
 
         <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
           <span>{t.productName} {t.primaryStandard}</span>
-          <span className="text-xs font-semibold text-slate-400">MED 20 Verified</span>
+          <span className="text-xs font-semibold text-slate-400">{t.med20Verified}</span>
         </div>
       </div>
     );
@@ -162,7 +162,7 @@ export function KeyDetailsCard({
             </div>
           </div>
           <span className="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-blue-100 text-blue-800 border border-blue-200 flex-shrink-0">
-            PRIMARY PRODUCT STANDARD
+            {t.primaryProductStandardBadge}
           </span>
         </div>
 

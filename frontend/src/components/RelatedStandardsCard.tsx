@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { Link2, ChevronRight, BookOpen, Layers, CheckCircle } from "lucide-react";
+import { Link2, ChevronRight, BookOpen } from "lucide-react";
 import { AnalysisResponse } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface RelatedStandardsCardProps {
   response: AnalysisResponse;
@@ -15,20 +16,21 @@ export function RelatedStandardsCard({
   onSelectStandard,
   onViewAll,
 }: RelatedStandardsCardProps) {
+  const { t } = useLanguage();
   const { related_standards, decision } = response;
   const contextOnly = decision === "ABSTAIN" || decision === "OUT_OF_CORPUS";
 
   const getRoleBadge = (type: string, stdId: string) => {
     if (stdId.includes("14536") || type === "related_practice") {
-      return { label: "CODE OF PRACTICE", style: "bg-purple-100 text-purple-800 border-purple-200" };
+      return { label: t.roleBadgeCop, style: "bg-purple-100 text-purple-800 border-purple-200" };
     }
     if (stdId.includes("11346") || type === "test_method") {
-      return { label: "TEST METHOD", style: "bg-amber-100 text-amber-800 border-amber-200" };
+      return { label: t.roleBadgeTest, style: "bg-amber-100 text-amber-800 border-amber-200" };
     }
     if (type === "normative_reference") {
-      return { label: "RELATED STANDARD", style: "bg-indigo-100 text-indigo-800 border-indigo-200" };
+      return { label: t.roleBadgeRelated, style: "bg-indigo-100 text-indigo-800 border-indigo-200" };
     }
-    return { label: "RELATED STANDARD", style: "bg-slate-100 text-slate-700 border-slate-200" };
+    return { label: t.roleBadgeRelated, style: "bg-slate-100 text-slate-700 border-slate-200" };
   };
 
   const getTitle = (stdId: string) => {
@@ -60,20 +62,20 @@ export function RelatedStandardsCard({
             </div>
             <div className="min-w-0">
               <h3 className="text-base font-bold text-slate-900 truncate">
-                Related Standards
+                {t.relatedStandardsTitle}
               </h3>
               <p className="text-[11px] text-slate-500 font-medium truncate">
-                Normative refs, test methods & practice codes
+                {t.relatedStandardsSub}
               </p>
               {contextOnly && related_standards.length > 0 && (
                 <p className="text-[10px] font-semibold text-amber-700">
-                  Context only — not a recommendation
+                  {t.contextOnly}
                 </p>
               )}
             </div>
           </div>
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 flex-shrink-0">
-            {related_standards.length} linked
+            {related_standards.length} {t.linkedCount}
           </span>
         </div>
 
@@ -82,8 +84,8 @@ export function RelatedStandardsCard({
           {related_standards.length === 0 ? (
             <div className="py-6 text-center text-xs text-slate-500 break-words">
               {decision === "OUT_OF_CORPUS"
-                ? "No related standards available for out-of-corpus query."
-                : "No normative references found in current graph."}
+                ? t.noRelatedOutOfCorpus
+                : t.noNormativeRefs}
             </div>
           ) : (
             related_standards.slice(0, 2).map((rel, idx) => {
@@ -109,7 +111,7 @@ export function RelatedStandardsCard({
                           </span>
                           {rel.hop && (
                             <span className="text-[10px] px-1 py-0.2 rounded bg-slate-200/70 text-slate-600 font-semibold flex-shrink-0">
-                              Hop {rel.hop}
+                              {t.hopLabel} {rel.hop}
                             </span>
                           )}
                         </div>
@@ -129,13 +131,13 @@ export function RelatedStandardsCard({
 
       {/* Footer Link */}
       <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-        <span>Non-primary reference standards</span>
+        <span>{t.nonPrimaryRefNote}</span>
         <button
           type="button"
           onClick={onViewAll}
           className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
         >
-          <span>View all ({related_standards.length})</span>
+          <span>{t.viewAllCount} ({related_standards.length})</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

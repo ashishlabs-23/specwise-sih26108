@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { X, ShieldCheck, CheckCircle2, Layers, Cpu, Award } from "lucide-react";
+import { X, CheckCircle2, Award } from "lucide-react";
 import { useLanguage } from "@/context/LanguageContext";
 
 interface AboutModalProps {
@@ -32,14 +32,15 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
               {t.aboutTitle}
             </h3>
             <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
-              Smart Procurement Indian Standards Recommendation & Assurance
+              {t.aboutSubtitle}
             </p>
           </div>
         </div>
 
         <div className="mt-4 space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
           <div className="p-3 bg-blue-50/70 border border-blue-200 rounded-xl text-xs text-[#0A3871]">
-            <strong>{t.objective}:</strong> Help government buyers, MSMEs, and citizens identify the exact applicable Indian Standards (BIS) from unstructured descriptions, avoiding tender non-compliance.
+            <strong>{t.objective}:</strong>{" "}
+            {t.procurementDescription}
           </div>
 
           <div>
@@ -49,25 +50,37 @@ export function AboutModal({ isOpen, onClose }: AboutModalProps) {
             <ul className="space-y-1.5 text-xs">
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Retrieval is not Applicability:</strong> Search candidates are verified through deterministic policy gates and evidence citations.</span>
+                <span>
+                  <strong>{t.principleRetrievalTitle}</strong>{" "}
+                  {t.principleRetrievalBody}
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                <span><strong>No Hallucinated Standards:</strong> Every recommendation links directly to verified BIS committee evidence and guidelines.</span>
+                <span>
+                  <strong>{t.principleHallucinationTitle}</strong>{" "}
+                  {t.principleHallucinationBody}
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Normative Graph Expansion:</strong> Identifies mandatory component standards (e.g. motors) and Codes of Practice (CoP).</span>
+                <span>
+                  <strong>{t.principleGraphTitle}</strong>{" "}
+                  {t.principleGraphBody}
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Four-State Routing:</strong> RECOMMEND, REVIEW, ABSTAIN, OUT_OF_CORPUS.</span>
+                <span>
+                  <strong>{t.principleRoutingTitle}</strong>{" "}
+                  {t.principleRoutingBody}
+                </span>
               </li>
             </ul>
           </div>
 
           <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400">
-            Smart India Hackathon 2024 / 2026 Prototype • Developed for Bureau of Indian Standards assurance workflow.
+            {t.aboutFooter}
           </div>
         </div>
 

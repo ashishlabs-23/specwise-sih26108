@@ -2,8 +2,9 @@
 
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
-import { X, ExternalLink, CheckCircle2, BookOpen, FileText, Layers, Bookmark } from "lucide-react";
+import { X, ExternalLink, CheckCircle2, BookOpen, FileText } from "lucide-react";
 import { Evidence } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface AllSourcesModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface AllSourcesModalProps {
 }
 
 export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalProps) {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<"evidence" | "sources">("evidence");
 
   if (!isOpen) return null;
@@ -52,10 +54,10 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
             </div>
             <div className="min-w-0">
               <h3 className="text-sm sm:text-base font-bold text-slate-900 truncate">
-                Evidence & Sources Provenance
+                {t.evidenceSourcesProvenanceTitle}
               </h3>
               <p className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
-                {uniqueSources.length} Source Documents • {evidence.length} Evidence Claims
+                {uniqueSources.length} {t.evidenceSourcesSubtext} • {evidence.length} {t.evidenceClaims}
               </p>
             </div>
           </div>
@@ -79,7 +81,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            Evidence Findings ({evidence.length})
+            {t.tabEvidenceFindings} ({evidence.length})
           </button>
           <button
             type="button"
@@ -90,7 +92,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                 : "border-transparent text-slate-500 hover:text-slate-800"
             }`}
           >
-            Source Documents ({uniqueSources.length})
+            {t.tabSourceDocuments} ({uniqueSources.length})
           </button>
         </div>
 
@@ -113,23 +115,23 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                       {ev.verified ? (
                         <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex-shrink-0">
                           <CheckCircle2 className="w-3 h-3" />
-                          <span>Verified Official BIS</span>
+                          <span>{t.verifiedOfficialBis}</span>
                         </span>
                       ) : (
                         <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 flex-shrink-0">
-                          Unverified
+                          {t.unverified}
                         </span>
                       )}
                     </div>
                   </div>
 
                   <p className="text-xs sm:text-sm text-slate-700 mt-2 font-medium leading-relaxed bg-slate-50 p-3 rounded-lg border border-slate-200 break-words">
-                    "{ev.text}"
+                    &quot;{ev.text}&quot;
                   </p>
 
                   <div className="mt-2 flex flex-wrap items-center justify-between gap-1 text-xs">
                     <span className="text-slate-600 text-[11px] font-semibold truncate max-w-[70%]">
-                      Source: {ev.source_name} ({ev.source_id})
+                      {t.sourcePrefix} {ev.source_name} ({ev.source_id})
                     </span>
                     {ev.url && (
                       <a
@@ -138,7 +140,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                         rel="noreferrer"
                         className="inline-flex items-center gap-1 text-[#0B57D0] hover:underline font-mono text-[11px] max-w-full truncate"
                       >
-                        <span>Open Source URL</span>
+                        <span>{t.openSourceUrl}</span>
                         <ExternalLink className="w-3 h-3 flex-shrink-0" />
                       </a>
                     )}
@@ -151,7 +153,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
           {activeTab === "sources" && (
             <div className="space-y-4">
               <p className="text-xs text-slate-500">
-                Original BIS documents referenced by verified evidence claims in this analysis.
+                {t.originalBisDocNote}
               </p>
               {uniqueSources.map((src, idx) => (
                 <div key={idx} className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 space-y-2">
@@ -166,7 +168,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                   </div>
 
                   <div className="flex flex-wrap items-center gap-1.5 text-[11px]">
-                    <span className="text-slate-500 font-medium">Evidence Citations ({src.evidence_ids.length}):</span>
+                    <span className="text-slate-500 font-medium">{t.evidenceCitationsLabel} ({src.evidence_ids.length}):</span>
                     {src.evidence_ids.map((eid) => (
                       <span key={eid} className="font-mono bg-blue-50 text-blue-800 px-1.5 py-0.2 rounded text-[10px] font-semibold border border-blue-200">
                         {eid}
@@ -182,7 +184,7 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
                         rel="noreferrer"
                         className="inline-flex items-center gap-1 text-xs font-semibold text-[#0B57D0] hover:underline font-mono"
                       >
-                        <span>Open Official Document URL</span>
+                        <span>{t.openOfficialDocumentUrl}</span>
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     </div>
@@ -195,13 +197,13 @@ export function AllSourcesModal({ isOpen, onClose, evidence }: AllSourcesModalPr
 
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 bg-slate-50 flex justify-between items-center rounded-b-2xl text-xs text-slate-500">
-          <span>Source = Original Document • Evidence = Verified Finding</span>
+          <span>{t.sourceEqualsEvidence}</span>
           <button
             type="button"
             onClick={onClose}
             className="px-4 py-2 text-xs font-semibold rounded-lg bg-slate-900 text-white hover:bg-slate-800 cursor-pointer"
           >
-            Close
+            {t.close}
           </button>
         </div>
       </div>

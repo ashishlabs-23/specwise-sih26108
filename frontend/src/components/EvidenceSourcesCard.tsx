@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { BookMarked, ExternalLink, CheckCircle2, FileText, ChevronRight, Bookmark } from "lucide-react";
-import { AnalysisResponse, Evidence } from "@/types/api";
+import { BookMarked, ExternalLink, CheckCircle2, FileText, ChevronRight } from "lucide-react";
+import { AnalysisResponse } from "@/types/api";
+import { useLanguage } from "@/context/LanguageContext";
 
 interface EvidenceSourcesCardProps {
   response: AnalysisResponse;
@@ -13,6 +14,7 @@ export function EvidenceSourcesCard({
   response,
   onViewAllSources,
 }: EvidenceSourcesCardProps) {
+  const { t } = useLanguage();
   const { evidence, decision } = response;
 
   // Deduplicate unique sources
@@ -38,15 +40,15 @@ export function EvidenceSourcesCard({
             </div>
             <div className="min-w-0">
               <h3 className="text-base font-bold text-slate-900 truncate">
-                Evidence & Sources
+                {t.evidenceAndSources}
               </h3>
               <p className="text-[11px] text-slate-500 font-medium truncate">
-                {uniqueSourceIds.length} source docs • {evidence.filter((e) => e.verified).length} verified claims
+                {uniqueSourceIds.length} {t.sourceDocsCount} • {evidence.filter((e) => e.verified).length} {t.verifiedClaims}
               </p>
             </div>
           </div>
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex-shrink-0">
-            {evidence.filter((e) => e.verified).length} Verified
+            {evidence.filter((e) => e.verified).length} {t.verified}
           </span>
         </div>
 
@@ -55,8 +57,8 @@ export function EvidenceSourcesCard({
           {evidence.length === 0 ? (
             <div className="py-6 text-center text-xs text-slate-500 break-words">
               {decision === "OUT_OF_CORPUS"
-                ? "No evidence records required for out-of-corpus query."
-                : "No verified evidence records."}
+                ? t.noEvidenceOutOfCorpus
+                : t.noEvidenceVerified}
             </div>
           ) : (
             evidence.slice(0, 2).map((ev, idx) => (
@@ -79,18 +81,18 @@ export function EvidenceSourcesCard({
                   {ev.verified ? (
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 flex-shrink-0">
                       <CheckCircle2 className="w-3 h-3" />
-                      <span>Verified BIS</span>
+                      <span>{t.verifiedBisBadge}</span>
                     </span>
                   ) : (
                     <span className="text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200 flex-shrink-0">
-                      Unverified
+                      {t.unverified}
                     </span>
                   )}
                 </div>
 
                 {/* Concise Evidence Finding */}
                 <p className="text-xs text-slate-700 font-medium leading-relaxed break-words">
-                  "{ev.text}"
+                  &quot;{ev.text}&quot;
                 </p>
 
                 {/* Source Document Reference & Link */}
@@ -108,7 +110,7 @@ export function EvidenceSourcesCard({
                       rel="noreferrer"
                       className="inline-flex items-center gap-1 text-[#0B57D0] hover:underline font-mono text-[10px] flex-shrink-0"
                     >
-                      <span>Link</span>
+                      <span>{t.linkLabel}</span>
                       <ExternalLink className="w-2.5 h-2.5" />
                     </a>
                   )}
@@ -122,14 +124,14 @@ export function EvidenceSourcesCard({
       {/* Footer Link */}
       <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
         <span className="text-[11px] text-slate-500">
-          Source = Document | Evidence = Verified Finding
+          {t.sourceEqualsFinding}
         </span>
         <button
           type="button"
           onClick={onViewAllSources}
           className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
         >
-          <span>View all ({evidence.length})</span>
+          <span>{t.viewAllCount} ({evidence.length})</span>
           <ChevronRight className="w-3.5 h-3.5" />
         </button>
       </div>

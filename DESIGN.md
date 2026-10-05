@@ -15,29 +15,33 @@ The system must distinguish:
 
 ## 2. Tiered Architecture Status
 
-| Layer | Component | Status |
-|:---|:---|:---|
-| **Parsing** | Regex requirement extraction (IS-refs, power, voltage, flow) | ✅ IMPLEMENTED |
-| **Parsing** | PyMuPDF text-layer PDF extraction | ✅ IMPLEMENTED |
-| **Parsing** | Scanned / image-only PDF (OCR) | 🔷 FUTURE — raises explicit error |
-| **Retrieval** | Exact IS-number identifier match | ✅ IMPLEMENTED |
-| **Retrieval** | BM25 lexical retrieval | ✅ IMPLEMENTED |
-| **Retrieval** | Reciprocal Rank Fusion (RRF) | ✅ IMPLEMENTED (fuses exact+BM25; dense when enabled) |
-| **Retrieval** | Dense neural embeddings (sentence-transformers) | 🔷 FUTURE — disabled in deployment (`ENABLE_DENSE=false`) |
-| **Retrieval** | Cross-encoder reranker | 🔷 FUTURE — disabled in deployment (`ENABLE_RERANKER=false`) |
-| **Policy** | Role-aware applicability gates (inclusion/exclusion/evidence) | ✅ IMPLEMENTED |
-| **Policy** | Lifecycle event-state assessment | ✅ IMPLEMENTED |
-| **Policy** | Requirement-level coverage (per-requirement, not global) | ✅ IMPLEMENTED |
-| **Policy** | `unverified_reference` gap detection for out-of-corpus IS citations | ✅ IMPLEMENTED |
-| **Policy** | 4-state evidence routing (RECOMMEND/REVIEW/ABSTAIN/OUT_OF_CORPUS) | ✅ IMPLEMENTED |
-| **Graph** | Normative reference graph traversal (max 2 hops) | ✅ IMPLEMENTED |
-| **Certification** | QCO/BIS certification lookup with unverified-state guard | ✅ IMPLEMENTED |
-| **Report** | Evidence-traceable HTML audit report | ✅ IMPLEMENTED |
-| **Multilingual** | Hindi/regional language tender support | 🔷 FUTURE — not yet implemented or tested |
-| **Procurement** | REST API + JSON + HTML report output | ✅ IMPLEMENTED (MVP integration layer) |
-| **Procurement** | Direct GeM/CPPP portal integration | 🔷 FUTURE — not implemented |
-| **Corpus** | 7 verified MED-20 pump-sector standards | ✅ IMPLEMENTED |
-| **Corpus** | Full BIS catalogue (all sectors) | 🔷 FUTURE — requires corpus expansion |
+| Layer | Component | Status | Classification |
+|:---|:---|:---|:---|
+| **Parsing** | Regex requirement extraction (IS-refs, power, voltage, flow) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Parsing** | PyMuPDF text-layer PDF extraction | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Parsing** | Scanned / image-only PDF (OCR detection & safe rejection) | ⚠️ Safe Gate Active | `DEPLOYMENT-CONSTRAINED` (OCR engine deferred) |
+| **Retrieval** | Exact IS-number identifier match | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Retrieval** | BM25 lexical retrieval | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Retrieval** | Reciprocal Rank Fusion (RRF) | ✅ Verified | `CURRENT PROTOTYPE` (fuses exact + BM25) |
+| **Retrieval** | Dense neural embeddings (sentence-transformers) | ⏸️ Code Provisioned | `DEPLOYMENT-CONSTRAINED` (disabled in deployment: `ENABLE_DENSE=false`) |
+| **Retrieval** | Cross-encoder reranker | ⏸️ Code Provisioned | `DEPLOYMENT-CONSTRAINED` (disabled in deployment: `ENABLE_RERANKER=false`) |
+| **Policy** | Role-aware applicability gates (inclusion/exclusion/evidence) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Policy** | Lifecycle event-state assessment | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Policy** | Requirement-level coverage (per-requirement, not global) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Policy** | `unverified_reference` gap detection for out-of-corpus IS citations | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Policy** | 4-state evidence routing (RECOMMEND/REVIEW/ABSTAIN/OUT_OF_CORPUS) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Policy** | Independent AI Pass 2 Verification / Challenger Layer | 🔷 Roadmap Only | `ARCHITECTURAL / PLANNED` |
+| **Policy** | Calibrated Numeric Confidence Scoring (40/30/30) | 🔷 Design Model | `ARCHITECTURAL / PLANNED` |
+| **Graph** | Normative reference graph traversal (max 2 hops) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Certification** | QCO/BIS certification lookup with unverified-state guard | ✅ Verified | `CURRENT PROTOTYPE` (verified corpus entries only) |
+| **Certification** | Automated Real-Time Gazette / e-BIS QCO Sync | 🔷 Roadmap Only | `ARCHITECTURAL / PLANNED` |
+| **Report** | Evidence-traceable HTML audit report | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Multilingual** | 5-Language Frontend UI Localization (EN, HI, KN, TA, TE) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Multilingual** | Multilingual AI Inference (IndicTrans2) | 🔬 Research Track | `DEPLOYMENT-CONSTRAINED` (isolated experimental branch) |
+| **Procurement** | REST API (`/api/v1/analyze`) + JSON + HTML report output | ✅ Verified | `CURRENT PROTOTYPE` (MVP integration layer) |
+| **Procurement** | Direct GeM/CPPP portal integration (Extension / Webhook) | 🔷 Roadmap Only | `ARCHITECTURAL / PLANNED` |
+| **Corpus** | Curated & verified domain corpus (10 standards, 18 evidence records) | ✅ Verified | `CURRENT PROTOTYPE` |
+| **Corpus** | Full national BIS catalogue (20,000+ standards, all 15 Divisions) | 🔷 Roadmap Only | `ARCHITECTURAL / PLANNED` |
 
 ## 3. Deployed Pipeline (MVP — What Actually Runs)
 
@@ -146,34 +150,32 @@ Safe wording only:
 The system never infers mandatory or non-mandatory status without a confirmed gazette source.
 All QCO entries are `not_verified_in_prototype_corpus` until a confirmed gazette is added.
 
-## 11. OCR
+## 11. OCR (`DEPLOYMENT-CONSTRAINED`)
 
-Current behavior: PyMuPDF extracts text layers.
+Current behavior: PyMuPDF extracts selectable text layers from digital PDFs.
 If a page has no extractable text, `ocr_used = True` is set in the response flag,
 and if NO pages yield text, a `ValueError` is raised:
 > "No extractable PDF text. OCR integration is required for this document."
 
-OCR is NOT currently implemented. The flag is informational.
+OCR extraction (e.g. Tesseract/Surya) is NOT currently enabled in deployment. The system provides safe detection and explicit failure reporting rather than false extraction.
 
-## 12. Multilingual
+## 12. Multilingual Support (`CURRENT PROTOTYPE` UI / `RESEARCH TRACK` AI)
 
-Not implemented. English-only input.
-Hindi/regional tender support is the next implementation layer.
+- **Frontend UI Localization:** Fully implemented across 5 languages: English (`en`), Hindi (`hi`), Kannada (`kn`), Tamil (`ta`), Telugu (`te`).
+- **Multilingual AI Inference:** An isolated experimental research track (IndicTrans2 200M) exists on evaluation branches. While Kannada preprocessing was validated, known technical semantic drift prevents merging AI inference into the production main branch at this stage.
 
-## 13. Procurement Integration (MVP)
+## 13. Procurement Integration (MVP — `CURRENT PROTOTYPE`)
 
-MVP output = REST API JSON + structured `AnalysisResponse` + HTML audit report.
+MVP output = REST API JSON (`/api/v1/analyze`) + structured `AnalysisResponse` + downloadable HTML audit report.
 This is the concrete procurement integration adapter for the prototype.
 
-Direct GeM/CPPP portal integration is future work requiring portal API access.
+Direct GeM/CPPP portal integration (browser extension / API webhooks) is `ARCHITECTURAL / PLANNED` future work.
 
-## 14. AI / LLM
+## 14. AI / Verification Architecture (`CURRENT PROTOTYPE` vs `ARCHITECTURAL / PLANNED`)
 
-Current implementation uses deterministic/rule-assisted extraction.
-No external LLM is required.
-
-A future LLM adapter may improve extraction, but model output must be schema-constrained
-and cannot invent standards or regulatory facts.
+- **Current Trust Model (`CURRENT PROTOTYPE`):** Deterministic NLP parameter extraction + rigorous deterministic rule gates (applicability, inclusion/exclusion, event-state lifecycle, requirement-level coverage, conflict checking). No ungrounded LLM inference is required in production.
+- **AI Pass 1 & Pass 2 Independent Challenger (`ARCHITECTURAL / PLANNED`):** The dual-agent LLM cross-verification diagram in the presentation represents our target multi-model consensus architecture. In the current prototype, deterministic policy gates serve as the reliable verification mechanism.
+- **Calibrated Numeric Confidence (`ARCHITECTURAL / PLANNED`):** The 40% retrieval + 30% AI + 30% evidence formula is a design-phase metric. The current working prototype enforces an evidence-controlled 4-state routing model (`RECOMMEND`, `REVIEW`, `ABSTAIN`, `OUT_OF_CORPUS`).
 
 ## 15. Security
 

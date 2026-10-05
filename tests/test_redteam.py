@@ -43,19 +43,9 @@ def client():
 
 
 # ── Known corpus IS numbers (must never be hallucinated) ──────────────────────
-CORPUS_IDS = {
-    "IS 8034:2018",
-    "IS 14220:2018",
-    "IS 9079:2018",
-    "IS 14536:2018",
-    "IS 9283:2024",
-    "IS 11346:2002",
-    "IS 10572:1983",
-    # Added 2026-09-24: directly cited in Ganga Kalyana Scheme tender
-    "IS 1239:1990",
-    "IS 694:2010",
-    "IS 1554:1988",
-}
+from app.storage.repository import JsonRepository
+CORPUS_IDS = {s.standard_id for s in JsonRepository("data").standards}
+
 
 
 def _no_hallucination(response):
