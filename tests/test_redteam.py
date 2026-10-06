@@ -686,3 +686,77 @@ class TestGeneralProcurementRedTeam:
         assert len(unverified_gaps) >= 2
         assert any("99999" in g["reason"] for g in unverified_gaps)
         assert any("88888" in g["reason"] for g in unverified_gaps)
+
+
+# ── 31. OCR Safety & Malformed Entity Hardening Tests ─────────────────────────
+
+class TestOCRSafetyAndCorruptionHardening:
+    def test_corrupted_is_year_201b_forces_review(self, engine):
+        """
+        1. 'IS 14220:201B' contains a corrupted year digit ('201B' vs '2018').
+        Must NOT silently truncate to 'IS 14220' and issue a confident RECOMMEND.
+        Must route to REVIEW with an unverified_reference gap.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="openwell submersible pumpset for agricultural irrigation conforming to IS 14220:201B")
+        )
+        assert r.decision == "REVIEW", f"Expected REVIEW for corrupted year '201B', got {r.decision}"
+        # Candidate discovery is preserved
+        assert any(c.standard_id == "IS 14220:2018" for c in r.candidates)
+        # Gap is explicitly recorded
+        assert any(g.state == "unverified_reference" and "201B" in g.reason for g in r.gaps)
+
+    def test_corrupted_is_year_20i8_forces_review(self, engine):
+        """
+        2. 'IS 14220:20I8' contains OCR character substitution ('I' for '1').
+        Must route to REVIEW with an unverified_reference gap.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="openwell submersible pumpset as per IS 14220:20I8")
+        )
+        assert r.decision == "REVIEW", f"Expected REVIEW for corrupted year '20I8', got {r.decision}"
+        assert any(g.state == "unverified_reference" and "20I8" in g.reason for g in r.gaps)
+
+    def test_corrupted_numeric_s_hp_forces_review(self, engine):
+        """
+        3. 'S HP' contains OCR character substitution ('S' for '5').
+        Must NOT silently drop the power requirement and issue RECOMMEND.
+        Must record an uncertain numeric requirement and route to REVIEW.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="S HP openwell submersible pumpset for irrigation clear water")
+        )
+        assert r.decision == "REVIEW", f"Expected REVIEW for uncertain numeric 'S HP', got {r.decision}"
+        assert any(g.state == "not_covered" and ("S" in g.reason or "hp" in g.reason) for g in r.gaps)
+
+    def test_safe_surface_variation_50mm(self, engine):
+        """
+        4. '50mm' without space must be treated as valid metric parameter.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="50mm HDPE pipe for water supply conforming to IS 4984:2016")
+        )
+        assert r.decision == "RECOMMEND"
+        assert any(c.standard_id == "IS 4984:2016" for c in r.candidates)
+
+    def test_safe_surface_variation_colon_standard_number(self, engine):
+        """
+        5. 'IS:14220' with colon must normalize safely to IS 14220.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="openwell submersible pumpset as per IS:14220 for agricultural irrigation")
+        )
+        assert r.decision == "RECOMMEND"
+        assert r.candidates[0].standard_id == "IS 14220:2018"
+
+    def test_clean_is_14220_2018_recommends_normally(self, engine):
+        """
+        6. Clean 'IS 14220:2018' must recommend normally.
+        """
+        r = engine.analyze(
+            AnalysisRequest(text="openwell submersible pumpset conforming to IS 14220:2018 for agricultural irrigation")
+        )
+        assert r.decision == "RECOMMEND"
+        assert r.candidates[0].standard_id == "IS 14220:2018"
+        assert len(r.gaps) == 0
+

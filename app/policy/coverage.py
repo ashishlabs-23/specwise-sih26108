@@ -130,7 +130,21 @@ def build(requirements, applicability):
 
         # ── IS-reference requirements ────────────────────────────────────────
         if req.category == "reference" and req.attribute == "is_number" and req.value:
-            cited = req.value  # e.g. "IS 13947", "IS 694:1990", "IS 8034:2018"
+            cited = req.value  # e.g. "IS 13947", "IS 694:1990", "IS 8034:2018", "IS 14220:201B"
+
+            # Check if this reference citation itself is corrupted (e.g. malformed year like 201B)
+            if req.extraction_method == "ocr_corrupted_reference" or (":" in cited and not _extract_year(cited)):
+                out.append(CoverageEntry(
+                    requirement_id=req.requirement_id,
+                    standard_id=None,
+                    state="unverified_reference",
+                    reason=(
+                        f"Tender cites unverified/corrupted standard reference {cited!r} "
+                        "(contains malformed year/edition token). Technical review required."
+                    ),
+                    evidence_ids=[],
+                ))
+                continue
 
             # Candidates that match the cited IS number
             matching = [
@@ -175,6 +189,20 @@ def build(requirements, applicability):
                 _append_entry(out, req, best, 3)
             else:
                 _append_entry(out, req, best, _score_for_req(best, req_text_lower))
+            continue
+
+        # ── Uncertain / OCR-corrupted numeric requirements ───────────────────
+        if (req.attribute and req.attribute.endswith("_uncertain")) or req.extraction_method == "ocr_corrupted_numeric":
+            out.append(CoverageEntry(
+                requirement_id=req.requirement_id,
+                standard_id=None,
+                state="not_covered",
+                reason=(
+                    f"Uncertain or OCR-corrupted parameter value '{req.value} {req.unit or ''}'. "
+                    "Technical specification parameters must be confirmed."
+                ),
+                evidence_ids=[],
+            ))
             continue
 
         # ── All other requirement categories ─────────────────────────────────

@@ -1,10 +1,10 @@
 import re
 from app.models import Requirement
 
-# Regex patterns — domain-agnostic
 POWER = re.compile(r"\b(\d+(?:\.\d+)?)\s*(HP|kW)\b", re.I)
+POWER_CORRUPTED = re.compile(r"\b([A-Za-z]+|\d+[A-Za-z]+|[A-Za-z]+\d+)\s*(HP|kW)\b", re.I)
 IS_REF = re.compile(
-    r"\bIS\s*[:\-]?\s*(\d{3,6})(?:(?:\s*[:/\-]\s*|\s+)(?:part\s*\d+\s*[:/\-]\s*)?(\d{2,4}))?\b",
+    r"\bIS\s*[:\-]?\s*(\d{3,6})(?:(?:\s*[:/\-]\s*)(?:part\s*\d+\s*[:/\-]\s*)?(?!\bIS\b)([A-Za-z0-9]{2,6})|\s+(?:part\s*\d+\s*[:/\-]\s*)?(\d{2,4}|[12][09oOiI][0-9oOiIsSbB]{2,3}))?\b",
     re.I,
 )
 VOLTAGE = re.compile(r"\b(\d+(?:\.\d+)?)\s*(V|kV|volt)\b", re.I)
@@ -53,14 +53,23 @@ def extract_requirements(text: str):
         is_matches = list(IS_REF.finditer(chunk))
         for j, m in enumerate(is_matches):
             std_num = m.group(1)
-            raw_year = m.group(2)
-            if raw_year:
-                if len(raw_year) == 2:
-                    y_int = int(raw_year)
-                    year = f"19{raw_year}" if y_int >= 50 else f"20{raw_year}"
+            raw_suffix = m.group(2) or m.group(3)
+            method = "regex"
+            confidence = 0.99
+
+            if raw_suffix:
+                if raw_suffix.isdigit():
+                    if len(raw_suffix) == 2:
+                        y_int = int(raw_suffix)
+                        year = f"19{raw_suffix}" if y_int >= 50 else f"20{raw_suffix}"
+                    else:
+                        year = raw_suffix
+                    ref_val = f"IS {std_num}:{year}"
                 else:
-                    year = raw_year
-                ref_val = f"IS {std_num}:{year}"
+                    # Malformed/corrupted year suffix (e.g. 201B, 20I8, 2O18)
+                    ref_val = f"IS {std_num}:{raw_suffix}"
+                    method = "ocr_corrupted_reference"
+                    confidence = 0.50
             else:
                 ref_val = f"IS {std_num}"
 
@@ -72,12 +81,14 @@ def extract_requirements(text: str):
                 value=ref_val,
                 text=chunk,
                 source_page=page,
-                extraction_method="regex",
-                extraction_confidence=0.99,
+                extraction_method=method,
+                extraction_confidence=confidence,
             ))
 
         # Power values — domain-agnostic
+        power_matched = False
         for m in POWER.finditer(chunk):
+            power_matched = True
             rows.append(Requirement(
                 requirement_id=f"REQ-{i:03d}-POWER",
                 category="performance",
@@ -88,6 +99,24 @@ def extract_requirements(text: str):
                 source_page=page,
                 extraction_confidence=0.93,
             ))
+
+        # Corrupted power values (e.g. 'S HP', 'O kW') when clean power did not match
+        if not power_matched:
+            for m in POWER_CORRUPTED.finditer(chunk):
+                raw_token = m.group(1)
+                # Ignore non-corrupted English words like 'high hp' or 'motor hp'
+                if len(raw_token) <= 4 or any(c.isdigit() for c in raw_token):
+                    rows.append(Requirement(
+                        requirement_id=f"REQ-{i:03d}-POWER-UNCERTAIN",
+                        category="performance",
+                        attribute="rated_power_uncertain",
+                        value=raw_token,
+                        unit=m.group(2).lower(),
+                        text=chunk,
+                        source_page=page,
+                        extraction_method="ocr_corrupted_numeric",
+                        extraction_confidence=0.40,
+                    ))
 
         # Voltage values
         for m in VOLTAGE.finditer(chunk):
