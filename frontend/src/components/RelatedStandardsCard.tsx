@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { Link2, ChevronRight, BookOpen } from "lucide-react";
+import React, { useState } from "react";
+import { Link2, ChevronRight, ChevronUp, BookOpen } from "lucide-react";
 import { AnalysisResponse } from "@/types/api";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -17,20 +17,21 @@ export function RelatedStandardsCard({
   onViewAll,
 }: RelatedStandardsCardProps) {
   const { t } = useLanguage();
+  const [isExpanded, setIsExpanded] = useState(false);
   const { related_standards, decision } = response;
   const contextOnly = decision === "ABSTAIN" || decision === "OUT_OF_CORPUS";
 
   const getRoleBadge = (type: string, stdId: string) => {
     if (stdId.includes("14536") || type === "related_practice") {
-      return { label: t.roleBadgeCop, style: "bg-purple-100 text-purple-800 border-purple-200" };
+      return { label: t.roleBadgeCop || "CODE OF PRACTICE", style: "bg-purple-100 text-purple-800 border-purple-200" };
     }
     if (stdId.includes("11346") || type === "test_method") {
-      return { label: t.roleBadgeTest, style: "bg-amber-100 text-amber-800 border-amber-200" };
+      return { label: t.roleBadgeTest || "TEST METHOD", style: "bg-amber-100 text-amber-800 border-amber-200" };
     }
     if (type === "normative_reference") {
-      return { label: t.roleBadgeRelated, style: "bg-indigo-100 text-indigo-800 border-indigo-200" };
+      return { label: t.roleBadgeRelated || "RELATED STANDARD", style: "bg-indigo-100 text-indigo-800 border-indigo-200" };
     }
-    return { label: t.roleBadgeRelated, style: "bg-slate-100 text-slate-700 border-slate-200" };
+    return { label: t.roleBadgeRelated || "RELATED STANDARD", style: "bg-slate-100 text-slate-700 border-slate-200" };
   };
 
   const getTitle = (stdId: string) => {
@@ -48,8 +49,44 @@ export function RelatedStandardsCard({
       return "PVC Insulated Cables for Working Voltages up to 1100 V";
     if (stdId.includes("1554"))
       return "PVC Insulated (Heavy Duty) Electric Cables for Working Voltages up to 1100 V";
+    if (stdId.includes("8034"))
+      return "Submersible Pumpsets for Deep Borewells — Specification";
+    if (stdId.includes("14220"))
+      return "Openwell Submersible Pumpsets — Specification";
+    if (stdId.includes("9079"))
+      return "Monoset Pumps for Agricultural and Water Supply — Specification";
+    if (stdId.includes("8472"))
+      return "Regenerative Pumps for Clean Water — Specification";
+    if (stdId.includes("12225"))
+      return "Centrifugal Jet Pumpsets for Water Supply — Specification";
+    if (stdId.includes("1520"))
+      return "Horizontal Centrifugal Pumps for Clear, Cold Water";
+    if (stdId.includes("1710"))
+      return "Vertical Turbine Pumps for Clear, Cold Water";
+    if (stdId.includes("12615"))
+      return "Line Operated Three Phase Induction Motors (IE Codes)";
+    if (stdId.includes("60947"))
+      return "Low-voltage switchgear and controlgear: Contactors and motor-starters";
+    if (stdId.includes("4984"))
+      return "High Density Polyethylene (HDPE) Pipes for Water Supply";
+    if (stdId.includes("4985"))
+      return "Unplasticized Polyvinyl Chloride (uPVC) Pipes for Potable Water Supplies";
+    if (stdId.includes("12818"))
+      return "Unplasticized PVC Casing and Screen Pipes for Borewells";
+    if (stdId.includes("8329"))
+      return "Ductile Iron Pipes, Fittings and Accessories for Water";
+    if (stdId.includes("14846"))
+      return "Sluice Valves for Water Works Purposes";
+    if (stdId.includes("779"))
+      return "Water Meters (Domestic Type) — Specification";
+    if (stdId.includes("3043"))
+      return "Code of Practice for Earthing";
     return "Referenced Indian Standard";
   };
+
+  const displayedStandards = isExpanded
+    ? related_standards
+    : related_standards.slice(0, 2);
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 p-5 sm:p-6 shadow-sm flex flex-col justify-between hover:border-slate-300 transition-all w-full min-w-0">
@@ -88,13 +125,13 @@ export function RelatedStandardsCard({
                 : t.noNormativeRefs}
             </div>
           ) : (
-            related_standards.slice(0, 2).map((rel, idx) => {
+            displayedStandards.map((rel, idx) => {
               const roleInfo = getRoleBadge(rel.relationship_type, rel.to_standard);
               return (
                 <div
                   key={idx}
                   onClick={() => onSelectStandard && onSelectStandard(rel.to_standard)}
-                  className="group p-3 rounded-xl border border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/30 transition-all cursor-pointer min-w-0"
+                  className="group p-3 rounded-xl border border-slate-200 hover:border-blue-400 bg-slate-50/50 hover:bg-blue-50/30 transition-all cursor-pointer min-w-0 animate-in fade-in duration-200"
                 >
                   <div className="flex items-start justify-between gap-2 min-w-0">
                     <div className="flex items-start gap-2.5 min-w-0 flex-1">
@@ -132,14 +169,27 @@ export function RelatedStandardsCard({
       {/* Footer Link */}
       <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
         <span>{t.nonPrimaryRefNote}</span>
-        <button
-          type="button"
-          onClick={onViewAll}
-          className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
-        >
-          <span>{t.viewAllCount} ({related_standards.length})</span>
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
+        {related_standards.length > 2 && (
+          <button
+            type="button"
+            onClick={() => {
+              setIsExpanded(!isExpanded);
+              if (onViewAll) onViewAll();
+            }}
+            className="inline-flex items-center gap-1 text-xs font-bold text-[#0B57D0] hover:text-[#0A47A8] transition-colors cursor-pointer"
+          >
+            <span>
+              {isExpanded
+                ? (t.hideDetails || "Show less")
+                : `${t.viewAllCount || "View all"} (${related_standards.length})`}
+            </span>
+            {isExpanded ? (
+              <ChevronUp className="w-3.5 h-3.5" />
+            ) : (
+              <ChevronRight className="w-3.5 h-3.5" />
+            )}
+          </button>
+        )}
       </div>
     </div>
   );
