@@ -34,101 +34,101 @@ export default function HowItWorksPage() {
   const pipelineSteps = [
     {
       step: "01",
-      title: "Input Ingestion (Text or Tender PDF)",
+      title: t.stage01Title,
       icon: Upload,
-      category: "Input Layer",
-      desc: "Accepts plain-text trade descriptions, procurement queries, or technical specification PDF documents (up to 25 MB). Ingested PDFs are parsed via PyMuPDF with automated text layer validation.",
+      category: t.stage01Category,
+      desc: t.stage01Desc,
     },
     {
       step: "02",
-      title: "Requirement Extraction & Parameter Isolation",
+      title: t.stage02Title,
       icon: Cpu,
-      category: "AI & Rule Extraction",
-      desc: "Extracts structured product terms (e.g. openwell, borewell, monoset), technical attributes (power ratings like 5 HP / 3.7 kW), application domain (agricultural irrigation), and cited standard references.",
+      category: t.stage02Category,
+      desc: t.stage02Desc,
     },
     {
       step: "03",
-      title: "Hybrid Multi-Stage Retrieval",
+      title: t.stage03Title,
       icon: Search,
-      category: "Retrieval Layer",
-      desc: "Combines exact IS-identifier resolution, lexical BM25 keyword matching, and dense semantic neural embeddings (SentenceTransformers), fused via Reciprocal Rank Fusion (RRF).",
+      category: t.stage03Category,
+      desc: t.stage03Desc,
     },
     {
       step: "04",
-      title: "Evidence & Validity Grounding",
+      title: t.stage04Title,
       icon: CheckCircle2,
-      category: "Evidence Layer",
-      desc: "Every candidate standard is verified against curated official BIS publications, committee programme of work documents, and implementation guidelines. No hallucinations or ungrounded claims are emitted.",
+      category: t.stage04Category,
+      desc: t.stage04Desc,
     },
     {
       step: "05",
-      title: "Deterministic Applicability Gates",
+      title: t.stage05Title,
       icon: ShieldCheck,
-      category: "Gating Layer",
-      desc: "Applies rule-based inclusion, product-term compatibility, and exclusion-term verification to classify applicability as 'strong', 'possible', or 'weak'.",
+      category: t.stage05Category,
+      desc: t.stage05Desc,
     },
     {
       step: "06",
-      title: "Normative Graph Traversal",
+      title: t.stage06Title,
       icon: GitFork,
-      category: "Graph Layer",
-      desc: "Traverses knowledge graph edges to surface referenced motor specifications (IS 9283), hydraulic test acceptance codes (IS 11346), and codes of practice (IS 14536) linked to primary product standards.",
+      category: t.stage06Category,
+      desc: t.stage06Desc,
     },
     {
       step: "07",
-      title: "Certification & Regulatory Verification",
+      title: t.stage07Title,
       icon: Award,
-      category: "Policy Layer",
-      desc: "Evaluates Quality Control Orders (QCO) and BIS certification schemes. Unconfirmed regulatory drafts are transparently flagged as not_verified_in_prototype_corpus rather than asserting ungrounded mandates.",
+      category: t.stage07Category,
+      desc: t.stage07Desc,
     },
     {
       step: "08",
-      title: "Confidence & Decision Synthesis",
+      title: t.stage08Title,
       icon: Layers,
-      category: "Decision Engine",
-      desc: "Synthesizes retrieval scores, applicability gates, and requirement coverage into one of four unambiguous decision states: RECOMMEND, REVIEW, ABSTAIN, or OUT_OF_CORPUS.",
+      category: t.stage08Category,
+      desc: t.stage08Desc,
     },
     {
       step: "09",
-      title: "Audit Report Generation",
+      title: t.stage09Title,
       icon: FileCheck,
-      category: "Output Layer",
-      desc: "Generates an auditable procurement compliance report with structured parameter coverage, gap analysis, and direct source citations exportable to standalone HTML.",
+      category: t.stage09Category,
+      desc: t.stage09Desc,
     },
   ];
 
   const decisionStates = [
     {
       state: "RECOMMEND",
-      label: "Definitive Match",
+      label: t.decisionRecommendLabel,
       badgeColor: "bg-emerald-100 text-emerald-800 border-emerald-300",
       icon: CheckCircle2,
       iconColor: "text-emerald-600",
-      desc: "Assigned when the product description uniquely matches the primary scope of an active standard, satisfies all deterministic applicability gates, and has verified evidence citations.",
+      desc: t.decisionRecommendDesc,
     },
     {
       state: "REVIEW",
-      label: "Human Review Needed",
+      label: t.decisionReviewLabel,
       badgeColor: "bg-amber-100 text-amber-800 border-amber-300",
       icon: AlertTriangle,
       iconColor: "text-amber-600",
-      desc: "Assigned when multiple competing standards are plausible, specifications require technical confirmation, or overlapping product features require domain engineer discretion.",
+      desc: t.decisionReviewDesc,
     },
     {
       state: "ABSTAIN",
-      label: "Insufficient Information",
+      label: t.decisionAbstainLabel,
       badgeColor: "bg-slate-100 text-slate-800 border-slate-300",
       icon: HelpCircle,
       iconColor: "text-slate-600",
-      desc: "Assigned when the input query is too generic (e.g. 'submersible pump') to distinguish between distinct standards like openwell (IS 14220) and borewell (IS 8034). Prompts the user for specific parameters.",
+      desc: t.decisionAbstainDesc,
     },
     {
       state: "OUT_OF_CORPUS",
-      label: "Outside Prototype Corpus",
+      label: t.decisionOutOfCorpusLabel,
       badgeColor: "bg-purple-100 text-purple-800 border-purple-300",
       icon: ShieldAlert,
       iconColor: "text-purple-600",
-      desc: "Assigned when the requested equipment is completely outside the pump-sector demonstration corpus (MED 20). Prevents false matches by declining to recommend unsupported items.",
+      desc: t.decisionOutOfCorpusDesc,
     },
   ];
 
@@ -210,7 +210,7 @@ export default function HowItWorksPage() {
                           <Icon className="w-4 h-4" />
                         </div>
                         <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                          Stage {step.step}
+                          {t.stageLabel} {step.step}
                         </span>
                       </div>
                       <span className="text-[10px] font-bold text-[#0A3871] bg-slate-100 px-2 py-0.5 rounded">
